@@ -92,6 +92,32 @@ Files/agent_control_tower/raw/
 
 Then copy and run the notebook script in Fabric as the fallback path.
 
+## API-first Fabric bootstrap
+
+The API-first route is available when Fabric CLI support is incomplete or when capacity guardrails need to be enforced directly through Azure and Fabric REST APIs. It uses Azure CLI tokens, validates the expected F2 capacity, and stops safely when permissions or API support are missing.
+
+Run a dry-run first:
+
+```bash
+python src/bootstrap_fabric_api.py --dry-run
+```
+
+Run the bootstrap only when you are ready to create or validate Fabric resources and explicitly allow capacity resume if needed:
+
+```bash
+python src/bootstrap_fabric_api.py --resume-capacity
+```
+
+Cost guardrail: confirm the capacity is F2 before running work, avoid long Spark sessions, and use synthetic data only. F SKU capacity resume can restart billing and makes content available again.
+
+After testing, suspend the capacity explicitly if it is no longer needed:
+
+```bash
+python src/bootstrap_fabric_api.py --suspend-after
+```
+
+Fabric content assigned to the capacity is unavailable while the capacity is paused.
+
 ### Microsoft Fabric Setup
 
 1. Create a Fabric workspace for the MVP.
