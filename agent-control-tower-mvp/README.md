@@ -46,6 +46,52 @@ python src/generate_synthetic_agent_runs.py
 
 The script creates synthetic-only CSV files in `data/` for agent runs, policy breaches, feedback, agent dimensions, and model dimensions. It does not connect to Fabric or any external service.
 
+## Automated Fabric Deployment Path
+
+Fabric CLI is the preferred deployment path for this MVP where the CLI can safely validate workspace access, validate or create Fabric items, and upload synthetic CSV files.
+
+Install the Fabric CLI:
+
+```bash
+pip install ms-fabric-cli
+```
+
+Authenticate and confirm workspace access:
+
+```bash
+fab auth login
+fab ls
+```
+
+Before running Fabric work on an F SKU capacity, run the PowerShell guardrail check with your Azure resource details:
+
+```powershell
+./scripts/fabric_capacity_guardrail.ps1 `
+  -SubscriptionId "<subscription-id>" `
+  -ResourceGroupName "<resource-group>" `
+  -CapacityName "<capacity-name>"
+```
+
+Deploy or prepare the Lakehouse upload path with Fabric CLI:
+
+```bash
+./scripts/fabric_deploy.sh "<workspace-name>" --create-lakehouse --upload
+```
+
+Then create or open a Fabric notebook attached to the target Lakehouse and run:
+
+```text
+notebooks/fabric_load_agent_control_tower.py
+```
+
+If CLI item creation or upload is not available in your environment, manually upload the CSV files from `data/` to:
+
+```text
+Files/agent_control_tower/raw/
+```
+
+Then copy and run the notebook script in Fabric as the fallback path.
+
 ### Microsoft Fabric Setup
 
 1. Create a Fabric workspace for the MVP.
