@@ -1,0 +1,725 @@
+breach_id,run_id,timestamp,agent_id,policy_breach_type,severity,breach_description,requires_review,environment
+breach_000001,run_000003_08bc7b7b,2026-02-04T10:49:03.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000002,run_000006_d50a1209,2026-02-04T14:06:46.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000003,run_000007_2b956eb0,2026-02-04T14:22:13.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000004,run_000008_a5cb029d,2026-02-04T14:44:34.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000005,run_000009_941f6342,2026-02-04T15:41:51.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000006,run_000011_285896d4,2026-02-04T21:03:21.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000007,run_000017_15009f2f,2026-02-05T05:50:31.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000008,run_000022_0247a5e0,2026-02-05T12:42:57.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000009,run_000024_bbf53bfd,2026-02-05T15:59:57.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000010,run_000026_6f8b9e40,2026-02-05T17:06:13.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000011,run_000028_5fd8fd19,2026-02-05T18:45:45.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000012,run_000030_40a59ebe,2026-02-05T20:54:29.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000013,run_000032_28dbfadc,2026-02-06T05:18:06.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000014,run_000037_eace5c21,2026-02-06T09:08:56.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000015,run_000039_9c18bb55,2026-02-06T11:15:30.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000016,run_000043_0b999456,2026-02-06T18:24:53.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000017,run_000044_4186a6a6,2026-02-06T18:26:49.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000018,run_000047_9cdf5f4a,2026-02-06T20:24:18.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000019,run_000051_d7558338,2026-02-07T00:26:58.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000020,run_000057_d05c8b36,2026-02-07T08:26:26.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000021,run_000060_04edc066,2026-02-07T10:11:40.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000022,run_000061_40210c22,2026-02-07T10:56:04.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000023,run_000062_31d44d22,2026-02-07T12:11:30.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000024,run_000067_cadeea3f,2026-02-07T21:38:45.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000025,run_000070_4500514a,2026-02-08T01:16:52.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000026,run_000077_4ad1b936,2026-02-08T05:56:37.771687+00:00,agent_invoice_dispute,Run Failure,high,Run did not complete and requires operational review.,True,test
+breach_000027,run_000082_5afc8e2f,2026-02-08T13:50:28.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000028,run_000088_3e9391c4,2026-02-08T19:18:08.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000029,run_000093_4b31e779,2026-02-09T05:09:10.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000030,run_000094_bfdbeb6c,2026-02-09T05:18:26.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000031,run_000096_acea2472,2026-02-09T06:00:53.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000032,run_000097_22a89cd4,2026-02-09T06:30:20.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000033,run_000103_f6b8369b,2026-02-09T14:21:48.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000034,run_000104_3770e455,2026-02-09T14:26:24.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000035,run_000108_96a00451,2026-02-09T20:40:28.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000036,run_000110_f90b5905,2026-02-09T23:06:39.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000037,run_000111_9b16448d,2026-02-10T00:24:41.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000038,run_000122_c785cfaa,2026-02-10T12:09:57.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000039,run_000123_046d58b9,2026-02-10T12:14:11.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000040,run_000124_18a06e38,2026-02-10T13:19:36.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000041,run_000125_aa83a24d,2026-02-10T13:47:58.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000042,run_000126_8718a333,2026-02-10T16:23:48.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000043,run_000127_9a2f5541,2026-02-10T17:11:10.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000044,run_000128_bbabad3e,2026-02-10T18:21:58.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000045,run_000132_de9f0652,2026-02-10T23:48:06.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000046,run_000136_1150b1c5,2026-02-11T00:48:59.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000047,run_000137_cda79508,2026-02-11T01:24:44.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000048,run_000139_dfc14291,2026-02-11T02:12:38.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000049,run_000141_aab4f3a2,2026-02-11T03:11:10.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000050,run_000144_1b6f6d4c,2026-02-11T05:59:47.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000051,run_000146_b1c0890b,2026-02-11T06:31:57.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000052,run_000152_0bb318c0,2026-02-11T12:45:34.771687+00:00,agent_hr_policy,High Cost,medium,Run exceeded the expected cost band for this agent workflow.,True,test
+breach_000053,run_000153_7ba9af98,2026-02-11T14:29:52.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000054,run_000154_d3c77388,2026-02-11T15:02:57.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000055,run_000155_924aaabc,2026-02-11T15:27:59.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000056,run_000157_a128c5b5,2026-02-11T15:47:42.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000057,run_000159_8bc1f825,2026-02-11T20:41:05.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000058,run_000162_7c1d9c0e,2026-02-12T00:08:42.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000059,run_000165_ec2f82e0,2026-02-12T03:17:01.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000060,run_000169_e02d4b67,2026-02-12T05:18:57.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000061,run_000173_22b146d2,2026-02-12T13:43:24.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000062,run_000174_ac7fbafe,2026-02-12T14:37:17.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000063,run_000175_fa34efd0,2026-02-12T15:37:41.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000064,run_000176_5a638608,2026-02-12T15:43:21.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000065,run_000177_1ec9792f,2026-02-12T18:04:29.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000066,run_000181_a7d42d15,2026-02-13T02:33:23.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000067,run_000182_01a476c9,2026-02-13T02:44:04.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000068,run_000183_d3875164,2026-02-13T03:58:11.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000069,run_000184_45ca4fcc,2026-02-13T04:44:44.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000070,run_000189_7849d8f2,2026-02-13T08:57:56.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000071,run_000199_c96ea701,2026-02-13T20:16:45.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000072,run_000203_abfdbe17,2026-02-13T23:14:17.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000073,run_000211_82401b87,2026-02-14T03:29:09.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000074,run_000215_f95527e3,2026-02-14T07:10:55.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000075,run_000216_91c82a32,2026-02-14T07:39:43.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000076,run_000217_ee51443a,2026-02-14T09:30:34.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000077,run_000224_6742b6b5,2026-02-14T19:42:17.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000078,run_000225_e9fa602a,2026-02-14T20:00:59.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000079,run_000226_41daecd3,2026-02-14T20:01:26.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000080,run_000227_2a5aac55,2026-02-14T20:36:00.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000081,run_000228_dbe1b015,2026-02-14T20:43:54.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000082,run_000229_49ce3e5c,2026-02-14T22:14:59.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000083,run_000232_da10a1de,2026-02-15T00:16:57.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000084,run_000238_8950f7e3,2026-02-15T08:57:27.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000085,run_000241_1ca5b30c,2026-02-15T10:44:22.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000086,run_000247_ad8298e1,2026-02-15T13:06:13.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000087,run_000249_ae532153,2026-02-15T14:15:08.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000088,run_000250_9ca69e24,2026-02-15T14:42:57.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000089,run_000255_eb084d31,2026-02-15T23:29:29.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000090,run_000256_6d4db3ec,2026-02-16T01:17:02.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000091,run_000257_c490c005,2026-02-16T02:05:44.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000092,run_000259_858b987b,2026-02-16T02:55:17.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000093,run_000262_37d5a948,2026-02-16T08:07:05.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000094,run_000264_df859d48,2026-02-16T10:32:00.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000095,run_000265_be364c70,2026-02-16T11:00:05.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000096,run_000268_42aa7d5b,2026-02-16T14:10:59.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000097,run_000271_824c4eb5,2026-02-16T14:23:17.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000098,run_000277_b13a0c15,2026-02-16T19:18:33.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000099,run_000279_583d6a89,2026-02-17T00:58:02.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000100,run_000281_c38482d5,2026-02-17T01:25:06.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000101,run_000284_62a0baa7,2026-02-17T04:05:24.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000102,run_000286_d2da9475,2026-02-17T04:46:54.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000103,run_000287_c4796abe,2026-02-17T06:50:17.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000104,run_000288_ba5492f0,2026-02-17T09:03:23.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000105,run_000293_22f95431,2026-02-17T18:28:18.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000106,run_000297_56426dff,2026-02-17T21:50:22.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000107,run_000299_d4ca35f0,2026-02-18T00:07:23.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000108,run_000305_75ff89e3,2026-02-18T09:16:58.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000109,run_000310_df8d3275,2026-02-18T17:13:08.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000110,run_000313_043dde25,2026-02-18T19:18:21.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000111,run_000315_2e857e43,2026-02-18T19:47:28.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000112,run_000316_be1a5118,2026-02-18T23:35:47.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000113,run_000321_c524a8f0,2026-02-19T04:16:36.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000114,run_000324_157a06cd,2026-02-19T06:54:51.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000115,run_000325_e9a6bfc0,2026-02-19T07:49:23.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000116,run_000328_db958b5f,2026-02-19T08:50:17.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000117,run_000333_c10e4237,2026-02-19T14:58:49.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000118,run_000340_c1067235,2026-02-19T20:10:07.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000119,run_000343_d3328d37,2026-02-20T00:34:19.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000120,run_000344_74acf4c3,2026-02-20T00:38:55.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000121,run_000348_729ec2a0,2026-02-20T05:44:15.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000122,run_000352_54d8f8d9,2026-02-20T08:54:33.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000123,run_000355_b8461990,2026-02-20T11:47:36.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000124,run_000356_63ff048f,2026-02-20T15:06:45.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000125,run_000357_c65f1df1,2026-02-20T19:32:42.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000126,run_000359_6768e7e7,2026-02-20T22:55:03.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000127,run_000360_012731cc,2026-02-21T05:09:01.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000128,run_000361_93f703d4,2026-02-21T05:38:55.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000129,run_000362_9599214b,2026-02-21T06:09:31.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000130,run_000363_869b2bf6,2026-02-21T06:44:35.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000131,run_000364_a2201e55,2026-02-21T08:04:36.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000132,run_000366_264ebd24,2026-02-21T09:24:23.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000133,run_000370_1c1b2203,2026-02-21T16:13:43.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000134,run_000371_8148dcfb,2026-02-21T16:25:28.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000135,run_000372_50da46d8,2026-02-21T18:04:34.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000136,run_000375_d7a2a2b0,2026-02-21T23:02:09.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000137,run_000377_ebffcbe5,2026-02-21T23:51:11.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000138,run_000383_1a77f233,2026-02-22T15:43:38.771687+00:00,agent_invoice_dispute,High Cost,medium,Run exceeded the expected cost band for this agent workflow.,True,dev
+breach_000139,run_000387_f137b8fd,2026-02-22T19:10:30.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000140,run_000390_745e9d3e,2026-02-22T20:17:23.771687+00:00,agent_invoice_dispute,High Cost,medium,Run exceeded the expected cost band for this agent workflow.,True,test
+breach_000141,run_000391_c7a8c0af,2026-02-22T21:19:45.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000142,run_000395_856428ff,2026-02-23T00:12:01.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000143,run_000399_bd8e9037,2026-02-23T05:12:08.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000144,run_000401_9356cec2,2026-02-23T13:05:15.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000145,run_000406_ea5c326c,2026-02-23T16:20:41.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000146,run_000408_8f04d81e,2026-02-23T17:10:26.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000147,run_000409_981f3453,2026-02-23T20:01:16.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000148,run_000411_e7be51ec,2026-02-24T02:27:38.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000149,run_000413_67075bc6,2026-02-24T04:05:38.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000150,run_000414_7b50dde5,2026-02-24T06:17:57.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000151,run_000419_2b4a1fbe,2026-02-24T17:38:57.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000152,run_000421_076d8bcb,2026-02-24T18:56:17.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000153,run_000435_572f0a83,2026-02-25T05:51:10.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000154,run_000437_6c1eccf7,2026-02-25T08:20:53.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000155,run_000439_1db236de,2026-02-25T11:24:55.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000156,run_000443_5d05f2e4,2026-02-25T14:27:11.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000157,run_000446_cdd11bb7,2026-02-25T15:52:33.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000158,run_000447_ab55c587,2026-02-25T17:16:45.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000159,run_000448_1601012a,2026-02-25T17:47:57.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000160,run_000452_dd6ebb1b,2026-02-25T20:29:33.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000161,run_000455_a4d72d70,2026-02-26T00:15:15.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000162,run_000456_31980c02,2026-02-26T02:36:39.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000163,run_000457_071c28ae,2026-02-26T03:35:10.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000164,run_000458_2335b051,2026-02-26T03:43:05.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000165,run_000462_c91cb388,2026-02-26T06:01:28.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000166,run_000463_155bf91e,2026-02-26T10:12:35.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000167,run_000464_388563bb,2026-02-26T10:13:01.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000168,run_000467_66d47eaa,2026-02-26T12:33:51.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000169,run_000474_fe82e41c,2026-02-26T19:00:49.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000170,run_000485_94e74cf9,2026-02-27T03:15:33.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000171,run_000490_588c7005,2026-02-27T07:46:24.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000172,run_000491_d1fc446a,2026-02-27T08:51:53.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000173,run_000492_f3311e82,2026-02-27T10:33:22.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000174,run_000493_2838961a,2026-02-27T10:43:35.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000175,run_000497_d0b8329d,2026-02-27T13:37:07.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000176,run_000498_de563ba3,2026-02-27T13:44:20.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000177,run_000500_e49ab6e7,2026-02-27T15:03:42.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000178,run_000502_330aad00,2026-02-27T17:18:34.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000179,run_000503_685a3d34,2026-02-27T17:24:25.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000180,run_000508_63af7205,2026-02-27T23:41:31.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000181,run_000509_6c5021a4,2026-02-28T00:04:11.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000182,run_000511_6f486074,2026-02-28T00:39:37.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000183,run_000514_3a93ba19,2026-02-28T02:35:10.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000184,run_000516_5eaa57de,2026-02-28T02:46:29.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000185,run_000518_b135def7,2026-02-28T05:51:32.771687+00:00,agent_hr_policy,High Cost,medium,Run exceeded the expected cost band for this agent workflow.,True,test
+breach_000186,run_000519_ec7cc062,2026-02-28T06:49:09.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000187,run_000520_f3c6b7c5,2026-02-28T08:14:45.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000188,run_000525_2b5a0139,2026-02-28T11:32:48.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000189,run_000526_e043e551,2026-02-28T12:48:34.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000190,run_000527_5e242d69,2026-02-28T13:34:55.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000191,run_000528_881bab46,2026-02-28T14:13:36.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000192,run_000529_94ac5ed5,2026-02-28T14:54:23.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000193,run_000531_d6f0001d,2026-02-28T16:08:17.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000194,run_000532_da02a413,2026-02-28T16:12:07.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000195,run_000533_51a16497,2026-02-28T17:17:25.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000196,run_000535_9bd250ce,2026-02-28T17:58:22.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000197,run_000536_8fd76b2b,2026-02-28T19:58:14.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000198,run_000541_5b8948ca,2026-03-01T03:05:23.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000199,run_000542_d7ca27d1,2026-03-01T05:13:35.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000200,run_000544_6c32a0f9,2026-03-01T10:08:25.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000201,run_000550_d6549425,2026-03-01T19:00:57.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000202,run_000555_aa0f3e2e,2026-03-02T00:23:08.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000203,run_000556_7aecce41,2026-03-02T00:30:49.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000204,run_000561_df974c5c,2026-03-02T01:45:44.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000205,run_000562_736d04bf,2026-03-02T02:05:50.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000206,run_000566_8ef14db9,2026-03-02T03:03:44.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000207,run_000568_4ea416a2,2026-03-02T05:50:16.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000208,run_000569_a49a8895,2026-03-02T05:52:59.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000209,run_000571_f1227747,2026-03-02T06:25:18.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000210,run_000577_17e05be1,2026-03-02T13:28:23.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000211,run_000578_5398fbf4,2026-03-02T15:24:59.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000212,run_000585_987bd971,2026-03-02T23:19:38.771687+00:00,agent_invoice_dispute,Run Failure,high,Run did not complete and requires operational review.,True,dev
+breach_000213,run_000587_014e4ef4,2026-03-02T23:59:38.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000214,run_000588_df063ed4,2026-03-03T00:58:09.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000215,run_000589_efe3a349,2026-03-03T01:00:01.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000216,run_000594_7706e9f3,2026-03-03T04:50:49.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000217,run_000596_2a2405e2,2026-03-03T06:19:04.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000218,run_000600_3b7124db,2026-03-03T08:22:00.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000219,run_000612_abef9c89,2026-03-03T19:34:13.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000220,run_000613_2d7ae152,2026-03-03T21:24:20.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000221,run_000614_28290f7b,2026-03-03T22:41:39.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000222,run_000615_91e88f61,2026-03-04T00:12:15.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000223,run_000620_e6e460e1,2026-03-04T05:46:37.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000224,run_000623_5adc28e6,2026-03-04T07:28:06.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000225,run_000629_3346d1f1,2026-03-04T16:51:47.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000226,run_000630_df2d7484,2026-03-04T19:17:25.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000227,run_000632_5fda1968,2026-03-04T20:02:25.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000228,run_000639_b9adf616,2026-03-05T01:34:05.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000229,run_000640_fdb9ad61,2026-03-05T02:26:23.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000230,run_000645_b0d5a222,2026-03-05T07:57:12.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000231,run_000648_d02a6a16,2026-03-05T09:56:31.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000232,run_000649_29d73697,2026-03-05T11:10:45.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000233,run_000652_3d25cf26,2026-03-05T14:52:26.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000234,run_000655_f872f187,2026-03-05T16:17:22.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000235,run_000657_01940109,2026-03-05T17:03:05.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000236,run_000658_dd9f1898,2026-03-05T20:07:25.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000237,run_000659_1be76b2e,2026-03-05T20:12:55.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000238,run_000660_42b2e3cf,2026-03-05T20:43:09.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000239,run_000663_c2f2da62,2026-03-05T23:43:23.771687+00:00,agent_powerbi_optimiser,High Cost,medium,Run exceeded the expected cost band for this agent workflow.,True,dev
+breach_000240,run_000664_f32240af,2026-03-06T01:38:50.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000241,run_000665_57e5c1de,2026-03-06T02:37:08.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000242,run_000667_3cf7a867,2026-03-06T04:55:22.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000243,run_000669_26020bff,2026-03-06T08:00:04.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000244,run_000670_7b54dcda,2026-03-06T08:49:15.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000245,run_000677_1cd49f7f,2026-03-06T19:03:24.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000246,run_000680_140dabd7,2026-03-06T21:00:49.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000247,run_000681_02d1d5d3,2026-03-06T21:23:17.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000248,run_000687_1a513934,2026-03-07T03:29:36.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000249,run_000692_2c2921af,2026-03-07T14:42:37.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000250,run_000695_7863e5f4,2026-03-07T15:11:57.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000251,run_000698_33bdc7b6,2026-03-07T19:28:26.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000252,run_000700_f84f2ef5,2026-03-07T19:58:59.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000253,run_000705_0f7b0d55,2026-03-08T01:44:29.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000254,run_000708_54a89aa6,2026-03-08T05:02:28.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000255,run_000709_ae68e215,2026-03-08T05:44:05.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000256,run_000711_7206c6c2,2026-03-08T08:38:01.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000257,run_000716_b2fabc98,2026-03-08T11:46:14.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000258,run_000717_183923a3,2026-03-08T13:44:21.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000259,run_000724_8dde09df,2026-03-08T22:43:01.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000260,run_000725_66e588b2,2026-03-08T23:22:26.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000261,run_000734_6785f622,2026-03-09T08:48:06.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000262,run_000737_d7c17db8,2026-03-09T10:02:16.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000263,run_000740_07450bb4,2026-03-09T17:08:54.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000264,run_000745_2264e6f3,2026-03-10T01:10:44.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000265,run_000748_038b376f,2026-03-10T06:53:55.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000266,run_000753_7136a753,2026-03-10T13:06:10.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000267,run_000754_f3d7942a,2026-03-10T16:15:59.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000268,run_000762_e9def267,2026-03-11T04:34:15.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000269,run_000766_3ffbc119,2026-03-11T11:08:33.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000270,run_000767_7b66790c,2026-03-11T11:38:54.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000271,run_000768_335c5614,2026-03-11T11:44:51.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000272,run_000769_9f0d4839,2026-03-11T12:05:41.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000273,run_000771_33e7c6ed,2026-03-11T13:56:31.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000274,run_000772_7ef9b2d3,2026-03-11T16:49:59.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000275,run_000773_582c0cbc,2026-03-11T17:50:06.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000276,run_000776_3f741e7f,2026-03-11T20:27:11.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000277,run_000782_5cad7490,2026-03-12T04:28:16.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000278,run_000783_2e381880,2026-03-12T05:11:45.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000279,run_000787_c1b69984,2026-03-12T08:39:18.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000280,run_000788_6370bf38,2026-03-12T09:43:54.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000281,run_000789_68c5352b,2026-03-12T14:16:06.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000282,run_000790_9aaf7408,2026-03-12T15:25:04.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000283,run_000791_26ef2311,2026-03-12T17:34:42.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000284,run_000792_f73263cc,2026-03-12T18:39:50.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000285,run_000795_132bacff,2026-03-13T03:12:24.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000286,run_000796_8813f53c,2026-03-13T03:14:40.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000287,run_000800_643f4c0a,2026-03-13T04:19:50.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000288,run_000802_9318de97,2026-03-13T05:37:17.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000289,run_000812_507c84f4,2026-03-13T11:31:42.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000290,run_000813_05b27992,2026-03-13T12:31:20.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000291,run_000814_ea3b3737,2026-03-13T12:40:20.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000292,run_000821_0f28739e,2026-03-14T01:44:45.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000293,run_000825_d53a2526,2026-03-14T05:53:03.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000294,run_000827_f27be8ef,2026-03-14T15:33:39.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000295,run_000833_95b302bb,2026-03-14T22:20:19.771687+00:00,agent_powerbi_optimiser,Run Failure,high,Run did not complete and requires operational review.,True,test
+breach_000296,run_000836_fc283e6a,2026-03-15T01:51:17.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000297,run_000837_96bca68c,2026-03-15T02:48:22.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000298,run_000838_6858ca02,2026-03-15T03:23:39.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000299,run_000839_5eb94a2d,2026-03-15T03:27:13.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000300,run_000840_0b30c35b,2026-03-15T05:15:24.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000301,run_000845_739d3ea1,2026-03-15T09:47:47.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000302,run_000846_4b5f1f2f,2026-03-15T10:02:54.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000303,run_000849_1b3a3857,2026-03-15T13:55:54.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000304,run_000851_89669ae8,2026-03-15T14:27:30.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000305,run_000854_9597709a,2026-03-15T19:08:56.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000306,run_000858_b7a80231,2026-03-15T22:49:21.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000307,run_000859_f5c54a2e,2026-03-15T23:06:52.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000308,run_000862_b6c88277,2026-03-15T23:45:36.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000309,run_000863_2e2b1a19,2026-03-16T00:03:01.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000310,run_000865_11a66241,2026-03-16T05:18:39.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000311,run_000867_6026cf31,2026-03-16T07:20:17.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000312,run_000868_3bbfda99,2026-03-16T07:29:48.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000313,run_000871_41e71ab5,2026-03-16T11:04:19.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000314,run_000873_7698572f,2026-03-16T14:50:52.771687+00:00,agent_hr_policy,High Cost,medium,Run exceeded the expected cost band for this agent workflow.,True,dev
+breach_000315,run_000880_049887ab,2026-03-17T00:31:33.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000316,run_000886_c66defb4,2026-03-17T03:50:47.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000317,run_000887_db255d02,2026-03-17T05:02:41.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000318,run_000896_aaaadfb5,2026-03-17T11:08:43.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000319,run_000897_b75d51f8,2026-03-17T12:50:49.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000320,run_000898_f8a45a8f,2026-03-17T14:46:52.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000321,run_000909_0fa5ea43,2026-03-18T01:50:51.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000322,run_000917_3b0991ff,2026-03-18T11:21:44.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000323,run_000921_a746a439,2026-03-18T15:05:51.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000324,run_000922_b2f82cb1,2026-03-18T15:42:25.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000325,run_000927_674cc81c,2026-03-18T20:58:57.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000326,run_000936_09b72f88,2026-03-19T05:34:17.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000327,run_000938_a525b984,2026-03-19T06:09:56.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000328,run_000943_90ed7f75,2026-03-19T08:42:18.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000329,run_000946_df929498,2026-03-19T09:58:53.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000330,run_000947_3143be0e,2026-03-19T12:21:07.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000331,run_000948_3c1816cd,2026-03-19T15:11:22.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000332,run_000949_b4a50682,2026-03-19T16:39:59.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000333,run_000951_08f0b49d,2026-03-19T20:41:33.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000334,run_000956_f128fc11,2026-03-20T01:54:37.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000335,run_000957_5a505f1f,2026-03-20T02:34:49.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000336,run_000962_4b907c09,2026-03-20T09:12:07.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000337,run_000964_5864f1d3,2026-03-20T09:23:18.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000338,run_000968_f3eb435e,2026-03-20T11:42:13.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000339,run_000969_9be89a3c,2026-03-20T11:51:49.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000340,run_000971_9b2a38bf,2026-03-20T12:22:54.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000341,run_000974_6d0954e1,2026-03-20T15:46:07.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000342,run_000976_b678a782,2026-03-20T16:38:24.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000343,run_000980_4df2ea2c,2026-03-20T20:01:05.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000344,run_000982_1465fadd,2026-03-20T22:40:23.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000345,run_000988_f46f9466,2026-03-21T03:58:15.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000346,run_000989_931e6c48,2026-03-21T04:37:06.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000347,run_000990_90cf1bbc,2026-03-21T05:16:47.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000348,run_000994_1aa71ed7,2026-03-21T10:49:57.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000349,run_000998_b75da927,2026-03-21T11:44:35.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000350,run_001001_a1946d0b,2026-03-21T16:22:54.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000351,run_001007_1b433646,2026-03-21T22:07:40.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000352,run_001008_51a5d70d,2026-03-21T23:06:39.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000353,run_001012_5035c62e,2026-03-22T00:55:22.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000354,run_001014_2ca0cbf1,2026-03-22T04:29:14.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000355,run_001016_3459d95a,2026-03-22T06:14:32.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000356,run_001018_120fa235,2026-03-22T06:44:21.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000357,run_001022_f721b3bc,2026-03-22T11:17:00.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000358,run_001024_d5d4d17c,2026-03-22T13:30:46.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000359,run_001025_b3e06513,2026-03-22T13:52:08.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000360,run_001028_c05a6ded,2026-03-22T17:19:30.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000361,run_001030_da7c9652,2026-03-22T20:14:39.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000362,run_001032_c22ae9d7,2026-03-23T02:55:20.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000363,run_001033_6cbeaa9a,2026-03-23T04:26:27.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000364,run_001037_f55cb02c,2026-03-23T08:43:58.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000365,run_001038_acad8b0a,2026-03-23T09:19:42.771687+00:00,agent_invoice_dispute,Run Failure,high,Run did not complete and requires operational review.,True,test
+breach_000366,run_001039_afeae3c9,2026-03-23T09:35:45.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000367,run_001043_43fa012b,2026-03-23T12:34:31.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000368,run_001045_f97539fd,2026-03-23T16:12:33.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000369,run_001047_12448fa8,2026-03-23T17:47:33.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000370,run_001048_68f22556,2026-03-23T18:29:50.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000371,run_001049_2396924d,2026-03-23T18:36:16.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000372,run_001052_98398e89,2026-03-23T21:04:48.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000373,run_001055_395ff4c4,2026-03-23T23:49:55.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000374,run_001056_97db0352,2026-03-23T23:57:56.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000375,run_001059_7db7e642,2026-03-24T04:02:02.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000376,run_001060_4b448c97,2026-03-24T06:06:38.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000377,run_001065_14215e4d,2026-03-24T10:39:43.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000378,run_001070_ff90a2ff,2026-03-24T19:25:43.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000379,run_001071_47753497,2026-03-24T22:19:12.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000380,run_001072_9f1c0998,2026-03-24T22:35:08.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000381,run_001076_54a48b25,2026-03-25T06:09:53.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000382,run_001078_b8e012c3,2026-03-25T09:41:55.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000383,run_001081_7e940980,2026-03-25T10:55:56.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000384,run_001089_bae22345,2026-03-25T17:53:35.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000385,run_001090_00ab63a6,2026-03-25T19:08:12.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000386,run_001095_9ad9c55c,2026-03-26T06:12:22.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000387,run_001098_cef18c66,2026-03-26T11:57:51.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000388,run_001103_c5a3faca,2026-03-26T19:38:15.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000389,run_001106_130104ce,2026-03-26T23:53:36.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000390,run_001107_48a24de8,2026-03-27T01:49:04.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000391,run_001109_3ecde959,2026-03-27T06:37:41.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000392,run_001110_ba8f2380,2026-03-27T09:41:25.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000393,run_001111_10ee7c87,2026-03-27T10:00:13.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000394,run_001113_6d87383f,2026-03-27T16:39:24.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000395,run_001118_de1860e3,2026-03-27T21:16:23.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000396,run_001122_aec36dca,2026-03-28T01:25:51.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000397,run_001125_aff65371,2026-03-28T04:44:01.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000398,run_001128_ce6073bc,2026-03-28T08:47:20.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000399,run_001131_11b569c2,2026-03-28T09:46:18.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000400,run_001135_a195110d,2026-03-28T12:54:52.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000401,run_001139_bb34242f,2026-03-28T15:07:09.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000402,run_001142_eeedc6d9,2026-03-28T16:47:11.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000403,run_001144_a8731039,2026-03-28T17:02:48.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000404,run_001145_3ba87084,2026-03-28T17:04:22.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000405,run_001147_8eae2a18,2026-03-28T18:46:53.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000406,run_001148_c3ce1ff9,2026-03-28T18:52:31.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000407,run_001149_e73c7a18,2026-03-28T18:55:43.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000408,run_001150_e6d28fbd,2026-03-28T19:47:48.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000409,run_001152_6337f0eb,2026-03-28T23:32:31.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000410,run_001153_a9fce3b3,2026-03-29T00:28:12.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000411,run_001154_70851093,2026-03-29T00:30:40.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000412,run_001163_44d61e1f,2026-03-29T09:48:05.771687+00:00,agent_invoice_dispute,Run Failure,high,Run did not complete and requires operational review.,True,test
+breach_000413,run_001166_8bd21ec1,2026-03-29T13:53:55.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000414,run_001167_61c3a97f,2026-03-29T15:54:36.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000415,run_001168_a2489dd9,2026-03-29T17:16:14.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000416,run_001173_4dadd52b,2026-03-29T20:40:34.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000417,run_001174_e945ce1b,2026-03-29T20:50:23.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000418,run_001180_902a52ff,2026-03-29T23:36:44.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000419,run_001181_b083ad74,2026-03-30T01:14:24.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000420,run_001186_ecd14a4c,2026-03-30T03:31:59.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000421,run_001192_a0866be2,2026-03-30T09:55:21.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000422,run_001193_8ff93211,2026-03-30T10:46:05.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000423,run_001197_a78df4e2,2026-03-30T16:45:31.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000424,run_001202_8aa2b501,2026-03-30T23:38:48.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000425,run_001204_b6897dfe,2026-03-31T02:16:47.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000426,run_001205_01bfc397,2026-03-31T03:15:51.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000427,run_001211_787e300b,2026-03-31T09:45:39.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000428,run_001214_317022a4,2026-03-31T14:14:48.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000429,run_001217_519e0d2a,2026-03-31T15:58:53.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000430,run_001221_cf91b08b,2026-04-01T01:48:07.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000431,run_001222_26ac9e77,2026-04-01T03:32:39.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000432,run_001224_26f98778,2026-04-01T05:32:45.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000433,run_001230_55b738cd,2026-04-01T08:41:32.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000434,run_001234_5afe7845,2026-04-01T13:43:24.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000435,run_001237_05ec8e2b,2026-04-01T15:35:52.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000436,run_001239_c38d0615,2026-04-01T19:15:29.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000437,run_001252_04be4f7c,2026-04-02T08:13:52.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000438,run_001253_3ea4016d,2026-04-02T08:44:15.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000439,run_001254_4585dc44,2026-04-02T09:16:36.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000440,run_001255_711ff5be,2026-04-02T10:59:39.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000441,run_001263_c76ba7b9,2026-04-02T16:04:58.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000442,run_001264_be5a1ca1,2026-04-02T19:20:44.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000443,run_001269_7662fa27,2026-04-03T01:27:56.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000444,run_001271_54def507,2026-04-03T02:41:19.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000445,run_001272_c826dd9c,2026-04-03T03:38:24.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000446,run_001277_2c8bf0b1,2026-04-03T05:52:09.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000447,run_001280_6dd1c37a,2026-04-03T07:35:11.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000448,run_001284_27dcf9bf,2026-04-03T12:47:11.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000449,run_001286_e9277b94,2026-04-03T18:56:27.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000450,run_001288_2336b275,2026-04-03T22:53:25.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000451,run_001289_dd192648,2026-04-03T22:55:09.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000452,run_001295_2e8965e2,2026-04-04T05:09:54.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000453,run_001297_38b0973e,2026-04-04T05:45:34.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000454,run_001303_60206285,2026-04-04T11:30:49.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000455,run_001305_d6867965,2026-04-04T12:40:42.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000456,run_001313_9e46b010,2026-04-05T02:42:33.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000457,run_001315_ebb22686,2026-04-05T06:55:13.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000458,run_001318_a3c8fe1a,2026-04-05T11:07:04.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000459,run_001321_ecd267aa,2026-04-05T12:09:55.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000460,run_001323_3f4f07dd,2026-04-05T14:55:00.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000461,run_001324_e1915712,2026-04-05T15:14:02.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000462,run_001325_03fff122,2026-04-05T15:32:29.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000463,run_001327_d161543a,2026-04-05T18:05:57.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000464,run_001331_d12c6580,2026-04-05T22:54:02.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000465,run_001334_24a6952d,2026-04-06T01:26:36.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000466,run_001337_898b04aa,2026-04-06T04:41:00.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000467,run_001340_9b81f14a,2026-04-06T06:13:08.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000468,run_001341_59536d84,2026-04-06T08:03:35.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000469,run_001345_5041db85,2026-04-06T12:11:37.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000470,run_001348_b71f720f,2026-04-06T18:59:40.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000471,run_001351_bed6edba,2026-04-06T22:01:01.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000472,run_001352_8d70d8e7,2026-04-06T22:07:31.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000473,run_001358_f6b8794a,2026-04-07T03:33:45.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000474,run_001360_a8e7e8bb,2026-04-07T05:59:39.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000475,run_001361_7938801f,2026-04-07T06:28:46.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000476,run_001369_74987065,2026-04-07T13:41:05.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000477,run_001370_daf48c44,2026-04-07T14:53:46.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000478,run_001372_b450a7dc,2026-04-07T17:51:02.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000479,run_001374_96faf5ca,2026-04-07T19:13:40.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000480,run_001381_696f314c,2026-04-08T05:14:01.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000481,run_001384_d2e38e6a,2026-04-08T06:10:02.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000482,run_001387_4d5117f0,2026-04-08T10:27:40.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000483,run_001391_5e049646,2026-04-08T12:52:52.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000484,run_001393_801f70c4,2026-04-08T14:50:02.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000485,run_001394_dcbbf958,2026-04-08T15:26:59.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000486,run_001395_36717ca5,2026-04-08T15:44:35.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000487,run_001397_3e28afa7,2026-04-08T20:00:38.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000488,run_001398_124c0287,2026-04-08T21:42:36.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000489,run_001401_64ea0cc4,2026-04-08T22:12:51.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000490,run_001402_aac8ce68,2026-04-08T23:25:06.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000491,run_001403_2ec3b2a7,2026-04-09T00:51:41.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000492,run_001404_01713fb2,2026-04-09T03:55:33.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000493,run_001406_7dd02174,2026-04-09T05:55:19.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000494,run_001408_a3f0f8df,2026-04-09T07:29:27.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000495,run_001409_59641bbb,2026-04-09T07:40:35.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000496,run_001410_54ec8797,2026-04-09T08:08:23.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000497,run_001411_098fc072,2026-04-09T09:27:59.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000498,run_001412_5a7b2cec,2026-04-09T09:54:32.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000499,run_001413_71d31f5f,2026-04-09T10:07:27.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000500,run_001416_913709db,2026-04-09T12:48:13.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000501,run_001418_135a5273,2026-04-09T13:35:31.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000502,run_001419_f68ba7a4,2026-04-09T14:24:26.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000503,run_001428_1e45f20e,2026-04-09T19:55:17.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000504,run_001432_3bfa31bd,2026-04-10T02:12:10.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000505,run_001433_ccb28565,2026-04-10T03:42:15.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000506,run_001439_f2147572,2026-04-10T08:42:36.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000507,run_001448_27951a06,2026-04-10T14:48:11.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000508,run_001451_a7dbadeb,2026-04-10T17:11:19.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000509,run_001458_faf14635,2026-04-11T00:05:02.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000510,run_001461_974f27d6,2026-04-11T02:28:08.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000511,run_001462_76ea3169,2026-04-11T03:05:00.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000512,run_001466_713c68d2,2026-04-11T09:18:38.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000513,run_001467_6db7be77,2026-04-11T09:46:18.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000514,run_001468_6f70c97f,2026-04-11T10:38:34.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000515,run_001473_7fce0800,2026-04-11T16:55:01.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000516,run_001475_b4392ed9,2026-04-11T18:54:07.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000517,run_001478_278664ff,2026-04-11T22:09:51.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000518,run_001479_6bba772f,2026-04-11T22:51:30.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000519,run_001483_6584fe3f,2026-04-12T02:07:11.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000520,run_001486_2585c6c2,2026-04-12T04:52:17.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000521,run_001487_1e7b5d26,2026-04-12T06:29:12.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000522,run_001490_bdea6c61,2026-04-12T08:36:21.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000523,run_001491_c49a641f,2026-04-12T08:40:57.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000524,run_001492_6c3adedf,2026-04-12T09:22:19.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000525,run_001493_511940d0,2026-04-12T09:23:01.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000526,run_001496_7a808328,2026-04-12T14:15:15.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000527,run_001497_bff535ba,2026-04-12T16:30:44.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000528,run_001498_76f6394e,2026-04-12T17:09:20.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000529,run_001500_5fc0cfa0,2026-04-12T20:49:17.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000530,run_001502_c8429bba,2026-04-12T22:45:30.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000531,run_001504_55813666,2026-04-12T23:18:41.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000532,run_001506_70f9d3aa,2026-04-13T00:44:56.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000533,run_001507_60ad21ec,2026-04-13T01:14:09.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000534,run_001508_ef14ed9b,2026-04-13T01:25:28.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000535,run_001511_22d62cbc,2026-04-13T05:34:26.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000536,run_001513_e7f012da,2026-04-13T06:37:59.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000537,run_001514_8007e146,2026-04-13T09:45:49.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000538,run_001518_6b94859f,2026-04-13T11:24:00.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000539,run_001519_77d5c88f,2026-04-13T11:29:43.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000540,run_001520_a7743339,2026-04-13T13:54:22.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000541,run_001521_9e63f118,2026-04-13T14:12:55.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000542,run_001525_1ee7569e,2026-04-13T19:26:08.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000543,run_001527_a559a59a,2026-04-13T20:27:35.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000544,run_001531_2dd77cc5,2026-04-14T01:31:28.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000545,run_001532_b3888a53,2026-04-14T01:56:17.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000546,run_001540_e0f2f35d,2026-04-14T18:14:26.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000547,run_001544_6e982ec4,2026-04-15T00:17:35.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000548,run_001545_a8212f0c,2026-04-15T00:59:49.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000549,run_001547_5ea974fa,2026-04-15T02:01:45.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000550,run_001551_67b56f7b,2026-04-15T04:31:44.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000551,run_001552_5b74c71a,2026-04-15T05:06:47.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000552,run_001553_17a56cf7,2026-04-15T05:17:04.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000553,run_001554_63e95b22,2026-04-15T06:01:52.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000554,run_001557_42fecbce,2026-04-15T08:01:13.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000555,run_001559_dc0d3ccc,2026-04-15T10:43:55.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000556,run_001563_d2e27c05,2026-04-15T15:40:58.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000557,run_001564_ef744eab,2026-04-15T16:32:27.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000558,run_001565_20c49c7a,2026-04-15T19:57:25.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000559,run_001566_94966128,2026-04-15T21:14:03.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000560,run_001567_67c47d0a,2026-04-15T22:44:04.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000561,run_001568_09c645e2,2026-04-16T00:59:46.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000562,run_001571_b71c4ad7,2026-04-16T03:07:26.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000563,run_001572_2232cb9a,2026-04-16T04:32:01.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000564,run_001573_504456a9,2026-04-16T04:59:53.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000565,run_001574_56cd7aff,2026-04-16T06:20:10.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000566,run_001579_d36590fb,2026-04-16T15:43:25.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000567,run_001586_1a32a0c1,2026-04-16T21:33:28.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000568,run_001588_ba887466,2026-04-17T04:40:07.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000569,run_001590_6b98757a,2026-04-17T07:19:43.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000570,run_001591_3dc00de0,2026-04-17T08:04:24.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000571,run_001596_44ebd043,2026-04-17T11:10:26.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000572,run_001597_0fff38bb,2026-04-17T11:46:39.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000573,run_001599_af9577ac,2026-04-17T15:20:22.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000574,run_001600_906766b9,2026-04-17T15:25:27.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000575,run_001603_dd987907,2026-04-17T17:39:41.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000576,run_001604_acc2889e,2026-04-17T18:17:27.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000577,run_001607_b44b0468,2026-04-17T20:13:38.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000578,run_001608_a5b42cf4,2026-04-17T20:48:14.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000579,run_001612_239ed91e,2026-04-17T23:02:41.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000580,run_001613_ec36d145,2026-04-17T23:24:55.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000581,run_001618_83d93166,2026-04-18T04:52:19.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000582,run_001620_6ef0ddff,2026-04-18T06:00:34.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000583,run_001621_ba27b542,2026-04-18T06:24:51.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000584,run_001622_79d241c5,2026-04-18T07:54:08.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000585,run_001625_2cffb5d8,2026-04-18T10:16:06.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000586,run_001626_d8018e45,2026-04-18T11:51:35.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000587,run_001627_a400deb1,2026-04-18T12:04:13.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000588,run_001628_f4fb33ca,2026-04-18T13:26:09.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000589,run_001630_78306bb6,2026-04-18T15:59:44.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000590,run_001632_d61bb1df,2026-04-18T16:45:29.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000591,run_001636_925074fa,2026-04-18T22:47:14.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000592,run_001639_ce387099,2026-04-19T03:02:30.771687+00:00,agent_powerbi_optimiser,Run Failure,high,Run did not complete and requires operational review.,True,dev
+breach_000593,run_001641_afbb05f2,2026-04-19T03:55:31.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000594,run_001649_ff156ec1,2026-04-19T09:45:27.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000595,run_001650_11b9fbe7,2026-04-19T10:18:30.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000596,run_001657_3a54ae7d,2026-04-19T16:39:32.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000597,run_001658_8ad22337,2026-04-19T19:08:15.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000598,run_001659_db496631,2026-04-19T20:28:19.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000599,run_001661_9ab557db,2026-04-19T22:50:43.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000600,run_001664_ab503958,2026-04-20T01:53:22.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000601,run_001665_027a340f,2026-04-20T02:28:23.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000602,run_001666_70f6491c,2026-04-20T04:58:24.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000603,run_001669_da2cdd83,2026-04-20T08:35:56.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000604,run_001676_773618e7,2026-04-20T15:44:34.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000605,run_001678_2319b892,2026-04-20T20:14:57.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000606,run_001679_4f1bcdb3,2026-04-20T20:31:19.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000607,run_001682_e3b9858e,2026-04-20T21:59:11.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000608,run_001685_271b0f25,2026-04-21T04:32:25.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000609,run_001687_874eda2e,2026-04-21T07:13:41.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000610,run_001688_7c6010f9,2026-04-21T07:48:29.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000611,run_001689_7d144f73,2026-04-21T09:11:12.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000612,run_001690_6e43cbd9,2026-04-21T09:30:00.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000613,run_001693_544da96a,2026-04-21T13:37:10.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000614,run_001695_c118fd2b,2026-04-21T16:38:45.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000615,run_001699_2e349f79,2026-04-21T18:51:04.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000616,run_001700_7e3f63dd,2026-04-21T19:39:00.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000617,run_001704_7df7edea,2026-04-21T21:48:31.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000618,run_001708_98a6c7c8,2026-04-22T02:41:42.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000619,run_001710_4379cd7e,2026-04-22T05:48:51.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000620,run_001714_0016f47e,2026-04-22T07:48:11.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000621,run_001721_b83989ce,2026-04-22T15:28:45.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000622,run_001722_0f059ac1,2026-04-22T19:13:10.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000623,run_001724_0f89d473,2026-04-22T20:48:27.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000624,run_001730_94b9c6b0,2026-04-23T03:34:17.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000625,run_001734_d8f4b002,2026-04-23T09:50:50.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000626,run_001735_2df35b5e,2026-04-23T10:07:59.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000627,run_001741_45ed2318,2026-04-23T15:23:23.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000628,run_001744_558d02fd,2026-04-23T16:03:25.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000629,run_001745_26570dfb,2026-04-23T16:48:53.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000630,run_001747_332826f0,2026-04-23T17:44:23.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000631,run_001748_2d4f1251,2026-04-23T18:57:49.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000632,run_001754_87c1aecd,2026-04-24T02:51:19.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000633,run_001755_f450ec82,2026-04-24T06:41:10.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000634,run_001758_8ab842a4,2026-04-24T11:14:18.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000635,run_001762_e5cfdb34,2026-04-24T19:12:01.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000636,run_001763_174ce359,2026-04-24T21:14:44.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000637,run_001767_0f03aceb,2026-04-25T02:11:08.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000638,run_001768_f6c6ffa3,2026-04-25T03:04:27.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000639,run_001769_efbaf698,2026-04-25T03:48:13.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000640,run_001770_6ed95ea8,2026-04-25T04:18:19.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000641,run_001772_f152ed30,2026-04-25T07:51:27.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000642,run_001773_8a3a8c5b,2026-04-25T08:38:23.771687+00:00,agent_hr_policy,Run Failure,high,Run did not complete and requires operational review.,True,dev
+breach_000643,run_001774_50bb6c1e,2026-04-25T08:45:16.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000644,run_001775_1fc26a14,2026-04-25T09:48:07.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000645,run_001776_94307c7f,2026-04-25T10:21:18.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000646,run_001777_36025c92,2026-04-25T12:14:11.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000647,run_001780_6727f9f9,2026-04-25T20:39:24.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000648,run_001781_de6e66f2,2026-04-25T20:47:18.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000649,run_001783_7aedb04d,2026-04-25T22:15:47.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000650,run_001785_ea4c88c2,2026-04-25T23:30:07.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000651,run_001787_3e56ab9e,2026-04-25T23:52:44.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000652,run_001789_71a1a495,2026-04-26T02:39:34.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000653,run_001791_57a4ac8e,2026-04-26T04:18:00.771687+00:00,agent_invoice_dispute,High Cost,medium,Run exceeded the expected cost band for this agent workflow.,True,prod
+breach_000654,run_001792_1dfdaf19,2026-04-26T04:47:27.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000655,run_001794_9b50080a,2026-04-26T06:46:52.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000656,run_001797_498a2619,2026-04-26T07:45:13.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000657,run_001798_ce13ee0e,2026-04-26T08:52:58.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000658,run_001799_eff9e0fd,2026-04-26T09:10:59.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000659,run_001801_0bfe6f83,2026-04-26T11:31:28.771687+00:00,agent_hr_policy,High Cost,medium,Run exceeded the expected cost band for this agent workflow.,True,dev
+breach_000660,run_001802_26a0cbef,2026-04-26T12:03:37.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000661,run_001803_b7c68c73,2026-04-26T12:13:15.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000662,run_001804_47724a58,2026-04-26T15:35:45.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000663,run_001807_3c3aa434,2026-04-26T21:09:28.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000664,run_001808_e7da4dc5,2026-04-26T22:39:20.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000665,run_001818_855d5a1c,2026-04-27T14:56:26.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000666,run_001819_1a968fe5,2026-04-27T16:09:15.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000667,run_001823_8500f9f9,2026-04-27T19:47:24.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000668,run_001824_5d8dc3cf,2026-04-27T20:10:04.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000669,run_001826_3cde509b,2026-04-27T22:59:57.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000670,run_001829_68a14e8c,2026-04-28T00:53:33.771687+00:00,agent_hr_policy,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000671,run_001832_dd8c54a6,2026-04-28T03:17:11.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000672,run_001836_3594f22e,2026-04-28T07:03:38.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000673,run_001839_7fd7cd2f,2026-04-28T10:40:58.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000674,run_001841_f3db2b55,2026-04-28T12:27:57.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000675,run_001842_5e61139f,2026-04-28T14:47:54.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000676,run_001844_44f46bee,2026-04-28T16:48:10.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000677,run_001845_0799d56d,2026-04-28T18:32:52.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000678,run_001846_6b27d61c,2026-04-28T19:09:51.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000679,run_001850_b257cec3,2026-04-28T21:06:26.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000680,run_001856_aaebb659,2026-04-28T23:33:51.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000681,run_001860_c3dedeae,2026-04-29T00:19:11.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000682,run_001861_e42124ad,2026-04-29T05:01:15.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000683,run_001864_8045a143,2026-04-29T06:13:26.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000684,run_001866_31c4416e,2026-04-29T06:55:01.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000685,run_001867_ece6f0f9,2026-04-29T07:31:23.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000686,run_001876_a878ff80,2026-04-29T17:45:07.771687+00:00,agent_hr_policy,High Cost,medium,Run exceeded the expected cost band for this agent workflow.,True,test
+breach_000687,run_001883_06505fee,2026-04-29T21:20:20.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000688,run_001890_84cbd449,2026-04-30T01:43:11.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000689,run_001891_8794d1ff,2026-04-30T05:08:48.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000690,run_001893_e7f0000a,2026-04-30T06:21:50.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000691,run_001896_91ecf214,2026-04-30T10:26:12.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000692,run_001897_d7a0da75,2026-04-30T11:46:59.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000693,run_001898_5628bf14,2026-04-30T13:20:21.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000694,run_001905_f6afb512,2026-04-30T18:56:03.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000695,run_001907_49e5e2fe,2026-04-30T20:12:51.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000696,run_001910_0cad4090,2026-04-30T21:59:03.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000697,run_001911_69df81da,2026-04-30T22:29:06.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000698,run_001912_d3aa87d8,2026-05-01T00:14:13.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000699,run_001915_9ca1199a,2026-05-01T04:33:07.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000700,run_001917_6d6a9fd0,2026-05-01T05:50:31.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000701,run_001921_87b8e171,2026-05-01T08:59:03.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000702,run_001924_ef081382,2026-05-01T13:32:15.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000703,run_001927_0a0a260d,2026-05-01T18:39:19.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,dev
+breach_000704,run_001929_4818d1e3,2026-05-01T21:39:21.771687+00:00,agent_powerbi_optimiser,High Cost,medium,Run exceeded the expected cost band for this agent workflow.,True,prod
+breach_000705,run_001931_c10bd5c9,2026-05-01T22:41:36.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000706,run_001934_0e15d000,2026-05-02T01:02:20.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000707,run_001937_dd2283f0,2026-05-02T12:12:52.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000708,run_001938_78717164,2026-05-02T14:44:39.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000709,run_001940_46647a2a,2026-05-02T14:54:51.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000710,run_001941_47a93bca,2026-05-02T15:34:44.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000711,run_001944_64e0a295,2026-05-02T17:23:48.771687+00:00,agent_invoice_dispute,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000712,run_001948_8fa28d52,2026-05-02T21:14:24.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000713,run_001949_fe5d8628,2026-05-02T22:58:47.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000714,run_001950_cec17f24,2026-05-02T23:49:29.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000715,run_001955_aba06a0f,2026-05-03T02:58:12.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000716,run_001959_29aa81d6,2026-05-03T09:15:36.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,prod
+breach_000717,run_001963_7572b1cd,2026-05-03T12:53:15.771687+00:00,agent_powerbi_optimiser,High Cost,medium,Run exceeded the expected cost band for this agent workflow.,True,prod
+breach_000718,run_001965_7b68806e,2026-05-03T13:40:49.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,dev
+breach_000719,run_001972_336965fc,2026-05-03T23:10:52.771687+00:00,agent_invoice_dispute,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,prod
+breach_000720,run_001974_4aaa52cd,2026-05-03T23:53:48.771687+00:00,agent_hr_policy,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000721,run_001980_061bd748,2026-05-04T06:44:23.771687+00:00,agent_powerbi_optimiser,Low Groundedness,high,Response confidence fell below the accepted governance threshold.,True,test
+breach_000722,run_001991_8a73f65d,2026-05-04T21:14:22.771687+00:00,agent_powerbi_optimiser,Run Failure,medium,Run did not complete and requires operational review.,True,test
+breach_000723,run_001994_b6243665,2026-05-05T01:00:15.771687+00:00,agent_invoice_dispute,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod
+breach_000724,run_002000_f7e71b11,2026-05-05T07:04:44.771687+00:00,agent_hr_policy,Data Risk,high,Run used a sensitive synthetic source in a production-like environment.,True,prod

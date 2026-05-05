@@ -1,0 +1,5 @@
+model_id,model_name,provider,cost_per_1k_input_tokens_aud,cost_per_1k_output_tokens_aud
+model_gpt_4o_mini,gpt-4o-mini,OpenAI,0.00025,0.001
+model_gpt_4_1,gpt-4.1,OpenAI,0.003,0.012
+model_claude_sonnet,claude-sonnet,Anthropic,0.0045,0.0225
+model_local_gemma,local-gemma,Local,5e-05,5e-05

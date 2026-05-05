@@ -1,0 +1,4 @@
+agent_id,agent_name,business_domain,owner_team,active_flag
+agent_hr_policy,HR Policy Agent,Human Resources,People Operations,True
+agent_invoice_dispute,Invoice Dispute Agent,Finance Operations,Accounts Receivable,True
+agent_powerbi_optimiser,Power BI Optimiser Agent,Analytics,Business Intelligence,True

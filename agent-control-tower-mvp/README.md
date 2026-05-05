@@ -36,6 +36,16 @@ Core layers:
 3. Use `.env.example` as a local configuration template if environment-specific values are needed.
 4. Run notebooks or Python modules against synthetic data only.
 
+### Generate Synthetic Telemetry
+
+Generate the local CSV datasets for the MVP with:
+
+```bash
+python src/generate_synthetic_agent_runs.py
+```
+
+The script creates synthetic-only CSV files in `data/` for agent runs, policy breaches, feedback, agent dimensions, and model dimensions. It does not connect to Fabric or any external service.
+
 ### Microsoft Fabric Setup
 
 1. Create a Fabric workspace for the MVP.
