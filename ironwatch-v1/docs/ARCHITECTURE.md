@@ -92,4 +92,13 @@ IronWatch resources must live in `rg-ironwatch-dev`, not `rg-fabric-sandbox`.
 
 ---
 
+## IronCore Candidates
+Patterns built in v1 that are candidates for extraction into the 
+IronCore framework in July 2026:
+- scripts/infra/config.py → forge_core.config
+- scripts/infra/audit.py → forge_core.audit
+- [add entries here as v1 build progresses]
+
+---
+
 Architecture version: v1.0 | Status: APPROVED FOR BUILD
