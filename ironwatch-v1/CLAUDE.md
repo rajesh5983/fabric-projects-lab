@@ -1,32 +1,26 @@
-# IronWatch v1 — Claude Code Context
+PROJECT: IronWatch v1
+DESCRIPTION: Predictive equipment health intelligence platform built on
+Microsoft Fabric. Medallion architecture (bronze/silver/gold) with synthetic
+CAT-style telemetry, oil sample, fault code, asset master, and service
+history data. Target: demoable Power BI semantic model by June 30 2026.
 
-## Project Overview
-IronWatch v1 is a predictive equipment health intelligence platform built on Microsoft Fabric.
-It ingests synthetic CAT-style machine telemetry through a medallion architecture (bronze → silver → gold Warehouse)
-and surfaces insights via a Power BI semantic model.
+ENVIRONMENT:
+- Platform: Windows + VS Code + Claude Code CLI
+- Fabric: F2 SKU (fabricf2sandbox) in ModernAnalyticsLab tenant
+- Azure subscription: ModernAnalyticsLab
+- Key Vault: mal-kv-shared in rg-shared-infra
+- Service principals: sp-fabric-mal (platform), sp-ironwatch-dev (pipeline)
+- Resource group: rg-ironwatch-dev
 
-## Key Directories
-- `synthetic_data/generators/` — Python scripts that produce synthetic telemetry CSV/JSON
-- `synthetic_data/schemas/` — JSON Schema definitions for each telemetry event type
-- `synthetic_data/output/` — Generated files (gitignored except .gitkeep)
-- `notebooks/bronze/` — Fabric Notebooks: raw ingestion into Bronze Lakehouse/Warehouse
-- `notebooks/silver/` — Fabric Notebooks: cleansing, deduplication, type alignment
-- `notebooks/gold/` — Fabric Notebooks: aggregations, SLA metrics, health-score computation
-- `semantic_model/` — Power BI semantic model TMDL or BIM files
-- `docs/` — Architecture, data model, and ADR documents
-- `scripts/infra/` — Terraform / Bicep / PowerShell infra automation
+NAMING CONVENTION:
+- Workspaces: ModernAnalyticsLab-DEV, ModernAnalyticsLab-Sandbox
+- Lakehouses: ironwatch_bronze, ironwatch_silver (both Lakehouses)
+- Warehouse: ironwatch_gold (Fabric Warehouse — see ADR-001)
+- Notebooks: nb_[layer]_[purpose]_[version] e.g. nb_bronze_telemetry_v1
+- Files: [project]_[layer]_[object]_[env] e.g. ironwatch_bronze_telemetry_dev
 
-## Architecture Decisions
-See `docs/ADR/` for all Architecture Decision Records.
-- ADR-001: Gold layer uses Fabric Warehouse (SQL endpoint), not Lakehouse delta tables
-- ADR-002: Bronze sources are flat-file drops (ADLS Gen2) simulated by synthetic generators
+NEVER: hardcode credentials, commit .env files, use rg-fabric-sandbox
+for IronWatch resources, name Gold layer as a Lakehouse.
 
-## Environment
-Copy `.env.template` → `.env` and fill in workspace / connection strings before running notebooks.
-Never commit `.env`.
-
-## Coding Conventions
-- Notebook cells: PySpark unless otherwise noted
-- Schema validation in Bronze notebooks before writing to Silver
-- All Gold tables must have a `_loaded_utc` watermark column
-- Semantic model measures use DAX; no calculated columns in the model layer
+ALWAYS: reference secrets via mal-kv-shared Key Vault, follow naming
+convention above, document decisions in docs/ADR/.

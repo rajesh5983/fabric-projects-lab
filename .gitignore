@@ -216,3 +216,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# IronWatch v1 — generated synthetic data (reproducible via seed; keep .gitkeep)
+ironwatch-v1/synthetic_data/output/*
+!ironwatch-v1/synthetic_data/output/.gitkeep
