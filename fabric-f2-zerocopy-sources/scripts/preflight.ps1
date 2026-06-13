@@ -4,15 +4,14 @@
     Fabric capacity, Budget-2026 status, and local Python venv.
 #>
 
-$ErrorActionPreference = "Stop"
-
 # Refresh PATH in case az was installed after this shell started
 $machinePath = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 $userPath = [System.Environment]::GetEnvironmentVariable("Path", "User")
 $env:Path = "$machinePath;$userPath"
 
 Write-Host "== Azure CLI ==" -ForegroundColor Cyan
-az version -o tsv --query '"azure-cli"'
+$verInfo = az version -o json | ConvertFrom-Json
+Write-Host "azure-cli $($verInfo.'azure-cli')"
 
 Write-Host "`n== Azure account ==" -ForegroundColor Cyan
 $account = az account show -o json 2>$null | ConvertFrom-Json
@@ -37,7 +36,7 @@ if ($capacity) {
 }
 
 Write-Host "`n== Budget-2026 ==" -ForegroundColor Cyan
-$budget = az consumption budget show --budget-name Budget-2026 -o json 2>$null | ConvertFrom-Json
+$budget = try { az consumption budget show --budget-name Budget-2026 -o json 2>$null | ConvertFrom-Json } catch { $null }
 if ($budget) {
     Write-Host "Spend: $($budget.currentSpend.amount) / $($budget.amount) $($budget.currentSpend.unit) (monthly)"
 } else {
