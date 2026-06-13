@@ -5,13 +5,11 @@
 
 .DESCRIPTION
     Run this before any provisioning step, and re-run any time as a sanity check.
-    It is idempotent — login, subscription switch, and resource group creation
-    are all safe to repeat.
+    It is idempotent — login and subscription switch are both safe to repeat.
 #>
 
-$DemoResourceGroup = "rg-fabric-zerocopy-demo"
+$TargetResourceGroup = "rg-fabric-sandbox"
 $SharedInfraResourceGroup = "rg-shared-infra"
-$DemoLocation = "australiaeast"
 
 # Refresh PATH in case az was installed after this shell started
 $machinePath = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
@@ -57,13 +55,11 @@ if ($sharedInfra) {
     Write-Host "NOTE: $SharedInfraResourceGroup not found - shared capacity pause/resume automation may live elsewhere" -ForegroundColor Yellow
 }
 
-$demoRg = $groups | Where-Object { $_.name -eq $DemoResourceGroup }
-if ($demoRg) {
-    Write-Host "$DemoResourceGroup exists ($($demoRg.location))" -ForegroundColor Green
+$targetRg = $groups | Where-Object { $_.name -eq $TargetResourceGroup }
+if ($targetRg) {
+    Write-Host "$TargetResourceGroup exists ($($targetRg.location)) - target for provisioning" -ForegroundColor Green
 } else {
-    Write-Host "$DemoResourceGroup not found - creating in $DemoLocation..." -ForegroundColor Yellow
-    az group create --name $DemoResourceGroup --location $DemoLocation -o none
-    Write-Host "Created $DemoResourceGroup ($DemoLocation)" -ForegroundColor Green
+    Write-Host "ERROR: $TargetResourceGroup not found - expected existing resource group for this project" -ForegroundColor Red
 }
 
 Write-Host "`n== Budget-2026 ==" -ForegroundColor Cyan
@@ -109,7 +105,7 @@ Write-Host "`n========================================" -ForegroundColor Magenta
 Write-Host "  BEFORE CREATING ANY RESOURCE:" -ForegroundColor Magenta
 Write-Host "  [ ] Confirm it's a serverless / free-tier SKU" -ForegroundColor Magenta
 Write-Host "  [ ] Confirm auto-pause / auto-shutdown is configured" -ForegroundColor Magenta
-Write-Host "  [ ] Place it in $DemoResourceGroup and record it in COST_TRACKER.md" -ForegroundColor Magenta
+Write-Host "  [ ] Place it in $TargetResourceGroup and record it in COST_TRACKER.md" -ForegroundColor Magenta
 Write-Host "========================================" -ForegroundColor Magenta
 
 Write-Host "`nPreflight complete." -ForegroundColor Green
