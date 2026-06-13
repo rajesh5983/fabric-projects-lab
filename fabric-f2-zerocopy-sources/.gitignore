@@ -18,3 +18,6 @@ azure-sql-hr/output/
 
 # azure-sql-hr — bcp load error logs (runtime artifacts from load_data.ps1)
 azure-sql-hr/load_errors/
+
+# landing-zone — generated synthetic data (reproducible via generate_ironwatch_data.py, SEED=42)
+landing-zone/output/

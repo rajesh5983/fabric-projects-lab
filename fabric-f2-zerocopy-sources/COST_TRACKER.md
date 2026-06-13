@@ -13,6 +13,7 @@ Tracks spend against **Budget-2026** ($50 AUD/month, alerts at 50%/80% to rajesh
 | Resource | Type | Resource Group | Est. Monthly Cost | Status | Notes |
 |---|---|---|---|---|---|
 | `sql-fabric-hr-demo` / `hr-erp` | Azure SQL DB — General Purpose, Serverless, Gen5, 1 vCore (min 0.5), 60-min auto-pause | rg-fabric-sandbox | ~AUD $5-15 (compute ~$0 while paused; ~32GB storage ~$5/mo billed even when paused) | **Provisioned** 2026-06-13, loaded with synthetic "messy ERP" HR data (CostCenters 2000, Employees 3000, Timesheets 5000, PayRuns 4000 rows) | Source DB for Fabric Mirroring zero-copy demo. Will auto-pause after 60 min idle (no actual usage cost visible yet — too recent for `az consumption` data). |
+| `fabricf2landingsa` / `ironwatch-landing` | Storage account — ADLS Gen2 (StorageV2, hierarchical namespace), Standard LRS, Hot tier | rg-fabric-sandbox | <AUD $0.10/month (Standard LRS Hot ~$0.03/GB/month; container holds ~386 KB of synthetic IronWatch sample data) | **Provisioned** 2026-06-13, uploaded 5 files (asset_master.csv, telemetry.parquet, fault_codes.json, service_history.csv, oil_samples.csv — 10 equipment x 30 days) | Landing zone for OneLake Shortcut zero-copy demo. No compute cost; storage-only, negligible at this scale. |
 
 ## Notes
 
