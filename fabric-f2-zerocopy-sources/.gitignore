@@ -1,0 +1,14 @@
+# Python virtual environment
+.venv/
+__pycache__/
+*.py[cod]
+
+# Secrets / environment files
+.env
+.env.local
+*.key
+*.pem
+
+# OS files
+Thumbs.db
+.DS_Store
