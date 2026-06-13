@@ -12,3 +12,9 @@ __pycache__/
 # OS files
 Thumbs.db
 .DS_Store
+
+# azure-sql-hr — generated synthetic data (reproducible via generate_hr_data.py, SEED=42)
+azure-sql-hr/output/
+
+# azure-sql-hr — bcp load error logs (runtime artifacts from load_data.ps1)
+azure-sql-hr/load_errors/
