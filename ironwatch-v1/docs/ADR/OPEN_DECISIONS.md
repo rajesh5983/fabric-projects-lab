@@ -6,9 +6,17 @@ numbered ADR recording whichever option was chosen.
 
 ---
 
-## OPEN-001: hours_operated / utilization tracking
+## OPEN-001: hours_operated / utilization tracking — RESOLVED
 
 **Raised:** 2026-06-20, during the OREXA data-model reconciliation.
+**Resolved:** 2026-06-20 — promoted to
+[ADR-008](ADR-008-utilization-and-health-score-redesign.md). Option B was
+rejected (would have required amending the OREXA spec); a combination of A
+and C was adopted: the Silver join switches to same-calendar-day matching
+instead of hours-operated proximity, and the Gold health-score formula's
+service-interval term is rebuilt around calendar days since last service
+instead of an hours ratio. `docs/DATA_MODEL.md` §3/§5/§7 have been rewritten
+to match (v1.2, 2026-06-20).
 
 **Problem:** The v1.0 data model design assumed an `hours_operated` field
 existed on telemetry (and an `service_interval_hours` field on the asset
