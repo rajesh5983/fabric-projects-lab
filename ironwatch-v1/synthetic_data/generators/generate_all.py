@@ -14,31 +14,66 @@ SEED = 42
 # Fixed anchor (rather than "now") so output is byte-identical across runs.
 SIMULATION_END = datetime(2026, 6, 7, tzinfo=timezone.utc)
 
-MODELS = ["789D", "D11", "6060 Dozer", "16M Grader"]
-MODEL_WEIGHTS = [0.30, 0.25, 0.25, 0.20]
-SITES = ["Mackay", "Rockhampton", "Townsville"]
+# OREXA Heavy Industries entities (docs/OREXA_SPEC.md)
+EQUIPMENT_LINES = {
+    "Titan": ["T220", "T320"],
+    "Kestrel": ["K45", "K60"],
+    "Ironback": ["G14", "G16"],
+}
+LINE_NAMES = list(EQUIPMENT_LINES.keys())
+LINE_WEIGHTS = [0.40, 0.35, 0.25]
 
-FAULT_CATEGORIES = ["engine", "hydraulics", "transmission", "electrical", "structural"]
-FAULT_CODES_PER_CATEGORY = 5
+SITES = ["Coppervale Mine", "Ironclad Ridge", "Stormwood Basin"]
+# Representative coordinates for fictitious sites; not real locations.
+SITE_COORDS = {
+    "Coppervale Mine": (-23.50, 119.80),
+    "Ironclad Ridge": (-21.15, 149.20),
+    "Stormwood Basin": (-30.75, 121.40),
+}
+
+STATUS_VALUES = ["Active", "Maintenance", "Retired"]
+STATUS_WEIGHTS = [0.85, 0.10, 0.05]
+
+# OX- fault catalog from docs/OREXA_SPEC.md (verbatim examples, all 5 categories)
+FAULT_CATALOG = [
+    ("OX-101", "engine", "Engine overheat"),
+    ("OX-110", "engine", "Low oil pressure"),
+    ("OX-120", "engine", "Fuel system fault"),
+    ("OX-205", "hydraulic", "Hydraulic pressure loss"),
+    ("OX-210", "hydraulic", "Hydraulic fluid contamination"),
+    ("OX-220", "hydraulic", "Cylinder seal failure"),
+    ("OX-310", "electrical", "Alternator fault"),
+    ("OX-320", "electrical", "Battery fault"),
+    ("OX-330", "electrical", "Wiring harness fault"),
+    ("OX-410", "undercarriage", "Undercarriage wear"),
+    ("OX-420", "undercarriage", "Track tension fault"),
+    ("OX-430", "undercarriage", "Frame stress alert"),
+    ("OX-501", "sensor", "Sensor communication loss"),
+    ("OX-510", "sensor", "GPS signal loss"),
+    ("OX-520", "sensor", "Telemetry unit fault"),
+]
 SEVERITIES = ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
 SEVERITY_WEIGHTS = [0.40, 0.30, 0.20, 0.10]
 
+# Internal simulation pacing only (not exposed as output fields post-OREXA-pivot;
+# see docs/DATA_MODEL.md §7 — service-interval tracking has no source field anymore).
 SERVICE_INTERVAL_HOURS = 500
 SERVICE_INTERVAL_VARIANCE = 0.20
 SERVICE_TYPES_SCHEDULED = ["PM_250HR", "PM_500HR", "PM_1000HR"]
 SERVICE_TYPE_WEIGHTS = [0.30, 0.45, 0.25]
 UNPLANNED_RATE = 0.15
+PARTS_CATALOG = [
+    "Hydraulic filter", "Engine oil filter", "Fan belt", "Air filter",
+    "Fuel injector", "Track pad", "Alternator", "Battery", "Coolant hose",
+    "Brake pads",
+]
 
-OIL_COMPARTMENTS = ["engine", "transmission", "hydraulics"]
 OIL_SAMPLE_INTERVAL_HOURS = 250
-OIL_VERDICTS = ["NORMAL", "MONITOR", "CAUTION", "CRITICAL"]
-OIL_VERDICT_WEIGHTS = [0.60, 0.20, 0.15, 0.05]
-IRON_PPM_RANGES = {
-    "NORMAL": (0, 50),
-    "MONITOR": (50, 100),
-    "CAUTION": (100, 200),
-    "CRITICAL": (200, 350),
-}
+LAB_VERDICTS = ["Normal", "Watch", "Critical"]
+LAB_VERDICT_WEIGHTS = [0.65, 0.25, 0.10]
+IRON_PPM_RANGES = {"Normal": (0, 50), "Watch": (50, 150), "Critical": (150, 350)}
+WATER_CONTENT_PCT_RANGES = {"Normal": (0.0, 0.1), "Watch": (0.1, 0.3), "Critical": (0.3, 1.0)}
+PARTICLE_COUNT_RANGES = {"Normal": (500, 2000), "Watch": (2000, 8000), "Critical": (8000, 20000)}
 
 
 def load_config():
@@ -52,8 +87,18 @@ def load_config():
     }
 
 
-def make_equipment_ids(count):
-    return [f"EQ-{i:03d}" for i in range(1, count + 1)]
+def make_assets(count):
+    lines = np.random.choice(LINE_NAMES, size=count, p=LINE_WEIGHTS)
+    models = np.array([np.random.choice(EQUIPMENT_LINES[line]) for line in lines])
+    sites = np.random.choice(SITES, size=count)
+
+    seq_by_model = {}
+    asset_ids = []
+    for model in models:
+        seq_by_model[model] = seq_by_model.get(model, 0) + 1
+        asset_ids.append(f"{model}-{seq_by_model[model]:03d}")
+
+    return asset_ids, lines, models, sites
 
 
 def report_progress(label, idx, total):
@@ -61,83 +106,93 @@ def report_progress(label, idx, total):
         print(f"      ... {label}: {idx + 1}/{total} units")
 
 
-def generate_asset_master(equipment_ids):
-    n = len(equipment_ids)
-    models = np.random.choice(MODELS, size=n, p=MODEL_WEIGHTS)
-    sites = np.random.choice(SITES, size=n)
+def generate_asset_master(asset_ids, lines, models, sites):
+    n = len(asset_ids)
     years_ago = np.random.uniform(2, 8, size=n)
-    commissioned_dates = [
+    commission_dates = [
         (SIMULATION_END - timedelta(days=float(years) * 365.25)).date()
         for years in years_ago
     ]
+    status = np.random.choice(STATUS_VALUES, size=n, p=STATUS_WEIGHTS)
+    full_models = [f"{line} {model}" for line, model in zip(lines, models)]
     return pd.DataFrame({
-        "equipment_id": equipment_ids,
-        "model": models,
+        "asset_id": asset_ids,
+        "equipment_line": lines,
+        "model": full_models,
         "site": sites,
-        "commissioned_date": commissioned_dates,
+        "commission_date": commission_dates,
+        "status": status,
     })
 
 
-def generate_telemetry(equipment_ids, base_hours, days):
+def generate_telemetry(asset_ids, sites, days):
     readings_per_unit = days * 24 * 4  # one reading every 15 minutes
     start = SIMULATION_END - timedelta(days=days)
     timestamps = pd.date_range(start=start, periods=readings_per_unit, freq="15min")
-    hours_increment = np.arange(readings_per_unit) * 0.25  # 15 min == 0.25 operating hr
 
     frames = []
-    for idx, equipment_id in enumerate(equipment_ids):
+    for idx, asset_id in enumerate(asset_ids):
         n = readings_per_unit
+        center_lat, center_lon = SITE_COORDS[sites[idx]]
 
         is_temp_anomaly = np.random.random(n) < 0.05
-        engine_temp_c = np.where(
+        coolant_temp_c = np.where(
             is_temp_anomaly,
             np.random.uniform(110, 140, n),
             np.random.uniform(85, 95, n),
         )
 
+        # Hydraulic system pressure, not engine oil pressure — heavy-equipment
+        # hydraulics run ~200-280 bar nominal; reasonable defaults, not specified.
         is_pressure_drop = np.random.random(n) < 0.03
-        oil_pressure_psi = np.where(
+        hydraulic_pressure_bar = np.where(
             is_pressure_drop,
-            np.random.uniform(15, 30, n),
-            np.random.uniform(40, 60, n),
+            np.random.uniform(50, 120, n),
+            np.random.uniform(200, 280, n),
         )
 
-        # Ranges not specified in requirements; reasonable defaults for heavy equipment.
+        is_rpm_spike = np.random.random(n) < 0.04
+        engine_rpm = np.where(
+            is_rpm_spike,
+            np.random.uniform(2000, 2400, n),
+            np.random.uniform(800, 1800, n),
+        ).round().astype(int)
+
         vibration_mms = np.random.uniform(2.0, 8.0, n)
         fuel_rate_lph = np.random.uniform(20.0, 80.0, n)
 
+        # Small jitter around the site center to simulate movement within the site.
+        gps_lat = center_lat + np.random.uniform(-0.01, 0.01, n)
+        gps_lon = center_lon + np.random.uniform(-0.01, 0.01, n)
+
         frames.append(pd.DataFrame({
-            "equipment_id": equipment_id,
+            "asset_id": asset_id,
             "timestamp": timestamps,
-            "engine_temp_c": engine_temp_c.round(2),
-            "oil_pressure_psi": oil_pressure_psi.round(2),
+            "engine_rpm": engine_rpm,
+            "coolant_temp_c": coolant_temp_c.round(2),
+            "hydraulic_pressure_bar": hydraulic_pressure_bar.round(2),
             "vibration_mms": vibration_mms.round(2),
             "fuel_rate_lph": fuel_rate_lph.round(2),
-            "hours_operated": (base_hours[idx] + hours_increment).round(2),
+            "gps_lat": gps_lat.round(6),
+            "gps_lon": gps_lon.round(6),
         }))
 
-        report_progress("telemetry", idx, len(equipment_ids))
+        report_progress("telemetry", idx, len(asset_ids))
 
     return pd.concat(frames, ignore_index=True)
 
 
-def generate_fault_codes(fake):
-    severities = np.random.choice(
-        SEVERITIES, size=len(FAULT_CATEGORIES) * FAULT_CODES_PER_CATEGORY, p=SEVERITY_WEIGHTS
-    )
-    codes = []
-    seq = 0
-    for category in FAULT_CATEGORIES:
-        prefix = category[:3].upper()
-        for _ in range(FAULT_CODES_PER_CATEGORY):
-            seq += 1
-            codes.append({
-                "fault_code": f"{prefix}-{seq:03d}",
-                "category": category,
-                "description": fake.sentence(nb_words=8).rstrip("."),
-                "severity": severities[seq - 1],
-            })
-    return codes
+def generate_fault_codes():
+    severities = np.random.choice(SEVERITIES, size=len(FAULT_CATALOG), p=SEVERITY_WEIGHTS)
+    return [
+        {
+            "fault_code": code,
+            "category": category,
+            "description": description,
+            "severity": severities[i],
+        }
+        for i, (code, category, description) in enumerate(FAULT_CATALOG)
+    ]
 
 
 def _scheduled_service_marks(start_hours, end_hours):
@@ -153,12 +208,12 @@ def _scheduled_service_marks(start_hours, end_hours):
     return marks
 
 
-def generate_service_history(equipment_ids, base_hours, days, fake):
+def generate_service_history(asset_ids, base_hours, days):
     total_hours_span = days * 24
     simulation_start = SIMULATION_END - timedelta(days=days)
     records = []
 
-    for idx, equipment_id in enumerate(equipment_ids):
+    for idx, asset_id in enumerate(asset_ids):
         start_hours = float(base_hours[idx])
         end_hours = start_hours + total_hours_span
 
@@ -176,49 +231,59 @@ def generate_service_history(equipment_ids, base_hours, days, fake):
                 else np.random.choice(SERVICE_TYPES_SCHEDULED, p=SERVICE_TYPE_WEIGHTS)
             )
             service_date = simulation_start + timedelta(hours=hours_at_service - start_hours)
+            parts_count = int(np.random.randint(1, 4))
+            parts_used = ", ".join(
+                np.random.choice(PARTS_CATALOG, size=parts_count, replace=False)
+            )
+            downtime_hours = round(
+                float(np.random.uniform(2.0, 24.0) if is_unplanned else np.random.uniform(0.5, 6.0)),
+                2,
+            )
             records.append({
                 "work_order_id": str(uuid.uuid4()),
-                "equipment_id": equipment_id,
+                "asset_id": asset_id,
                 "service_date": service_date.date(),
-                "service_type": service_type,
-                "hours_at_service": round(hours_at_service, 2),
                 "technician_id": f"TECH-{np.random.randint(1, 21):03d}",
-                "notes": fake.sentence(nb_words=6).rstrip("."),
+                "service_type": service_type,
+                "parts_used": parts_used,
+                "downtime_hours": downtime_hours,
             })
 
-        report_progress("service_history", idx, len(equipment_ids))
+        report_progress("service_history", idx, len(asset_ids))
 
     return pd.DataFrame.from_records(records)
 
 
-def generate_oil_samples(equipment_ids, base_hours, days):
+def generate_oil_samples(asset_ids, base_hours, days):
     total_hours_span = days * 24
     simulation_start = SIMULATION_END - timedelta(days=days)
     records = []
 
-    for idx, equipment_id in enumerate(equipment_ids):
+    for idx, asset_id in enumerate(asset_ids):
         start_hours = float(base_hours[idx])
         end_hours = start_hours + total_hours_span
 
-        for compartment in OIL_COMPARTMENTS:
-            mark = start_hours + OIL_SAMPLE_INTERVAL_HOURS
-            while mark <= end_hours:
-                verdict = np.random.choice(OIL_VERDICTS, p=OIL_VERDICT_WEIGHTS)
-                low, high = IRON_PPM_RANGES[verdict]
-                sample_date = simulation_start + timedelta(hours=mark - start_hours)
+        mark = start_hours + OIL_SAMPLE_INTERVAL_HOURS
+        while mark <= end_hours:
+            verdict = np.random.choice(LAB_VERDICTS, p=LAB_VERDICT_WEIGHTS)
+            iron_low, iron_high = IRON_PPM_RANGES[verdict]
+            water_low, water_high = WATER_CONTENT_PCT_RANGES[verdict]
+            particle_low, particle_high = PARTICLE_COUNT_RANGES[verdict]
+            sample_date = simulation_start + timedelta(hours=mark - start_hours)
 
-                records.append({
-                    "sample_id": str(uuid.uuid4()),
-                    "equipment_id": equipment_id,
-                    "compartment": compartment,
-                    "sample_date": sample_date.date(),
-                    "hours_operated": round(mark, 2),
-                    "iron_ppm": round(float(np.random.uniform(low, high)), 1),
-                    "verdict": verdict,
-                })
-                mark += OIL_SAMPLE_INTERVAL_HOURS
+            records.append({
+                "sample_id": str(uuid.uuid4()),
+                "asset_id": asset_id,
+                "sample_date": sample_date.date(),
+                "iron_ppm": round(float(np.random.uniform(iron_low, iron_high)), 1),
+                "viscosity_cst": round(float(np.random.uniform(11.0, 16.0)), 2),
+                "water_content_pct": round(float(np.random.uniform(water_low, water_high)), 3),
+                "particle_count": int(np.random.uniform(particle_low, particle_high)),
+                "lab_verdict": verdict,
+            })
+            mark += OIL_SAMPLE_INTERVAL_HOURS
 
-        report_progress("oil_samples", idx, len(equipment_ids))
+        report_progress("oil_samples", idx, len(asset_ids))
 
     return pd.DataFrame.from_records(records)
 
@@ -232,36 +297,36 @@ def main():
     output_dir = config["output_dir"]
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    equipment_ids = make_equipment_ids(config["equipment_count"])
-    base_hours = np.random.randint(0, 5001, size=len(equipment_ids))
+    asset_ids, lines, models, sites = make_assets(config["equipment_count"])
+    base_hours = np.random.randint(0, 5001, size=len(asset_ids))  # internal pacing only
 
-    print("IronWatch v1 - synthetic data generation")
-    print(f"Equipment units: {len(equipment_ids)} | Days: {config['days']} | Seed: {SEED}")
+    print("IronWatch v1 - OREXA synthetic data generation")
+    print(f"Assets: {len(asset_ids)} | Days: {config['days']} | Seed: {SEED}")
     print()
 
     print("[1/5] asset_master.csv")
-    asset_df = generate_asset_master(equipment_ids)
+    asset_df = generate_asset_master(asset_ids, lines, models, sites)
     asset_df.to_csv(output_dir / "asset_master.csv", index=False)
     print(f"      -> {len(asset_df)} rows written")
 
     print("[2/5] telemetry.parquet")
-    telemetry_df = generate_telemetry(equipment_ids, base_hours, config["days"])
+    telemetry_df = generate_telemetry(asset_ids, sites, config["days"])
     telemetry_df.to_parquet(output_dir / "telemetry.parquet", index=False, engine="pyarrow")
     print(f"      -> {len(telemetry_df):,} rows written")
 
     print("[3/5] fault_codes.json")
-    fault_codes = generate_fault_codes(fake)
+    fault_codes = generate_fault_codes()
     with open(output_dir / "fault_codes.json", "w", encoding="utf-8") as f:
         json.dump(fault_codes, f, indent=2)
     print(f"      -> {len(fault_codes)} records written")
 
     print("[4/5] service_history.csv")
-    service_df = generate_service_history(equipment_ids, base_hours, config["days"], fake)
+    service_df = generate_service_history(asset_ids, base_hours, config["days"])
     service_df.to_csv(output_dir / "service_history.csv", index=False)
     print(f"      -> {len(service_df):,} rows written")
 
     print("[5/5] oil_samples.csv")
-    oil_df = generate_oil_samples(equipment_ids, base_hours, config["days"])
+    oil_df = generate_oil_samples(asset_ids, base_hours, config["days"])
     oil_df.to_csv(output_dir / "oil_samples.csv", index=False)
     print(f"      -> {len(oil_df):,} rows written")
 
