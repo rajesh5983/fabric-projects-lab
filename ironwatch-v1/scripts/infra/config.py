@@ -87,6 +87,23 @@ def get_config() -> WorkspaceConfig:
     )
 
 
+# Fabric item IDs for ModernAnalyticsLab-DEV, provisioned 2026-06-20 via the
+# Fabric REST API. Names above (FABRIC_WORKSPACE_DEV etc.) remain the
+# authoritative source for path construction; these IDs are recorded for
+# automation that needs a direct item reference (e.g. REST calls that take
+# an itemId rather than resolving by displayName) instead of re-resolving
+# names to IDs on every run. Bronze also carries a OneLake shortcut
+# ("ironwatch-landing", via Fabric connection 8b72d01d-1f45-4c66-b08c-
+# e5883f6d5184) live against fabricf2landingsa/ironwatch-landing — not an
+# item itself, so not listed below.
+FABRIC_WORKSPACE_ID = "e0bb7021-f3a3-430f-a739-442d4be7a40f"
+FABRIC_ITEM_IDS = {
+    "ironwatch_bronze": "7f1e5fd6-7fbc-4ea1-b31a-fd8baa978349",
+    "ironwatch_silver": "751457c4-0644-447b-a688-d63c6950a5df",
+    "ironwatch_gold": "6c377782-795b-4b95-85c5-96231d43174c",
+}
+
+
 def get_lakehouse_path(layer: str) -> str:
     """Return the abfss:// OneLake path for the given medallion layer.
 
