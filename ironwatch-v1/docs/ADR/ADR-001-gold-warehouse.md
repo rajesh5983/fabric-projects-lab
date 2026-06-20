@@ -1,7 +1,14 @@
 # ADR-001: Gold Layer as Fabric Warehouse
 Date: 2026-06-07
-Status: ACCEPTED
+Status: ACCEPTED — see amendment below (2026-06-20)
 Deciders: Raj Prasannakumar
+
+> **Amendment (2026-06-20):** The compute-engine claim in the rationale
+> bullet below ("Bronze and Silver remain Lakehouses written by PySpark
+> notebooks") is **superseded by [ADR-007](ADR-007-spark-free-architecture.md)**:
+> Bronze/Silver compute is Data Pipeline Copy Activity / Dataflow Gen2, not
+> Spark. Everything else in this ADR — Gold as a Warehouse, Bronze/Silver
+> as Lakehouses for *storage* — is unchanged and still in effect.
 
 ## Context
 The Gold layer must do two things well: serve hourly equipment health-score
@@ -33,11 +40,14 @@ endpoint for the semantic model and any future SQL-based consumers.
   through a relational engine with statistics and distribution awareness —
   better suited to the ad-hoc star-schema joins a dashboard issues than
   Spark-SQL-over-Delta.
-- **Clean separation of engineering and consumption concerns.** Bronze and
+- **Clean separation of engineering and consumption concerns.** ~~Bronze and
   Silver remain Lakehouses written by PySpark notebooks (the right tool for
-  schema validation, deduplication, and large-scale cleansing). Gold becomes
-  a relational layer written in T-SQL — each layer uses the engine it's
-  actually good at, instead of forcing one engine across the whole pipeline.
+  schema validation, deduplication, and large-scale cleansing).~~ **Superseded
+  by ADR-007:** Bronze and Silver remain Lakehouses for *storage*, but their
+  compute is Data Pipeline Copy Activity (Bronze) and Dataflow Gen2 (Silver),
+  not PySpark. Gold becomes a relational layer written in T-SQL — each layer
+  uses the engine it's actually suited to, instead of forcing one engine
+  across the whole pipeline.
 - **Stored procedures and views are first-class.** The semantic model
   depends on recomputing health scores and SLA metrics on a schedule.
   Warehouse natively supports stored procedures, views, and full T-SQL DDL;

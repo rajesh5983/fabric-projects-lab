@@ -35,7 +35,7 @@ via the `main` branch (see §5).
 
 | Notebook | Layer | Purpose |
 |---|---|---|
-| `nb_bronze_telemetry_v1` | Bronze | Ingest synthetic CAT-style machine telemetry into `ironwatch_bronze` |
+| `nb_bronze_telemetry_v1` | Bronze | Ingest synthetic OREXA PulseNet telemetry into `ironwatch_bronze` |
 | `nb_bronze_oil_samples_v1` | Bronze | Ingest oil sample lab results into `ironwatch_bronze` |
 | `nb_bronze_fault_codes_v1` | Bronze | Ingest equipment fault code events into `ironwatch_bronze` |
 | `nb_bronze_asset_master_v1` | Bronze | Ingest asset master / equipment registry data into `ironwatch_bronze` |

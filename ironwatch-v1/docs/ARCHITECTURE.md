@@ -24,7 +24,7 @@ end-to-end without re-architecture.
 
 | Layer | Fabric Item | Purpose |
 |---|---|---|
-| Ingestion | Python Generators (`synthetic_data/generators/`) | Produce synthetic CAT-style telemetry, oil sample, fault code, asset master, and service history files that stand in for real machine data feeds |
+| Ingestion | Python Generators (`synthetic_data/generators/`) | Produce synthetic OREXA Heavy Industries telemetry, oil sample, fault code, asset master, and service history files (PulseNet/FluidLab/FleetCare, per `docs/OREXA_SPEC.md`) that stand in for real machine data feeds |
 | Bronze | `ironwatch_bronze` (**Lakehouse**) | Raw, schema-validated landing zone; append-only Delta tables mirroring the source file structure (ADR-002) |
 | Silver | `ironwatch_silver` (**Lakehouse**) | Cleansed, deduplicated, type-aligned Delta tables ready for modeling |
 | Gold | `ironwatch_gold` (**Warehouse**) | Aggregated facts & dimensions, health-score and SLA computations exposed via SQL endpoint (ADR-001); every table carries a `_loaded_utc` watermark |
@@ -34,9 +34,10 @@ end-to-end without re-architecture.
 ## 3. Data Flow Narrative — A Sensor Reading's Journey
 
 1. **Generation** — A Python generator simulates a sensor reading (e.g.
-   `engine_temp = 104.2°C` for haul truck `HT-014` at `2026-06-07T08:15:00Z`)
-   and writes it into `synthetic_data/output/` as a JSON/CSV record, standing
-   in for an ADLS Gen2 flat-file drop (ADR-002).
+   `coolant_temp_c = 94.55` for Titan haul truck `T220-001` at
+   `2026-03-09T00:00:00Z`) and writes it into `synthetic_data/output/` as a
+   Parquet/CSV/JSON record, standing in for an ADLS Gen2 flat-file drop
+   (ADR-002).
 2. **Bronze ingestion** — `nb_bronze_telemetry_v1` reads the dropped file,
    validates it against the telemetry JSON Schema, and appends it as a raw,
    immutable row in `ironwatch_bronze` (Lakehouse), partitioned by event date.
@@ -46,7 +47,7 @@ end-to-end without re-architecture.
    (Lakehouse).
 4. **Gold aggregation** — `nb_gold_fact_telemetry_v1` and
    `nb_gold_health_score_v1` aggregate the Silver record into hourly facts
-   and roll it into the equipment HealthScore for `HT-014`, landing in
+   and roll it into the equipment HealthScore for `T220-001`, landing in
    `fact_telemetry` / `fact_health_score` tables in `ironwatch_gold`
    (Warehouse), each stamped with `_loaded_utc`.
 5. **Semantic modeling** — The Power BI semantic model connects to
@@ -54,7 +55,7 @@ end-to-end without re-architecture.
    `HealthScore`, `MTBF`) directly over the Gold tables — no import refresh
    required.
 6. **Visualization** — An operations analyst opens the Power BI report; the
-   reading's contribution to `HT-014`'s HealthScore appears as a tile and a
+   reading's contribution to `T220-001`'s HealthScore appears as a tile and a
    trend-line point on the equipment-health visual within minutes of
    generation.
 
@@ -74,12 +75,12 @@ end-to-end without re-architecture.
 ┌───────────────────────────┐  ┌─────────────────────────────────┐  ┌───────────────────────────┐
 │     rg-fabric-sandbox     │  │         rg-shared-infra         │  │      rg-ironwatch-dev     │
 │  ───────────────────────  │  │  ───────────────────────────── │  │  ───────────────────────  │
-│  Fabric Capacity (F2)     │  │  mal-kv-shared (Key Vault)      │  │  Project-specific Azure   │
-│  fabricf2sandbox          │  │  Automation Account             │  │  resources supporting the │
-│                           │  │  Logic App                      │  │  IronWatch pipeline       │
-│  (Hosts the               │  │  (shared secrets, scheduling,   │  │  (sp-ironwatch-dev scope) │
-│  ModernAnalyticsLab       │  │  alerting/automation across     │  │                           │
-│  workspaces)              │  │  ModernAnalyticsLab projects)   │  │                           │
+│  Fabric Capacity (F2)     │  │  mal-kv-shared (Key Vault)      │  │  Provisioned but unused   │
+│  fabricf2sandbox          │  │  Automation Account             │  │  for this project — see   │
+│  Landing storage          │  │  Logic App                      │  │  ADR-003                 │
+│  fabricf2landingsa        │  │  (shared secrets, scheduling,   │  │                           │
+│  (sp-ironwatch-dev scope; │  │  alerting/automation across     │  │                           │
+│  actual IronWatch home)   │  │  ModernAnalyticsLab projects)   │  │                           │
 └─────────────┬─────────────┘  └────────────────┬────────────────┘  └─────────────┬─────────────┘
               │                                  │                                  │
               └──────────────────────────────────┴──────────────────────────────────┘
@@ -88,7 +89,9 @@ end-to-end without re-architecture.
 
 `sp-fabric-mal` (platform) and `sp-ironwatch-dev` (pipeline) authenticate
 against secrets stored in `mal-kv-shared` — never hardcoded, never committed.
-IronWatch resources must live in `rg-ironwatch-dev`, not `rg-fabric-sandbox`.
+IronWatch resources live in `rg-fabric-sandbox` (the F2 capacity and landing
+storage account); `rg-ironwatch-dev` is provisioned but currently unused for
+this project (see [ADR-003](ADR/ADR-003-resource-group-placement.md)).
 
 ---
 

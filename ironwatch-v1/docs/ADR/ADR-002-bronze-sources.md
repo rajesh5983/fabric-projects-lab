@@ -36,7 +36,7 @@ Bronze source pattern for equipment OEM batch telemetry exports (daily/hourly fi
 
 ## Consequences
 - `synthetic_data/generators/` scripts produce files in `synthetic_data/output/` matching ADLS structure
-- Files are uploaded to the `ironwatch-raw` ADLS container by a setup script in `scripts/infra/`
+- Files are uploaded to the `ironwatch-landing` ADLS container by a setup script in `scripts/infra/`
 - Bronze ingestion triggered by Fabric Data Factory `pl_bronze_telemetry_load` on file arrival
 - When real telemetry is available, replace generator + upload step with MQTT-to-ADLS bridge; pipeline unchanged
 - Local testing uses Azurite (Azure Storage emulator); configure via `ADLS_ACCOUNT_NAME=devstoreaccount1`

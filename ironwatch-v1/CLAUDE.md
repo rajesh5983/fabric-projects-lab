@@ -1,8 +1,9 @@
 PROJECT: IronWatch v1
 DESCRIPTION: Predictive equipment health intelligence platform built on
 Microsoft Fabric. Medallion architecture (bronze/silver/gold) with synthetic
-CAT-style telemetry, oil sample, fault code, asset master, and service
-history data. Target: demoable Power BI semantic model by June 30 2026.
+OREXA Heavy Industries telemetry, oil sample, fault code, asset master, and
+service history data (see docs/OREXA_SPEC.md). Target: demoable Power BI
+semantic model by June 30 2026.
 
 ENVIRONMENT:
 - Platform: Windows + VS Code + Claude Code CLI

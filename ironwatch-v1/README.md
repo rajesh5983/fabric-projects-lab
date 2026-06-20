@@ -3,7 +3,8 @@
 Predictive equipment health intelligence platform built on Microsoft Fabric.
 
 ## What It Does
-IronWatch ingests synthetic CAT-style heavy-equipment telemetry through a three-layer medallion pipeline,
+IronWatch ingests synthetic OREXA Heavy Industries equipment telemetry (Titan haul trucks, Kestrel
+excavators, Ironback graders — see docs/OREXA_SPEC.md) through a three-layer medallion pipeline,
 computes health scores and maintenance SLA metrics, and exposes a Power BI semantic model for dashboards
 and predictive alerting.
 
@@ -11,19 +12,20 @@ and predictive alerting.
 
 ```
 Synthetic Generators
-        │  CSV / JSON drop
+        │  CSV / JSON / Parquet drop
         ▼
-  Bronze Lakehouse        ← raw, schema-validated, append-only
-        │  PySpark cleanse
+  Bronze Lakehouse        ← raw, schema-validated, append-only (Data Pipeline Copy Activity)
+        │  Dataflow Gen2 cleanse
         ▼
-  Silver Lakehouse        ← deduplicated, typed, partitioned by machine_id / date
-        │  PySpark aggregate
+  Silver Lakehouse        ← deduplicated, typed, partitioned by asset_id / date
+        │  Dataflow Gen2 aggregate
         ▼
-  Gold Warehouse          ← SQL endpoint, health-score facts, dimension tables
+  Gold Warehouse          ← SQL endpoint, health-score facts, dimension tables (T-SQL)
         │  DirectLake / Import
         ▼
   Power BI Semantic Model ← DAX measures, RLS, composite model
 ```
+Spark-free end-to-end — see [ADR-007](docs/ADR/ADR-007-spark-free-architecture.md).
 
 ## Quickstart
 
@@ -71,7 +73,9 @@ ironwatch-v1/
 ## Tech Stack
 | Layer | Technology |
 |---|---|
-| Compute | Microsoft Fabric (Spark 3.x) |
+| Bronze compute | Data Pipeline Copy Activity (no Spark — ADR-007) |
+| Silver compute | Dataflow Gen2 (Power Query engine, no Spark — ADR-007) |
+| Gold compute | Fabric Warehouse, T-SQL stored procedures/views (ADR-001) |
 | Bronze / Silver storage | Fabric Lakehouse (Delta Lake) |
 | Gold storage | Fabric Warehouse (SQL endpoint) |
 | Orchestration | Fabric Data Factory pipelines |
