@@ -60,7 +60,7 @@ This isn't a new decision so much as a confirmation that `audit.py`'s existing d
 
 **No code change to `audit.py` is required by this ADR.** `AUDIT_LAYER = "bronze"` is correct as written — a deliberate choice, not an oversight.
 
-What genuinely is new: dbt models are SQL, not Python — a `dbt run` cannot call `log_execution()` itself. That responsibility falls to whatever *orchestrates* each Silver/Gold `dbt run` invocation — a Python wrapper script in the same family as `scripts/infra/build_bronze_pipelines.py`, which should call `log_execution(layer="silver"|"gold", ...)` immediately before and after each `dbt run`, sourcing `status`/`rows_processed` from dbt's own run output (e.g. `run_results.json`) the same way the Bronze script polls Fabric job status today. This wrapper doesn't exist yet — implementation work for the actual Silver/Gold build session, not built as part of this ADR.
+What genuinely is new: dbt models are SQL, not Python — a `dbt run` cannot call `log_execution()` itself. That responsibility falls to whatever *orchestrates* each Silver/Gold `dbt run` invocation — a Python wrapper script in the same family as `scripts/infra/build_bronze_pipelines.py`. `log_execution()` is append-only: it generates a brand-new `run_id` via `uuid.uuid4()` on every call and has no update or correlation mechanism to tie a later call back to an earlier one. So the wrapper makes exactly **one** call per `dbt run` invocation, made **after** the run completes, sourcing `status` and `rows_processed` from dbt's own run output (`run_results.json`) — not a before/after pair. This wrapper doesn't exist yet — implementation work for the actual Silver/Gold build session, not built as part of this ADR.
 
 ## Alternatives considered
 
@@ -76,5 +76,5 @@ What genuinely is new: dbt models are SQL, not Python — a `dbt run` cannot cal
 - ADR-008 (Utilization and Health-Score Redesign) — Silver join design (same-calendar-day matching), unaffected by this storage-engine change
 - ADR-009 (dbt Gold Transformation Layer) — dbt-fabric adapter, auth pattern, and Gold-only scope constraint this ADR extends to Silver
 - `docs/DATA_MODEL.md` §2.3/§7 — fault_codes DQ-rule gap, left open
-- `scripts/infra/audit.py` — `AUDIT_LAYER` hardcoding, flagged as a pre-build fix
+- `scripts/infra/audit.py` — `AUDIT_LAYER` hardcoding, confirmed correct-as-designed (see "Audit table contract" under Consequences)
 - `docs/ARCHITECTURE.md` — Iceberg/Snowflake extension-point language (confirmed Gold-scoped)
