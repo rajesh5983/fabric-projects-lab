@@ -19,11 +19,12 @@ from typing import Optional
 
 from config import get_lakehouse_path
 
-# get_lakehouse_path("gold") resolves to the *Warehouse* item per ADR-001.
-# Direct Delta writes into a Warehouse-backed OneLake path are not a
-# supported Fabric pattern — confirm during build whether this table
-# should instead live under ironwatch_silver and adjust AUDIT_LAYER.
-AUDIT_LAYER = "gold"
+# Resolved during Bronze ingestion build: Gold is a Warehouse (ADR-001)
+# and doesn't support direct external Delta writes into its managed
+# Tables folder the way a Lakehouse does. Bronze is a Lakehouse and is
+# the layer being built first, so the shared cross-layer audit table
+# lives there.
+AUDIT_LAYER = "bronze"
 AUDIT_TABLE_RELATIVE_PATH = "_ironwatch_meta/execution_log"
 
 
