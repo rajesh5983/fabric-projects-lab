@@ -28,7 +28,7 @@ Convert `ironwatch_silver` from a **Lakehouse** to a **Fabric Warehouse**. `dbt-
 
 ## Corrections folded in
 1. **`_forge_meta` does not exist anywhere in the codebase.** The real cross-layer audit table is `_ironwatch_meta/execution_log` (`scripts/infra/audit.py`). A repo-wide search confirms no prior ADR or script references `_forge_meta` — nothing to correct elsewhere — but recording this here so the name isn't introduced by confusion during the Silver build. Use `_ironwatch_meta/execution_log` in all Silver-build work and docs going forward.
-2. **`AUDIT_LAYER` in `scripts/infra/audit.py` is hardcoded to `"bronze"`.** `log_execution()` always physically writes to the Bronze Lakehouse's `_ironwatch_meta/execution_log` table regardless of the `layer` argument a caller passes — that argument only lands in the record's `layer` column, not the write path. This needs to be confirmed and, if the intent is genuinely one shared audit table across all three layers, documented as such; if not, `audit.py` needs a per-layer path fix. **Not resolved by this ADR** — tracked as a prerequisite to confirm/fix before Silver build work starts logging runs.
+2. **`AUDIT_LAYER` in `scripts/infra/audit.py` is hardcoded to `"bronze"`.** `log_execution()` always physically writes to the Bronze Lakehouse's `_ironwatch_meta/execution_log` table regardless of the `layer` argument a caller passes — that argument only lands in the record's `layer` column, not the write path. **Resolved by this ADR** — see "Audit table contract" under Consequences: this is confirmed correct-as-designed (Warehouses can't receive `audit.py`'s direct Delta writes, so Bronze must host the shared table), not a bug. No `audit.py` code change is needed; what's newly specified is who calls `log_execution()` for Silver/Gold runs.
 
 ## Open item — not resolved here
 `DATA_MODEL.md` §2.3/§7: `silver_fault_codes` DQ rules 3–5 assume per-asset fault *events* (`asset_id`, `fault_ts`, `active_flag`, `cleared_ts`), but `fault_codes_raw` is a static reference/catalog table with no event columns — only `fault_code`, `category`, `description`, `severity` exist. Only rules 1–2 (null-`fault_code` drop, severity standardization) plus a `fault_code`-level dedup are buildable against the actual schema. This is a data-model gap, unrelated to and unaffected by the storage-engine decision above. Left open for resolution during the actual Silver model build, not fixed here.
@@ -40,6 +40,27 @@ Convert `ironwatch_silver` from a **Lakehouse** to a **Fabric Warehouse**. `dbt-
 - `docs/ARCHITECTURE.md` and `docs/WORKSPACE_DESIGN.md`'s layer tables currently describe Silver as a Lakehouse with Dataflow Gen2 compute; both need a follow-up pass to match this decision — not done as part of this ADR, per the same "flagged for follow-up, not fixed here" pattern ADR-007 used for these same two documents.
 - `scripts/infra/build_bronze_pipelines.py` (Copy Activity pipeline builder) is Bronze-only and unaffected by this decision.
 - Bronze is unaffected in every respect: item type, compute engine, pipelines, and audit-table location.
+
+### Sources.yml migration
+
+`transform/ironwatch_gold/models/staging/sources.yml` currently declares a `silver` source (5 tables: `telemetry`, `oil_samples`, `fault_codes`, `asset_master`, `service_history`) described as a read-only Lakehouse SQL endpoint that "dbt never writes to... only reads from." Once Silver is a Warehouse dbt owns the writes to, this contract inverts:
+
+- The `silver` source block is **removed**. All 5 of its tables become dbt **models** (`ref()`-able), not external sources — dbt now builds them, it doesn't just read them.
+- A new `bronze` source block is **added** in its place, listing Bronze's 5 raw tables (`telemetry_raw`, `oil_samples_raw`, `fault_codes_raw`, `asset_master_raw`, `service_history_raw`). Bronze remains genuinely external to dbt — still a Lakehouse, still populated by Copy Activity, still read-only from dbt's perspective — so it's the one true `source()` dbt needs going forward.
+- New Silver-layer models (e.g. under `models/silver/`) read `source('bronze', ...)` and materialize as tables in the Silver Warehouse — replacing the 5 Dataflow Gen2 queries ADR-007 originally specified for this layer.
+- Gold's existing marts (`dim_asset.sql`, `fact_telemetry.sql`, etc. — currently placeholder stubs, not yet real logic) will `ref()` these new Silver models instead of `source('silver', ...)` once built for real.
+- Checked whether anything else downstream needs `source()`: no. Nothing in this architecture is external to Bronze→Silver→Gold, so after this migration `sources.yml` holds exactly one source block (`bronze`) — not reduced to near-empty, but fully repointed from Silver to Bronze, same 5-table shape, different owning layer.
+- Exact model file names/paths and the staging/marts split for the new Silver models are a build-session implementation detail, not fixed here.
+
+### Audit table contract
+
+Resolved: `_ironwatch_meta/execution_log` remains a **single table**, physically hosted in Bronze (the only Lakehouse of the three layers). Silver and Gold do **not** get their own local audit tables.
+
+This isn't a new decision so much as a confirmation that `audit.py`'s existing design already anticipated it. Its own code comment (written during the Bronze pipeline build, before this ADR) already states why: Gold (a Warehouse since ADR-001) "doesn't support direct external Delta writes into its managed Tables folder the way a Lakehouse does," so the shared audit table had to live in Bronze regardless of which layer a run belongs to. That reasoning was written for Gold; it applies identically to Silver once this ADR makes Silver a Warehouse too — `audit.py`'s write mechanism (`write_deltalake`/Spark `.save()` against an `abfss://` path) can only ever target a Lakehouse, never a Warehouse, so Bronze remains the only viable physical location no matter how many layers are Warehouses.
+
+**No code change to `audit.py` is required by this ADR.** `AUDIT_LAYER = "bronze"` is correct as written — a deliberate choice, not an oversight.
+
+What genuinely is new: dbt models are SQL, not Python — a `dbt run` cannot call `log_execution()` itself. That responsibility falls to whatever *orchestrates* each Silver/Gold `dbt run` invocation — a Python wrapper script in the same family as `scripts/infra/build_bronze_pipelines.py`, which should call `log_execution(layer="silver"|"gold", ...)` immediately before and after each `dbt run`, sourcing `status`/`rows_processed` from dbt's own run output (e.g. `run_results.json`) the same way the Bronze script polls Fabric job status today. This wrapper doesn't exist yet — implementation work for the actual Silver/Gold build session, not built as part of this ADR.
 
 ## Alternatives considered
 
