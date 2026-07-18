@@ -1,0 +1,23 @@
+# Environment / secrets
+.env
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+
+# Synthetic data outputs (keep folder tracked via .gitkeep)
+synthetic_data/output/*.parquet
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Fabric
+.fabric/
+*.pbix.bak
+.pbi/cache/
