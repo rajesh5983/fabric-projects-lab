@@ -45,4 +45,7 @@ v1.0 §3 join design, and Gold cannot compute `hours_since_service` per the
 v1.0 §5 formula. Both are currently flagged as known gaps in
 `docs/DATA_MODEL.md` §7 rather than implemented.
 
-**Status:** Unresolved — awaiting a decision from Rajesh.
+**Status:** Resolved — see "Resolved" note at the top of this entry
+(promoted to [ADR-008](ADR-008-utilization-and-health-score-redesign.md),
+2026-06-20). This trailing line previously still read "Unresolved", left
+over from before the item was actually resolved — corrected 2026-07-18.
