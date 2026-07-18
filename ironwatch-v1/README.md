@@ -75,13 +75,10 @@ ironwatch-v1/
 |---|---|
 | Bronze compute | Data Pipeline Copy Activity (no Spark — ADR-007) |
 | Silver compute | Dataflow Gen2 (Power Query engine, no Spark — ADR-007) |
-| Gold compute | Fabric Warehouse, T-SQL stored procedures/views (ADR-001) |
+| Gold compute | dbt-fabric (T-SQL via Warehouse SQL endpoint) (ADR-009) |
 | Bronze / Silver storage | Fabric Lakehouse (Delta Lake) |
 | Gold storage | Fabric Warehouse (SQL endpoint) |
 | Orchestration | Fabric Data Factory pipelines |
 | Semantic layer | Power BI semantic model (DirectLake) |
 | Synthetic data | Python + Faker |
 | IaC | Bicep + PowerShell |
-
-## Status
-Scaffolded June 2026 — synthetic data generation and bronze notebooks in progress.

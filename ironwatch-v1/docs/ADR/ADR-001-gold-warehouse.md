@@ -1,6 +1,6 @@
 # ADR-001: Gold Layer as Fabric Warehouse
 Date: 2026-06-07
-Status: ACCEPTED — see amendment below (2026-06-20)
+Status: ACCEPTED — see amendments below (2026-06-20, 2026-07-18)
 Deciders: Raj Prasannakumar
 
 > **Amendment (2026-06-20):** The compute-engine claim in the rationale
@@ -9,6 +9,14 @@ Deciders: Raj Prasannakumar
 > Bronze/Silver compute is Data Pipeline Copy Activity / Dataflow Gen2, not
 > Spark. Everything else in this ADR — Gold as a Warehouse, Bronze/Silver
 > as Lakehouses for *storage* — is unchanged and still in effect.
+
+> **Amendment (2026-07-18):** The Gold transformation-language claims below
+> ("Stored procedures and views are first-class" / "Gold transformation
+> logic must be authored and orchestrated as T-SQL") are **superseded by
+> [ADR-009](ADR-009-dbt-gold-transformation-layer.md)**: Gold transformations
+> are now authored as dbt models via the `dbt-fabric` adapter, not
+> hand-written stored procedures/views. Gold as a **Warehouse** (this ADR's
+> storage decision) is unchanged and still in effect.
 
 ## Context
 The Gold layer must do two things well: serve hourly equipment health-score

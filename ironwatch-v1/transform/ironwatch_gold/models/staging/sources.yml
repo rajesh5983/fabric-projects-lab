@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: silver
+    description: >
+      ironwatch_silver Lakehouse SQL analytics endpoint. Read-only Delta
+      tables written by Dataflow Gen2 (ADR-007) — dbt never writes to
+      Silver, only reads from it via Fabric's cross-item SQL querying
+      within the same workspace.
+    database: ironwatch_silver
+    schema: dbo
+    tables:
+      - name: telemetry
+      - name: oil_samples
+      - name: fault_codes
+      - name: asset_master
+      - name: service_history

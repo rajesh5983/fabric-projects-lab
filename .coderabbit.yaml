@@ -1,0 +1,28 @@
+# CodeRabbit configuration for fabric-projects-lab (monorepo)
+# Scoped to ironwatch-v1/ only — agent-control-tower-mvp/ and
+# fabric-f2-zerocopy-sources/ are separate projects sharing this repo
+# and are intentionally excluded from review.
+language: "en-US"
+
+tone_instructions: >
+  Solo-maintainer project. Keep review comments and PR summaries concise
+  and actionable — flag real issues or risks only, skip praise and
+  restating the diff, avoid verbose explanations.
+
+reviews:
+  profile: "chill"
+  high_level_summary: true
+  poem: false
+  collapse_walkthrough: true
+  review_status: true
+  request_changes_workflow: false
+  auto_review:
+    enabled: true
+    drafts: false
+  path_filters:
+    - "ironwatch-v1/**"
+    - "!agent-control-tower-mvp/**"
+    - "!fabric-f2-zerocopy-sources/**"
+
+chat:
+  auto_reply: true
