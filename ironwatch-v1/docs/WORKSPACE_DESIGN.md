@@ -4,6 +4,17 @@ Phase 2 decisions for the Fabric workspace layout, item inventory, naming,
 access control, branching, and OneLake structure. These decisions are final
 for the v1 build.
 
+> **Amendment (2026-07-18):** §2 (Fabric Item Inventory), §3 (Notebook
+> Naming Convention — Silver rows only), and §6 (OneLake Folder Structure)
+> are superseded by
+> [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md):
+> `ironwatch_silver` is now a **Warehouse**, not a Lakehouse, and has no
+> notebooks — transform logic is authored as `dbt-fabric` models instead.
+> Everything else in this document — Bronze as a Lakehouse, Gold as a
+> Warehouse, RBAC, branch strategy — is unchanged and still in effect. This
+> amendment updates the affected sections in place rather than reopening
+> the whole document.
+
 ## 1. Fabric Workspace Naming
 
 | Workspace | Purpose | Tier |
@@ -21,12 +32,16 @@ via the `main` branch (see §5).
 | Item Name | Fabric Item Type | Layer | Purpose |
 |---|---|---|---|
 | `ironwatch_bronze` | **Lakehouse** | Bronze | Raw ingestion landing zone for synthetic telemetry, oil samples, fault codes, asset master, and service history (Delta tables, schema-validated on write) |
-| `ironwatch_silver` | **Lakehouse** | Silver | Cleansed, deduplicated, type-aligned Delta tables |
+| `ironwatch_silver` | ~~**Lakehouse**~~ **Warehouse** (superseded by [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md)) | Silver | Cleansed, deduplicated, type-aligned tables exposed via SQL endpoint; built by `dbt-fabric` models |
 | `ironwatch_gold` | **Warehouse** | Gold | Aggregated facts/dimensions exposed via SQL endpoint for the Power BI semantic model (see [ADR-001](ADR/ADR-001-gold-warehouse.md) — Gold is a Warehouse, *not* a Lakehouse) |
 
-> **Note:** Bronze and Silver are explicitly **Lakehouses**; Gold is
-> explicitly a **Warehouse**. Do not provision Gold as a Lakehouse —
-> this is called out as a hard rule in the root `CLAUDE.md`.
+> **Note:** ~~Bronze and Silver are explicitly **Lakehouses**; Gold is
+> explicitly a **Warehouse**.~~ **Amended by [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md) (2026-07-18):**
+> Bronze is explicitly a **Lakehouse**; Silver and Gold are explicitly
+> **Warehouses**. Do not provision Bronze as a Warehouse or Silver/Gold as
+> Lakehouses. The root `CLAUDE.md` "NEVER" list currently only names Gold
+> explicitly for this rule — it has not yet been updated to also name
+> Silver; flagged as a follow-up, not fixed here.
 
 ## 3. Notebook Naming Convention & Planned Notebooks
 
@@ -40,11 +55,7 @@ via the `main` branch (see §5).
 | `nb_bronze_fault_codes_v1` | Bronze | Ingest equipment fault code events into `ironwatch_bronze` |
 | `nb_bronze_asset_master_v1` | Bronze | Ingest asset master / equipment registry data into `ironwatch_bronze` |
 | `nb_bronze_service_history_v1` | Bronze | Ingest service & maintenance history into `ironwatch_bronze` |
-| `nb_silver_telemetry_v1` | Silver | Cleanse, deduplicate, and type-align telemetry from Bronze |
-| `nb_silver_oil_samples_v1` | Silver | Cleanse and conform oil sample records |
-| `nb_silver_fault_codes_v1` | Silver | Cleanse and standardize fault code events |
-| `nb_silver_asset_master_v1` | Silver | Conform asset master as a slowly changing dimension source |
-| `nb_silver_service_history_v1` | Silver | Cleanse and deduplicate service history records |
+| ~~`nb_silver_telemetry_v1`~~ | ~~Silver~~ | **Superseded** — Silver has no notebooks (Dataflow Gen2 per ADR-007, then `dbt-fabric` models per [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md)); dbt model names/paths under `transform/ironwatch_gold/models/silver/` are a build-session detail, not fixed here |
 | `nb_gold_dim_asset_v1` | Gold | Build `dim_asset` dimension in `ironwatch_gold` |
 | `nb_gold_fact_telemetry_v1` | Gold | Build telemetry fact aggregations in `ironwatch_gold` |
 | `nb_gold_health_score_v1` | Gold | Compute predictive equipment health-score metrics |
@@ -101,7 +112,7 @@ ModernAnalyticsLab-DEV.Workspace/
     │       ├── asset_master_raw
     │       └── service_history_raw
     │
-    ├── ironwatch_silver.Lakehouse/
+    ├── ironwatch_silver.Warehouse/  # was .Lakehouse/, superseded by ADR-010
     │   └── Tables/
     │       ├── telemetry
     │       ├── oil_samples
@@ -128,4 +139,4 @@ produced by the synthetic generators (`synthetic_data/output/`) per
 
 ---
 
-Last updated: 2026-06-07 | Status: FINAL — do not modify during build
+Last updated: 2026-06-07 (amended 2026-07-18 per ADR-010 — §2/§3/§6 Silver rows only) | Status: FINAL — do not modify during build
