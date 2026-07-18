@@ -1,6 +1,6 @@
 # ADR-010: Silver as Warehouse, dbt-fabric Spans Silver→Gold
 
-**Status:** Proposed (draft — not yet accepted)
+**Status:** Accepted
 **Date:** 2026-07-18
 **Deciders:** Rajesh
 
