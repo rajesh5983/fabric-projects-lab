@@ -65,39 +65,53 @@ def _parse_run_results() -> tuple[str, int]:
 
 
 def run_and_log(layer: str, target: str, run_tests: bool = False) -> str:
-    """Run `dbt run` (and optionally `dbt test`) against `target`, then log exactly one execution_log record for `layer`."""
+    """Run `dbt run` (and optionally `dbt test`) against `target`, then log exactly one execution_log record for `layer` — even if the run itself fails to launch or its results can't be parsed."""
     if layer not in VALID_LAYERS:
         raise ValueError(f"layer must be one of {VALID_LAYERS}, got {layer!r}")
 
-    run_exit_code = _run_dbt("run", target)
-    status, rows_processed = _parse_run_results()
-
+    status = "failed"
+    rows_processed = 0
     error_message: Optional[str] = None
-    if run_exit_code != 0 and status == "success":
-        # dbt run itself failed before any model result was recorded
-        # (e.g. a compilation error) — run_results.json may be stale or
-        # absent, so don't trust a "success" parsed from it.
-        status = "failed"
-        error_message = f"dbt run exited {run_exit_code} with no usable run_results.json"
 
-    if run_tests and status == "success":
-        test_exit_code = _run_dbt("test", target)
-        if test_exit_code != 0:
+    try:
+        run_exit_code = _run_dbt("run", target)
+        status, rows_processed = _parse_run_results()
+
+        if run_exit_code != 0 and status == "success":
+            # dbt run itself failed before any model result was recorded
+            # (e.g. a compilation error) — run_results.json may be stale or
+            # absent, so don't trust a "success" parsed from it.
             status = "failed"
-            error_message = "dbt run succeeded but dbt test failed"
+            error_message = f"dbt run exited {run_exit_code} with no usable run_results.json"
 
-    run_id = log_execution(
-        pipeline_name=f"dbt_run_{layer}",
-        layer=layer,
-        status=status,
-        rows_processed=rows_processed,
-        error_message=error_message,
-        engine="dbt-fabric",
-    )
-    print(
-        f"Logged execution_log record: run_id={run_id} layer={layer} "
-        f"status={status} rows_processed={rows_processed}"
-    )
+        if run_tests and status == "success":
+            test_exit_code = _run_dbt("test", target)
+            if test_exit_code != 0:
+                status = "failed"
+                error_message = "dbt run succeeded but dbt test failed"
+    except Exception as exc:
+        # Anything here (missing dbt binary, run_results.json unreadable or
+        # malformed, etc.) must still produce exactly one audit record — a
+        # crash that skips log_execution() would be a run that silently
+        # never gets audited, which is worse than a logged failure.
+        status = "failed"
+        rows_processed = 0
+        error_message = f"{type(exc).__name__}: {exc}"
+        raise
+    finally:
+        run_id = log_execution(
+            pipeline_name=f"dbt_run_{layer}",
+            layer=layer,
+            status=status,
+            rows_processed=rows_processed,
+            error_message=error_message,
+            engine="dbt-fabric",
+        )
+        print(
+            f"Logged execution_log record: run_id={run_id} layer={layer} "
+            f"status={status} rows_processed={rows_processed}"
+        )
+
     return run_id
 
 
