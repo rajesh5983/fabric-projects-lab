@@ -2,7 +2,7 @@
 
 ## 1. Medallion Architecture Overview
 
-```
+```text
    ┌─────────────────────────────────────────────────────────────────────────────────────┐
    │                     Microsoft Purview (v2) — Governance & Lineage                    │
    └────┬──────────────┬──────────────┬──────────────┬──────────────┬──────────────┬──────┘
@@ -45,8 +45,10 @@ end-to-end without re-architecture.
    (ADR-002).
 2. **Bronze ingestion** — `pl_bronze_telemetry_load`, a Data Pipeline Copy
    Activity (`scripts/infra/build_bronze_pipelines.py`, ADR-007 — no
-   notebooks), reads the dropped file and appends it as a raw, immutable
-   row in `ironwatch_bronze` (Lakehouse), partitioned by event date.
+   notebooks), reads the dropped file and writes it into `ironwatch_bronze`
+   (Lakehouse) via a `LakehouseTableSink` with `tableActionOption: Overwrite`
+   — each run replaces the table's full contents; it does not append or
+   partition by date, despite ADR-002's original "append-only" framing.
 3. **Silver refinement (infrastructure ready, model not yet written)** —
    Per [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md), a `dbt-fabric`
    model will read the new Bronze row via a `source()` reference,
@@ -84,7 +86,7 @@ end-to-end without re-architecture.
 
 ## 5. Azure Infrastructure
 
-```
+```text
 ┌───────────────────────────┐  ┌─────────────────────────────────┐  ┌───────────────────────────┐
 │     rg-fabric-sandbox     │  │         rg-shared-infra         │  │      rg-ironwatch-dev     │
 │  ───────────────────────  │  │  ───────────────────────────── │  │  ───────────────────────  │
@@ -108,7 +110,7 @@ this project (see [ADR-003](ADR/ADR-003-resource-group-placement.md)).
 
 ## 6. Audit & Execution Logging
 
-```
+```text
 Bronze (Lakehouse)                    Silver (Warehouse)      Gold (Warehouse)
 ┌───────────────────────────┐         ┌──────────────┐        ┌──────────────┐
 │ _ironwatch_meta/          │◀────────┤ run_dbt.py   │        │ run_dbt.py   │
@@ -149,7 +151,7 @@ contract").
 
 ## 7. CI/CD & Review Workflow
 
-```
+```text
 feature/* ──▶ develop ──▶ PR to main ──▶ CodeRabbit review
                                               │
                         ┌─────────────────────┴─────────────────────┐

@@ -93,6 +93,7 @@ ironwatch-v1/
 ```
 
 ## Tech Stack
+
 | Layer | Technology |
 |---|---|
 | Bronze compute | Data Pipeline Copy Activity (no Spark — ADR-007) |

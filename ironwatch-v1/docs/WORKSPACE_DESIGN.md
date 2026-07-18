@@ -53,16 +53,9 @@ via the `main` branch (see §5).
 
 | Notebook | Layer | Purpose |
 |---|---|---|
-| `nb_bronze_telemetry_v1` | Bronze | Ingest synthetic OREXA PulseNet telemetry into `ironwatch_bronze` |
-| `nb_bronze_oil_samples_v1` | Bronze | Ingest oil sample lab results into `ironwatch_bronze` |
-| `nb_bronze_fault_codes_v1` | Bronze | Ingest equipment fault code events into `ironwatch_bronze` |
-| `nb_bronze_asset_master_v1` | Bronze | Ingest asset master / equipment registry data into `ironwatch_bronze` |
-| `nb_bronze_service_history_v1` | Bronze | Ingest service & maintenance history into `ironwatch_bronze` |
+| ~~`nb_bronze_telemetry_v1`~~ | ~~Bronze~~ | **Superseded** — Bronze has no notebooks (Data Pipeline Copy Activity per [ADR-007](ADR/ADR-007-spark-free-architecture.md), `scripts/infra/build_bronze_pipelines.py`). This row and the 4 other planned Bronze notebooks (`nb_bronze_oil_samples_v1`, `nb_bronze_fault_codes_v1`, `nb_bronze_asset_master_v1`, `nb_bronze_service_history_v1`) never existed as real artifacts |
 | ~~`nb_silver_telemetry_v1`~~ | ~~Silver~~ | **Superseded** — Silver has no notebooks (Dataflow Gen2 per ADR-007, then `dbt-fabric` models per [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md), infrastructure live as of 2026-07-18). No Silver dbt model files are written yet; exact model names/paths under `transform/ironwatch_gold/models/silver/` are a build-session detail, not fixed here |
-| `nb_gold_dim_asset_v1` | Gold | Build `dim_asset` dimension in `ironwatch_gold` |
-| `nb_gold_fact_telemetry_v1` | Gold | Build telemetry fact aggregations in `ironwatch_gold` |
-| `nb_gold_health_score_v1` | Gold | Compute predictive equipment health-score metrics |
-| `nb_gold_sla_metrics_v1` | Gold | Compute SLA / uptime metrics for the semantic model |
+| ~~`nb_gold_dim_asset_v1`~~ | ~~Gold~~ | **Superseded** — Gold has no notebooks (`dbt-fabric` models under `transform/ironwatch_gold/models/marts/` per [ADR-009](ADR/ADR-009-dbt-gold-transformation-layer.md)). This row and the 3 other planned Gold notebooks (`nb_gold_fact_telemetry_v1`, `nb_gold_health_score_v1`, `nb_gold_sla_metrics_v1`) never existed as real artifacts — the marts exist as placeholder stub `.sql` files instead |
 
 ## 4. RBAC Role Assignments
 
