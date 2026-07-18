@@ -16,6 +16,11 @@
  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘
 ```
 
+*This diagram shows the accepted **target** architecture. As of this
+revision, `ironwatch_silver` is still provisioned as a Lakehouse — the
+Warehouse conversion is decided ([ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md))
+but not yet executed; see §2 below for target-vs-current detail.*
+
 The governance bar spans every layer to signal that v1 is built so Purview
 (planned for v2) can attach lineage, classification, and sensitivity labels
 end-to-end without re-architecture.
@@ -26,7 +31,7 @@ end-to-end without re-architecture.
 |---|---|---|
 | Ingestion | Python Generators (`synthetic_data/generators/`) | Produce synthetic OREXA Heavy Industries telemetry, oil sample, fault code, asset master, and service history files (PulseNet/FluidLab/FleetCare, per `docs/OREXA_SPEC.md`) that stand in for real machine data feeds |
 | Bronze | `ironwatch_bronze` (**Lakehouse**) | Raw, schema-validated landing zone; append-only Delta tables mirroring the source file structure (ADR-002) |
-| Silver | `ironwatch_silver` (**Warehouse**, per [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md)) | Cleansed, deduplicated, type-aligned tables exposed via SQL endpoint; built by `dbt-fabric` models, ready for Gold |
+| Silver | `ironwatch_silver` (**Lakehouse currently**; **target: Warehouse** per [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md), not yet re-provisioned) | Cleansed, deduplicated, type-aligned tables; target is SQL-endpoint exposure built by `dbt-fabric` models, planned but not yet built — `sources.yml` still declares Silver as an external Lakehouse `source()` |
 | Gold | `ironwatch_gold` (**Warehouse**) | Aggregated facts & dimensions, health-score and SLA computations exposed via SQL endpoint (ADR-001); every table carries a `_loaded_utc` watermark |
 | Semantic | Power BI Semantic Model (`semantic_model/`) | DAX measures (e.g. HealthScore, MTBF, SLA Compliance) defined over the Gold Warehouse via DirectLake — no calculated columns |
 | Presentation | Power BI Report | Operational equipment-health dashboard consumed by analytics and operations stakeholders |
@@ -41,11 +46,15 @@ end-to-end without re-architecture.
 2. **Bronze ingestion** — `nb_bronze_telemetry_v1` reads the dropped file,
    validates it against the telemetry JSON Schema, and appends it as a raw,
    immutable row in `ironwatch_bronze` (Lakehouse), partitioned by event date.
-3. **Silver refinement** — A `dbt-fabric` model (per
-   [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md)) reads the new
-   Bronze row via a `source()` reference, deduplicates, aligns types (e.g.
-   casts `engine_temp` to `decimal`), handles nulls, and writes a conformed
-   record into `ironwatch_silver` (**Warehouse**).
+3. **Silver refinement (planned, not yet built)** — Per
+   [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md), a `dbt-fabric`
+   model will read the new Bronze row via a `source()` reference,
+   deduplicate, align types (e.g. cast `engine_temp` to `decimal`), handle
+   nulls, and write a conformed record into `ironwatch_silver` (**target:
+   Warehouse**). Not yet executed: `ironwatch_silver` is still provisioned
+   as a Lakehouse, and `transform/ironwatch_gold/models/staging/sources.yml`
+   still declares Silver as an external read-only source rather than a
+   dbt-owned model.
 4. **Gold aggregation** — `nb_gold_fact_telemetry_v1` and
    `nb_gold_health_score_v1` aggregate the Silver record into hourly facts
    and roll it into the equipment HealthScore for `T220-001`, landing in
@@ -68,7 +77,7 @@ end-to-end without re-architecture.
 | **Fabric Data Agent (MCP)** | The Gold Warehouse's well-defined fact/dimension schema and DAX semantic layer give a Fabric Data Agent a stable, documented surface to expose as an MCP server for natural-language querying. |
 | **Ontology MCP** | Asset master and fault-code dimensions are modeled with stable identifiers and explicit relationships, so a future Ontology MCP server can map them onto a formal equipment ontology without reshaping the Gold schema. |
 | **Snowflake Iceberg** | Gold tables sit on open Delta/SQL foundations, leaving a clear path to publish them as Iceberg tables for cross-platform consumption (e.g. Snowflake) without redesigning the medallion pipeline. |
-| **dbt Core** | ~~Silver and Gold transformations are organized as discrete, testable notebook steps per layer — a structure that maps cleanly onto dbt models and tests if the transformation layer is migrated to dbt Core.~~ **Realized in v1, not v2** ([ADR-009](ADR/ADR-009-dbt-gold-transformation-layer.md), [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md)): Gold and Silver transformations are both already authored as `dbt-fabric` models with a `ref()`/`source()` dependency graph and built-in tests — this extension point is no longer speculative. |
+| **dbt Core** | ~~Silver and Gold transformations are organized as discrete, testable notebook steps per layer — a structure that maps cleanly onto dbt models and tests if the transformation layer is migrated to dbt Core.~~ **Decided for v1, not fully built yet** ([ADR-009](ADR/ADR-009-dbt-gold-transformation-layer.md), [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md)): Gold's `dbt-fabric` project is scaffolded (`transform/ironwatch_gold/`) but its marts are still placeholder stubs, not real transformation logic. Silver's dbt migration is decided (ADR-010) but not started — `sources.yml` still declares Silver as an external Lakehouse source, and no Silver dbt models exist yet. This extension point is no longer speculative, but isn't a completed v1 capability either. |
 
 ## 5. Azure Infrastructure
 
@@ -106,12 +115,17 @@ IronCore framework in July 2026:
 ---
 
 ## Changelog
-- **v1.1 (2026-07-18):** Silver (`ironwatch_silver`) updated from Lakehouse
-  to **Warehouse** per [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md)
-  — medallion diagram, layer table (§2), and the Silver-refinement step of
-  the data-flow narrative (§3) updated to match; dbt Core v2 extension
-  point (§4) marked realized in v1 for both Silver and Gold. Bronze is
-  unaffected by this revision.
+- **v1.1 (2026-07-18):** Documents Silver's (`ironwatch_silver`) **target**
+  item type change from Lakehouse to **Warehouse** per
+  [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md) — medallion diagram,
+  layer table (§2), and the Silver-refinement step of the data-flow
+  narrative (§3) updated to describe this target state, explicitly marked
+  as not yet executed (Silver remains a Lakehouse in the actual Fabric
+  tenant and in `scripts/infra/config.py` until the Silver build session
+  re-provisions it). dbt Core v2 extension point (§4) reworded to note
+  Gold's dbt scaffold exists but isn't real transformation logic yet, and
+  Silver's dbt migration is decided but not started. Bronze is unaffected
+  by this revision.
 - **v1.0:** Initial architecture, approved for build.
 
 ---
