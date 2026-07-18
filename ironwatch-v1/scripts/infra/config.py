@@ -26,10 +26,12 @@ ONELAKE_HOST = "onelake.dfs.fabric.microsoft.com"
 DEFAULT_ENVIRONMENT = "dev"
 
 # Fabric item type per medallion layer — Gold is a Warehouse, not a
-# Lakehouse (ADR-001), so the abfss path suffix differs by layer.
+# Lakehouse (ADR-001); Silver is also a Warehouse as of ADR-010
+# (re-provisioned 2026-07-18, superseding its original Lakehouse
+# item). The abfss path suffix differs by layer accordingly.
 _ITEM_TYPES = {
     "bronze": "Lakehouse",
-    "silver": "Lakehouse",
+    "silver": "Warehouse",
     "gold": "Warehouse",
 }
 
@@ -99,7 +101,10 @@ def get_config() -> WorkspaceConfig:
 FABRIC_WORKSPACE_ID = "e0bb7021-f3a3-430f-a739-442d4be7a40f"
 FABRIC_ITEM_IDS = {
     "ironwatch_bronze": "7f1e5fd6-7fbc-4ea1-b31a-fd8baa978349",
-    "ironwatch_silver": "751457c4-0644-447b-a688-d63c6950a5df",
+    # ironwatch_silver re-provisioned as a Warehouse 2026-07-18 (ADR-010);
+    # this is the new item's ID — the original Lakehouse ID
+    # (751457c4-0644-447b-a688-d63c6950a5df) no longer exists.
+    "ironwatch_silver": "d500a99b-6f2a-41d8-9cf4-97a8153931d9",
     "ironwatch_gold": "6c377782-795b-4b95-85c5-96231d43174c",
 }
 
