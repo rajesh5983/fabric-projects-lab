@@ -1,0 +1,33 @@
+# dbt profile for ironwatch_gold. Every value is resolved from an
+# environment variable at dbt runtime via env_var() — nothing here is a
+# literal credential, so this file is safe to commit (see CLAUDE.md:
+# "NEVER hardcode credentials").
+#
+# IRONWATCH_GOLD_SQL_ENDPOINT, AZURE_TENANT_ID, and SP_IRONWATCH_DEV_CLIENT_ID
+# come from .env (see .env.template) via the same load_dotenv() convention
+# scripts/infra/config.py uses.
+#
+# SP_IRONWATCH_DEV_CLIENT_SECRET is deliberately NOT part of .env / .env.template.
+# Resolve it into the shell session immediately before running dbt, e.g.:
+#
+#   export SP_IRONWATCH_DEV_CLIENT_SECRET=$(az keyvault secret show \
+#     --vault-name mal-kv-shared --name sp-ironwatch-dev-secret \
+#     --query value -o tsv)
+#
+# This keeps the secret in-memory for the shell session only — never written
+# to disk, .env, or this file.
+
+ironwatch_gold:
+  target: dev
+  outputs:
+    dev:
+      type: fabric
+      driver: "ODBC Driver 17 for SQL Server"
+      server: "{{ env_var('IRONWATCH_GOLD_SQL_ENDPOINT') }}"
+      database: "ironwatch_gold"
+      schema: dbo
+      authentication: ServicePrincipal
+      tenant_id: "{{ env_var('AZURE_TENANT_ID') }}"
+      client_id: "{{ env_var('SP_IRONWATCH_DEV_CLIENT_ID') }}"
+      client_secret: "{{ env_var('SP_IRONWATCH_DEV_CLIENT_SECRET') }}"
+      threads: 4
