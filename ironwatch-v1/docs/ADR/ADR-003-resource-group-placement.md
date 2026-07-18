@@ -35,3 +35,7 @@ the resource group choice.
 - `docs/ARCHITECTURE.md` §5 still states the superseded "must live in
   rg-ironwatch-dev" rule and has **not** yet been updated to match this ADR
   — flagged in the 2026-06-20 audit, not corrected automatically.
+
+**Note (2026-07-18):** this ADR's Consequences section states
+`ARCHITECTURE.md` §5 needs correction — that's now stale; §5 already
+correctly reflects `rg-fabric-sandbox` as the resource-group home.
