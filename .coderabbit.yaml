@@ -15,7 +15,7 @@ reviews:
   poem: false
   collapse_walkthrough: true
   review_status: true
-  request_changes_workflow: false
+  request_changes_workflow: true
   auto_review:
     enabled: true
     drafts: false
