@@ -86,7 +86,14 @@ def _write_with_pandas(record: dict, table_path: str) -> None:
         pa.field("recorded_at", pa.timestamp("us", tz="UTC"), nullable=False),
     ])
     table = pa.Table.from_pandas(pd.DataFrame([record]), schema=schema, preserve_index=False)
-    write_deltalake(table_path, table, mode="append")
+    # Without explicit storage_options, deltalake's object_store falls back
+    # to Azure Instance Metadata Service (managed identity), which only
+    # exists inside actual Azure compute — not a local dev machine. This
+    # caller runs on local dev (no active Spark session, see
+    # _active_spark_session() above), so route credential resolution
+    # through the az CLI session instead (matches how every other script
+    # in this repo already authenticates via `az login`).
+    write_deltalake(table_path, table, mode="append", storage_options={"use_azure_cli": "true"})
 
 
 def log_execution(
