@@ -1,7 +1,8 @@
 """Import docs/azure-boards/ironwatch_v1_v2_backlog.csv into Azure Boards via az CLI.
 
 Each Epic row creates an Epic work item; each following User Story row
-creates a User Story linked as a child of the most recently created Epic.
+creates an Issue work item (see STORY_WORK_ITEM_TYPE) linked as a child of
+the most recently created Epic.
 Fails fast on the first az CLI error so a partial import is always visible
 rather than silently continuing into a broken hierarchy.
 
@@ -23,6 +24,12 @@ from pathlib import Path
 ORGANIZATION = "https://dev.azure.com/modernanalyticslab"
 PROJECT = "IronWatch"
 CSV_PATH = Path(__file__).resolve().parents[2] / "docs" / "azure-boards" / "ironwatch_v1_v2_backlog.csv"
+
+# Generous enough for normal az CLI latency, short enough to fail fast
+# instead of hanging indefinitely (e.g. an unexpected interactive auth
+# prompt) — that exact failure mode stalled an `az devops login` run this
+# session until it was manually killed.
+AZ_TIMEOUT_SECONDS = 60
 
 # IronWatch uses ADO's Basic process template (Epic/Issue/Task), which has no
 # "User Story" type. The CSV's "User Story" rows map to "Issue" on create.
@@ -64,13 +71,18 @@ def run_az(args: list[str], include_project: bool) -> dict:
     if include_project:
         full_args += ["--project", PROJECT]
     full_args += ["--output", "json"]
-    result = subprocess.run(
-        full_args,
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-    )
+    try:
+        result = subprocess.run(
+            full_args,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=AZ_TIMEOUT_SECONDS,
+        )
+    except subprocess.TimeoutExpired:
+        print(f"FAILED: az {' '.join(args)} (timed out after {AZ_TIMEOUT_SECONDS}s)", file=sys.stderr)
+        sys.exit(1)
     if result.returncode != 0:
         print(f"FAILED: az {' '.join(args)}", file=sys.stderr)
         print(result.stderr, file=sys.stderr)
@@ -101,9 +113,31 @@ def link_parent(child_id: int, parent_id: int) -> None:
     ], include_project=False)
 
 
+def _validate_rows(rows: list[dict]) -> None:
+    """Side-effect-free preflight so a bad row can't leave earlier rows'
+    work items orphaned in Azure — the script is documented as
+    idempotent-unsafe, so a partial run isn't cleanly re-runnable."""
+    seen_epic = False
+    for i, row in enumerate(rows, start=2):  # +1 header, +1 to 1-index
+        wi_type = row["Work Item Type"]
+        if wi_type == "Epic":
+            if not row["Title 1"]:
+                sys.exit(f"FAILED: CSV row {i} is an Epic with no Title 1")
+            seen_epic = True
+        elif wi_type == "User Story":
+            if not row["Title 2"]:
+                sys.exit(f"FAILED: CSV row {i} is a User Story with no Title 2")
+            if not seen_epic:
+                sys.exit(f"FAILED: CSV row {i} (User Story) has no preceding Epic")
+        else:
+            sys.exit(f"FAILED: CSV row {i} has unknown Work Item Type {wi_type!r}")
+
+
 def main() -> None:
     with CSV_PATH.open(newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
+
+    _validate_rows(rows)
 
     csv_epic_count = sum(1 for r in rows if r["Work Item Type"] == "Epic")
     csv_story_count = sum(1 for r in rows if r["Work Item Type"] == "User Story")
@@ -127,11 +161,8 @@ def main() -> None:
             current_epic_title = title
             epics_created += 1
 
-        elif wi_type == "User Story":
+        else:  # "User Story" — the only other type _validate_rows allows
             title = _cli_safe(row["Title 2"])
-            if current_epic_id is None:
-                print(f"FAILED: User Story {title!r} has no preceding Epic in the CSV", file=sys.stderr)
-                sys.exit(1)
             story_id = create_work_item(STORY_WORK_ITEM_TYPE, title, description, tags)
             print(f"Created {STORY_WORK_ITEM_TYPE} {story_id}: {title}")
             stories_created += 1
@@ -139,10 +170,6 @@ def main() -> None:
             link_parent(story_id, current_epic_id)
             print(f"  Linked Story {story_id} -> parent Epic {current_epic_id} ({current_epic_title})")
             links_created += 1
-
-        else:
-            print(f"FAILED: unknown Work Item Type {wi_type!r} in CSV", file=sys.stderr)
-            sys.exit(1)
 
     print()
     print("=== SUMMARY ===")
