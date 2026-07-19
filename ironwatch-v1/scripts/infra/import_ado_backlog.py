@@ -36,23 +36,22 @@ AZ_TIMEOUT_SECONDS = 60
 STORY_WORK_ITEM_TYPE = "Issue"
 
 AZ_EXECUTABLE = shutil.which("az")
-if AZ_EXECUTABLE is None:
-    sys.exit("FAILED: 'az' not found on PATH")
 
-# Reconfigure stdout for the arrows/dashes below rather than crashing on the
+# Reconfigure stdout for the arrow below rather than crashing on the
 # Windows console's cp1252 default.
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-# az.cmd is a batch-file wrapper; on this Windows setup, non-ASCII characters
-# in CLI args get silently dropped somewhere in that wrapper's argument
-# marshalling (confirmed by creating a work item with "->" in the title and
-# finding the arrow missing, with no replacement, in the stored ADO field —
-# not just a console-display issue). Sanitize to ASCII equivalents before
-# they ever reach the CLI so what's created matches source intent.
+# az.cmd is a batch-file wrapper; on this Windows setup, characters with no
+# cp1252 representation get silently dropped somewhere in that wrapper's
+# argument marshalling (confirmed via a clean UTF-8 round-trip test: created
+# a work item with an unsanitized arrow, re-fetched and decoded the raw
+# response bytes independent of any terminal display, and the arrow was
+# gone with no replacement — a real data-loss bug, not a display artifact).
+# Em dash and section sign were tested the same way and DO survive
+# correctly (both have cp1252 code points, so no data is lost) — only
+# characters with no cp1252 equivalent need substituting.
 _CLI_SAFE_REPLACEMENTS = {
-    "—": "-",    # em dash —
-    "→": "->",   # right arrow →
-    "§": "Sec ",  # section sign §
+    "→": "->",  # right arrow → has no cp1252 representation
 }
 
 
@@ -117,6 +116,8 @@ def _validate_rows(rows: list[dict]) -> None:
     """Side-effect-free preflight so a bad row can't leave earlier rows'
     work items orphaned in Azure — the script is documented as
     idempotent-unsafe, so a partial run isn't cleanly re-runnable."""
+    if not rows:
+        sys.exit(f"FAILED: {CSV_PATH} has no data rows")
     seen_epic = False
     for i, row in enumerate(rows, start=2):  # +1 header, +1 to 1-index
         wi_type = row["Work Item Type"]
@@ -134,6 +135,9 @@ def _validate_rows(rows: list[dict]) -> None:
 
 
 def main() -> None:
+    if AZ_EXECUTABLE is None:
+        sys.exit("FAILED: 'az' not found on PATH")
+
     with CSV_PATH.open(newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
 
