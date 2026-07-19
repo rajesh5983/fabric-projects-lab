@@ -1,0 +1,68 @@
+Work Item Type,Title 1,Title 2,Description,Tags
+Epic,IW-v1: Synthetic Data Foundation,,"Retrospective v1, epic 1 of 8. Status: DONE.",IronWatch;v1
+User Story,,Design OREXA Heavy Industries fictitious universe,"Titan haul trucks, Kestrel excavators, Ironback graders across 3 fictitious mine sites — avoids Caterpillar/Hastings Deering IP conflict.",IronWatch;v1
+User Story,,Model 3 OREXA subsystems with OX- fault taxonomy,"PulseNet (telemetry), FluidLab (oil condition), FleetCare (maintenance history).",IronWatch;v1
+User Story,,Build generate_all.py synthetic data generator,"Produces 5 internally-consistent data streams (fleet, telemetry, faults, maintenance, site metadata).",IronWatch;v1
+Epic,IW-v1: Medallion Architecture on Fabric,,"Retrospective v1, epic 2 of 8. STATUS UPDATE (19 Jul 2026): Bronze ingestion is Done — 5 Copy Activity pipelines (fleet, telemetry, faults, maintenance, site metadata) built per ADR-007, row counts confirmed against synthetic source files (PR #2). Silver work is in progress and now tracked separately under the ADR-010 epic below (Warehouse re-provisioning done; dbt models not yet written) rather than duplicated here.",IronWatch;v1
+User Story,,Build Bronze ingestion pipeline (5x Copy Activity),"ADR-002/ADR-007 specify Data Factory Copy Activity, landing container ironwatch-landing to ironwatch_bronze. Built as 5 Copy Activity pipelines (fleet, telemetry, faults, maintenance, site metadata) via build_bronze_pipelines.py; row counts confirmed against synthetic source files. Done — PR #2.",IronWatch;v1;Done
+User Story,,Establish per-stream landing/conformance logic,"Across the 5 synthetic sources; delivered as part of the Bronze Copy Activity pipelines above — each of the 5 sources lands via its own pipeline/dataset pair. Done — PR #2.",IronWatch;v1;Done
+User Story,,Silver transform logic (native T-SQL/Dataflow Gen2),"SUPERSEDED by ADR-010: original plan (native T-SQL/Dataflow Gen2) replaced by Silver-as-Warehouse with dbt-fabric handling Silver→Gold. Tracking moved to the 'IW-v1: Silver as Warehouse, dbt-fabric spans Silver→Gold' epic below — do not track further here.",IronWatch;v1;superseded
+Epic,"IW-v1: Silver as Warehouse, dbt-fabric spans Silver→Gold",,"New v1 epic (added 19 Jul 2026), per ADR-010 (accepted 2026-07-18, docs/ADR/ADR-010-silver-warehouse-dbt-scope.md). Re-scopes Silver from Lakehouse/native-T-SQL to Warehouse/dbt-fabric so a single dbt project spans Silver→Gold.",IronWatch;v1;ADR-010
+User Story,,Re-provision ironwatch_silver as a Fabric Warehouse,"Old Lakehouse item deleted, new Warehouse item created (d500a99b-6f2a-41d8-9cf4-97a8153931d9); scripts/infra/config.py updated to match. Done — PR #6.",IronWatch;v1;ADR-010;Done
+User Story,,Migrate sources.yml and profiles.yml for Silver dbt target,"sources.yml: silver Lakehouse source removed, bronze source added so dbt reads from Bronze. profiles.yml gained a new silver target. dbt debug --target silver passes end-to-end. Done — PR #6.",IronWatch;v1;ADR-010;Done
+User Story,,Build run_dbt.py audit wrapper,"scripts/infra/run_dbt.py wraps dbt run with audit-log writes to _ironwatch_meta/execution_log; verified end-to-end. Done — PR #6.",IronWatch;v1;ADR-010;Done
+User Story,,Write real Silver dbt models,"stg_telemetry and siblings under transform/ironwatch_gold/models/silver/ — currently empty stubs. Everything it depends on is in place (Warehouse exists, sources.yml points at Bronze, dbt debug passes, runs get logged via run_dbt.py). Not started — this is the next task.",IronWatch;v1;ADR-010;NotStarted
+Epic,IW-v1: Engineering practice — CodeRabbit + automated PR gate,,"New v1 epic (added 19 Jul 2026). Branch protection, CodeRabbit-gated auto-merge, and /ship + /ship-status slash commands — built and verified across PRs #1-#7 this session.",IronWatch;v1
+User Story,,Scope CodeRabbit review to ironwatch-v1/,".coderabbit.yaml added at repo root; monorepo shares this repo with agent-control-tower-mvp and fabric-f2-zerocopy-sources, both excluded from review. Done — PR #1.",IronWatch;v1;Done
+User Story,,Enable branch protection on main gated by CodeRabbit + 1 approval,"main requires the 'CodeRabbit' status check and 1 approving PR review before merge (confirmed via GitHub branch protection API); force-push and branch deletion disabled. Done.",IronWatch;v1;Done
+User Story,,Build /ship slash command,"Commit-to-PR-to-auto-merge flow with exclusion checks for sensitive paths (e.g. docs/ADR/**) and bounded CodeRabbit polling. .claude/commands/ship.md. Done — PR #3.",IronWatch;v1;Done
+User Story,,Build /ship-status slash command,"Checks queued auto-merge PRs and reconciles develop against main after a squash-merge. .claude/commands/ship-status.md. Done — PR #3.",IronWatch;v1;Done
+User Story,,Verify the gate end-to-end across PRs #1-#7,"Confirmed exclusion checks are PR-scoped not commit-scoped, CodeRabbit review can lag its own status comment by 30-90+ seconds, and develop/main reconciliation needs git reset --hard (not rebase) after squash-merges. Done.",IronWatch;v1;Done
+Epic,IW-v1: Full documentation audit and correction,,"New v1 epic (added 19 Jul 2026). Read-only audit compared README.md, ARCHITECTURE.md, and WORKSPACE_DESIGN.md against actual built/decided state (live Fabric queries, dbt project state, .coderabbit.yaml, .claude/commands/); every confirmed gap fixed. Done — PR #7.",IronWatch;v1
+User Story,,"Correct README.md architecture, Tech Stack, and Quickstart","Silver corrected to Warehouse/dbt-fabric (not Lakehouse/Dataflow Gen2); dbt-fabric scoped Silver+Gold not Gold-only. Quickstart rewritten with verified commands (generate_all.py, real Copy Activity + dbt run steps, correct .env.template vars) replacing the long-superseded notebook-upload flow. Project Structure fixed: empty notebooks/ marked as placeholders, transform/ironwatch_gold/ added, IaC line corrected to Python + Fabric REST API. Added Audit & Observability and CI/CD & Review Workflow sections. Done.",IronWatch;v1;Done
+User Story,,Correct and extend docs/ARCHITECTURE.md,"Fixed 2 stale notebook references in §3 Bronze/Gold steps. Added §6 Audit & Execution Logging and §7 CI/CD & Review Workflow. Added run_dbt.py to IronCore Candidates. Bumped to v1.3. Done.",IronWatch;v1;Done
+User Story,,Correct docs/WORKSPACE_DESIGN.md and OPEN_DECISIONS.md,"3 stale 'notebook' terminology references fixed in WORKSPACE_DESIGN.md §1/§4/§5. OPEN_DECISIONS.md OPEN-001's trailing Status line corrected to Resolved (was left Unresolved after being resolved via ADR-008). Done.",IronWatch;v1;Done
+User Story,,Fix Bronze overwrite-semantics bug caught by CodeRabbit on PR #7,"ARCHITECTURE.md §3 claimed Bronze ingestion appends immutable rows; build_bronze_pipelines.py actually sets tableActionOption: Overwrite. Corrected the doc to match real pipeline behavior. Also fixed missing fence languages and an MD058 table spacing issue flagged in the same review. Done.",IronWatch;v1;Done
+User Story,,Document the log_execution() gap surfaced during the audit,"build_bronze_pipelines.py doesn't call log_execution() anywhere, yet real Bronze audit rows exist (engine='copy_activity') in _ironwatch_meta/execution_log — the actual write path for those rows isn't present in this repo. Confirmed still true in current code (verified 19 Jul 2026) and still flagged as an open question in ARCHITECTURE.md §6 / README.md. Distinct from run_dbt.py's log_execution() wiring (Silver/Gold, done in PR #6) and from the Bronze overwrite-semantics doc fix above (doc wording only, doesn't touch log_execution). Not started.",IronWatch;v1;NotStarted
+Epic,IW-v1: Gold Layer & Direct Lake Enablement,,"Retrospective v1, epic 3 of 8.",IronWatch;v1
+User Story,,Build Gold as Fabric Warehouse (not Lakehouse),"Unlocks Direct Lake, T-SQL endpoint, downstream interoperability in one decision.",IronWatch;v1
+User Story,,Enable Direct Lake mode for Power BI,Removes import/refresh CU cost from the reporting layer.,IronWatch;v1
+User Story,,Configure Snowflake Iceberg zero-copy reads via OneLake,Cross-platform interoperability without data duplication.,IronWatch;v1
+Epic,IW-v1: Infrastructure & Governance,,"Retrospective v1, epic 4 of 8.",IronWatch;v1
+User Story,,"Provision Azure subscription, RGs, shared Key Vault, SPs","rg-ironwatch-dev, rg-fabric-sandbox, mal-kv-shared, sp-fabric-mal, sp-ironwatch-dev — separated by concern.",IronWatch;v1
+User Story,,Stand up fabric-projects-lab GitHub repo,Source of truth for the monorepo.,IronWatch;v1
+User Story,,Operate under ModernAnalyticsLab brand,Keeps brand/IP boundaries clean from BrickByData.,IronWatch;v1
+Epic,IW-v1: Visualization Layer (Power BI),,"Retrospective v1, epic 5 of 8. Status: confirm build completion.",IronWatch;v1
+User Story,,Build TMDL/bim semantic model over Gold Warehouse,"Direct Lake, not import mode — consistent with no-refresh-cost decision.",IronWatch;v1
+User Story,,Design report pages/measures against OREXA KPIs,"Equipment health score, fluid risk, fault frequency.",IronWatch;v1
+Epic,IW-v1: Fabric IQ Ontology (Phase 2.5),,"Retrospective v1, epic 6 of 8. Status: confirm build completion.",IronWatch;v1
+User Story,,Define Ontology layer over Gold entities,"Equipment, Compartment, OilSample, MaintenanceEvent as related business objects, not raw tables.",IronWatch;v1
+User Story,,Position Ontology as semantic bridge to Data Agent,Agent reasons in business vocabulary instead of raw SQL.,IronWatch;v1
+Epic,IW-v1: Fabric Data Agent + MCP,,"Retrospective v1, epic 7 of 8 (Week 3 add-on). Status: confirm build completion.",IronWatch;v1
+User Story,,Configure Fabric Data Agent grounded on Ontology layer,,IronWatch;v1
+User Story,,Wire single MCP server for VS Code,Natural-language querying against the Data Agent from dev environment.,IronWatch;v1
+Epic,IW-v1: Spark Benchmark Instrument,,"Retrospective v1, epic 8 of 8. CU comparison artifact for content. Status: confirm build completion.",IronWatch;v1
+User Story,,Build parallel Spark notebook Silver variant,"Purely a benchmarking instrument, never a production path.",IronWatch;v1
+User Story,,Capture CU comparison via Fabric Capacity Metrics app,"Feeds 'one use case, two Silver paths' Observatory/LinkedIn piece with real numbers.",IronWatch;v1
+Epic,IW-Bridge: IronCore Extraction,,"Pre-v2 framework extraction, scheduled July.",IronWatch;Bridge
+User Story,,Extract medallion + Spark-free patterns into IronCore library,"Standalone, reusable framework rather than v1's project-specific code.",IronWatch;Bridge
+User Story,,Generalise the platform-adapter pattern,"Fabric today, Databricks/Snowflake later — consistent with FoundryKit's YAML-driven adapter.",IronWatch;Bridge
+Epic,IW-v2: Polyglot Ingress,,"Ambitious v2 scope, epic A of 5.",IronWatch;v2
+User Story,,Integrate Fabric Eventstream for near-real-time telemetry,Lands into an Eventhouse (KQL) — the RTI layer — alongside the existing batch generator.,IronWatch;v2
+User Story,,Unify streaming and batch landing into Bronze,Consistent schema so downstream Silver/Gold logic doesn't fork by source type.,IronWatch;v2
+Epic,IW-v2: Volume & Capacity Engineering,,"Ambitious v2 scope, epic B of 5 — highest leverage for hiring-manager narrative.",IronWatch;v2
+User Story,,"Scale synthetic generator to multi-year, minute-grain telemetry","Target tens of millions of rows across fact tables, not the current small sample.",IronWatch;v2
+User Story,,"Redesign backfill as incremental, partitioned batch loads","Simulated daily/hourly replay instead of bulk inserts, engineered to stay within F2's smoothing window.",IronWatch;v2
+User Story,,Build a Capacity Metrics-driven Power BI report,"CU utilization, throttling avoidance, cost discipline over time — a standalone demoable artifact.",IronWatch;v2
+Epic,IW-v2: Modelling — Anomaly Detection,,"Ambitious v2 scope, epic C of 5.",IronWatch;v2
+User Story,,Build Isolation Forest baseline anomaly detection model,On the telemetry streams.,IronWatch;v2
+User Story,,Progress to an Autoencoder model,"Comparison itself forms part of the narrative — why a second model, what it buys you.",IronWatch;v2
+User Story,,Stand up MLflow for experiment tracking and model registry,Across both models.,IronWatch;v2
+User Story,,Build feature engineering layer feeding both models from Gold,Shared feature pipeline.,IronWatch;v2
+Epic,IW-v2: PBI Optimization,,"Ambitious v2 scope, epic D of 5.",IronWatch;v2
+User Story,,Apply V-Order optimization to Gold Warehouse tables,Benchmark before/after.,IronWatch;v2
+User Story,,Add a composite model fallback for non-Direct-Lake visuals,Documenting the trade-off explicitly.,IronWatch;v2
+User Story,,Publish a before/after performance comparison,Query times and refresh behaviour as a reporting artifact.,IronWatch;v2
+Epic,IW-v2: Framework Alignment,,"Ambitious v2 scope, epic E of 5.",IronWatch;v2
+User Story,,Validate IronWatch v2 is genuinely built on IronCore,Closing the loop on the bridge step rather than diverging from it.,IronWatch;v2
+User Story,,Expand from v1's single Data Agent MCP into full 3-server MCP surface,"fabric-agent-mcp, rti-local-mcp, ontology-mcp — cross-reference platform-agnostic v2 patterns back into FoundryKit.",IronWatch;v2
