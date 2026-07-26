@@ -3,7 +3,7 @@
 Numbered prompt/spec files for agents built on top of IronWatch's Gold
 layer (e.g. natural-language query agents). Convention:
 
-```
+```text
 NN-short-slug.md
 ```
 
