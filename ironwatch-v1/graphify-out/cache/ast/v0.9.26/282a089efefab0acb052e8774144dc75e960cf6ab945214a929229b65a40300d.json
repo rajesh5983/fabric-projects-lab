@@ -1,0 +1,1 @@
+{"nodes": [{"id": "c_fabric_fabric_projects_lab_ironwatch_v1_transform_ironwatch_gold_models_marts_dim_date_sql", "label": "dim_date.sql", "file_type": "code", "source_file": "transform/ironwatch_gold/models/marts/dim_date.sql", "source_location": null}], "edges": []}

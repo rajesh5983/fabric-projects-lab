@@ -1,0 +1,1 @@
+{"nodes": [{"id": "c_fabric_fabric_projects_lab_ironwatch_v1_transform_ironwatch_gold_models_marts_fact_sla_metrics_sql", "label": "fact_sla_metrics.sql", "file_type": "code", "source_file": "transform/ironwatch_gold/models/marts/fact_sla_metrics.sql", "source_location": null}], "edges": []}
