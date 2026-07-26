@@ -21,3 +21,8 @@ synthetic_data/output/*.parquet
 .fabric/
 *.pbix.bak
 .pbi/cache/
+
+# Switchyard per-project log (local task-routing history, not project source)
+.switchyard/
+
+.switchyard/
