@@ -20,13 +20,14 @@ ENVIRONMENT:
 
 NAMING CONVENTION:
 - Workspaces: ModernAnalyticsLab-DEV, ModernAnalyticsLab-Sandbox
-- Lakehouses: ironwatch_bronze, ironwatch_silver (both Lakehouses)
-- Warehouse: ironwatch_gold (Fabric Warehouse — see ADR-001)
+- Lakehouse: ironwatch_bronze (only Bronze is a Lakehouse)
+- Warehouses: ironwatch_silver, ironwatch_gold (Fabric Warehouses — silver
+  re-provisioned from Lakehouse 2026-07-18, see ADR-010; gold see ADR-001)
 - Notebooks: nb_[layer]_[purpose]_[version] e.g. nb_bronze_telemetry_v1
 - Files: [project]_[layer]_[object]_[env] e.g. ironwatch_bronze_telemetry_dev
 
-NEVER: hardcode credentials, commit .env files, name Gold layer as a
-Lakehouse.
+NEVER: hardcode credentials, commit .env files, name Gold or Silver layers
+as a Lakehouse, name Bronze as a Warehouse.
 
 ALWAYS: reference secrets via mal-kv-shared Key Vault, follow naming
 convention above, document decisions in docs/ADR/.
