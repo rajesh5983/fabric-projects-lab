@@ -30,3 +30,8 @@ synthetic_data/output/*.parquet
 .claude/settings.local.json
 
 .codex/hooks.json
+
+# Graphify local cache / provenance (machine-local, path-keyed; not project
+# artifacts -- keep graph.json, GRAPH_REPORT.md, graph.html tracked)
+graphify-out/cache/
+graphify-out/manifest.json
