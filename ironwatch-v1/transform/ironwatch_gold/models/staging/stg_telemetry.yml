@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_telemetry
+    description: >
+      Light staging pass over the Bronze telemetry_raw source (PulseNet).
+      One-to-one with Bronze -- column rename and type casts only, no
+      joins or business logic. equipment_type/site are not tested here
+      because telemetry_raw carries no such columns -- they belong on a
+      future stg_asset_registry built from asset_master_raw.
+    columns:
+      - name: asset_id
+        description: Natural key of the equipment asset (e.g. T220-001).
+        tests:
+          - not_null
+      - name: telemetry_timestamp
+        description: >
+          UTC timestamp of the telemetry reading, renamed from Bronze's
+          `timestamp` column to avoid the T-SQL reserved-word collision.
+        tests:
+          - not_null
