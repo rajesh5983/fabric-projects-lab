@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_equipment
+    description: >
+      Light staging pass over the Bronze asset_master_raw source (asset
+      registry). One-to-one with Bronze -- column rename and type casts
+      only, no joins or business logic.
+    columns:
+      - name: asset_id
+        description: Natural key of the equipment asset (e.g. T220-001).
+        tests:
+          - not_null
+      - name: equipment_line
+        description: OREXA equipment line.
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Titan', 'Kestrel', 'Ironback']
+      - name: site
+        description: Mine site the asset is assigned to.
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Coppervale Mine', 'Ironclad Ridge', 'Stormwood Basin']
