@@ -60,3 +60,6 @@ infer or improvise this gate's behavior in its absence.
 
 ## Doc map
 See `docs/00-INDEX.md`.
+
+## Graphify
+Knowledge graph rules — see CLAUDE.md.

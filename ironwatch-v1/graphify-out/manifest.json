@@ -1,0 +1,187 @@
+{
+  ".claude/settings.json": {
+    "mtime": 1785032990.4596865,
+    "ast_hash": "7fde6282d564ee46eeac85d176bb4f1c",
+    "semantic_hash": "7fde6282d564ee46eeac85d176bb4f1c"
+  },
+  "scripts/infra/audit.py": {
+    "mtime": 1784379681.0269973,
+    "ast_hash": "3baeee75d1d2f1c2b670050cfba6a201",
+    "semantic_hash": "3baeee75d1d2f1c2b670050cfba6a201"
+  },
+  "scripts/infra/build_bronze_pipelines.py": {
+    "mtime": 1784371965.8941698,
+    "ast_hash": "b91e84714567bd695b18000ff629b6b3",
+    "semantic_hash": "b91e84714567bd695b18000ff629b6b3"
+  },
+  "scripts/infra/config.py": {
+    "mtime": 1784379086.9874284,
+    "ast_hash": "f6c234f5e5da349f85efe4c41715c4dc",
+    "semantic_hash": "f6c234f5e5da349f85efe4c41715c4dc"
+  },
+  "scripts/infra/import_ado_backlog.py": {
+    "mtime": 1784426628.3576045,
+    "ast_hash": "fa46da1acea9c05de7682ea5d93ed97c",
+    "semantic_hash": "fa46da1acea9c05de7682ea5d93ed97c"
+  },
+  "scripts/infra/run_dbt.py": {
+    "mtime": 1784381084.2984922,
+    "ast_hash": "7ac0ed7c570d4baeca5a203439c91155",
+    "semantic_hash": "7ac0ed7c570d4baeca5a203439c91155"
+  },
+  "synthetic_data/generators/generate_all.py": {
+    "mtime": 1781958334.0169864,
+    "ast_hash": "c91804f62207b8ed27d7d851fc5b369e",
+    "semantic_hash": "c91804f62207b8ed27d7d851fc5b369e"
+  },
+  "transform/ironwatch_gold/models/marts/dim_asset.sql": {
+    "mtime": 1784368602.4500737,
+    "ast_hash": "de193633735e09f7bb2b02580d10726f",
+    "semantic_hash": "de193633735e09f7bb2b02580d10726f"
+  },
+  "transform/ironwatch_gold/models/marts/dim_date.sql": {
+    "mtime": 1784368602.4510686,
+    "ast_hash": "de193633735e09f7bb2b02580d10726f",
+    "semantic_hash": "de193633735e09f7bb2b02580d10726f"
+  },
+  "transform/ironwatch_gold/models/marts/fact_health_score.sql": {
+    "mtime": 1784368602.4510686,
+    "ast_hash": "de193633735e09f7bb2b02580d10726f",
+    "semantic_hash": "de193633735e09f7bb2b02580d10726f"
+  },
+  "transform/ironwatch_gold/models/marts/fact_sla_metrics.sql": {
+    "mtime": 1784368602.452067,
+    "ast_hash": "de193633735e09f7bb2b02580d10726f",
+    "semantic_hash": "de193633735e09f7bb2b02580d10726f"
+  },
+  "transform/ironwatch_gold/models/marts/fact_telemetry.sql": {
+    "mtime": 1784368602.453067,
+    "ast_hash": "de193633735e09f7bb2b02580d10726f",
+    "semantic_hash": "de193633735e09f7bb2b02580d10726f"
+  },
+  "AGENTS.md": {
+    "mtime": 1785033720.3060002,
+    "ast_hash": "ce2ee561151f5c357a6cffba4853778c",
+    "semantic_hash": "ce2ee561151f5c357a6cffba4853778c"
+  },
+  "CLAUDE.md": {
+    "mtime": 1785032990.4458957,
+    "ast_hash": "e5cb39aa14214c47519a052a906ffbf4",
+    "semantic_hash": "e5cb39aa14214c47519a052a906ffbf4"
+  },
+  "README.md": {
+    "mtime": 1784382783.454227,
+    "ast_hash": "93c908ef6d361c15407a06e2c6f17742",
+    "semantic_hash": "93c908ef6d361c15407a06e2c6f17742"
+  },
+  "core/README.md": {
+    "mtime": 1780805812.5314748,
+    "ast_hash": "86df656a93850a0e170ee2552b1b7a92",
+    "semantic_hash": "86df656a93850a0e170ee2552b1b7a92"
+  },
+  "docs/00-INDEX.md": {
+    "mtime": 1785030601.327157,
+    "ast_hash": "7e5f433a797e09174de0cfe952206af1",
+    "semantic_hash": "7e5f433a797e09174de0cfe952206af1"
+  },
+  "docs/03-prompts/README.md": {
+    "mtime": 1785031570.7889338,
+    "ast_hash": "cba6dcab376f007a190f85d677b858b4",
+    "semantic_hash": "cba6dcab376f007a190f85d677b858b4"
+  },
+  "docs/ADR/ADR-001-gold-warehouse.md": {
+    "mtime": 1784368602.4470608,
+    "ast_hash": "c67a22086ef21a47554e91441044c1ae",
+    "semantic_hash": "c67a22086ef21a47554e91441044c1ae"
+  },
+  "docs/ADR/ADR-002-bronze-sources.md": {
+    "mtime": 1781959730.0739927,
+    "ast_hash": "f2f0bb2758e53eec77a6f48fc8223b2e",
+    "semantic_hash": "f2f0bb2758e53eec77a6f48fc8223b2e"
+  },
+  "docs/ADR/ADR-003-resource-group-placement.md": {
+    "mtime": 1784382307.725175,
+    "ast_hash": "b4d166b8f3fa51d831482fed7dbfbcae",
+    "semantic_hash": "b4d166b8f3fa51d831482fed7dbfbcae"
+  },
+  "docs/ADR/ADR-004-identity-model.md": {
+    "mtime": 1781958913.4063952,
+    "ast_hash": "d7e079b38177e23e11887c7e0be1e421",
+    "semantic_hash": "d7e079b38177e23e11887c7e0be1e421"
+  },
+  "docs/ADR/ADR-005-orexa-entity-model.md": {
+    "mtime": 1781958918.9312203,
+    "ast_hash": "32ac8c4b42f9edd437c3bd35d3680d02",
+    "semantic_hash": "32ac8c4b42f9edd437c3bd35d3680d02"
+  },
+  "docs/ADR/ADR-006-telemetry-unit-standardization.md": {
+    "mtime": 1781958924.1601832,
+    "ast_hash": "45f0723b21d922fe0613d7f73a2b1bde",
+    "semantic_hash": "45f0723b21d922fe0613d7f73a2b1bde"
+  },
+  "docs/ADR/ADR-007-spark-free-architecture.md": {
+    "mtime": 1781959722.5804968,
+    "ast_hash": "0de0d759ca9875ed5c8f4fb46ee31a6b",
+    "semantic_hash": "0de0d759ca9875ed5c8f4fb46ee31a6b"
+  },
+  "docs/ADR/ADR-008-utilization-and-health-score-redesign.md": {
+    "mtime": 1781960346.015391,
+    "ast_hash": "381d9547824ec5a8005782cfd051d275",
+    "semantic_hash": "381d9547824ec5a8005782cfd051d275"
+  },
+  "docs/ADR/ADR-009-dbt-gold-transformation-layer.md": {
+    "mtime": 1784368602.4470608,
+    "ast_hash": "b92714bcd01c632ddba32aab44831fdf",
+    "semantic_hash": "b92714bcd01c632ddba32aab44831fdf"
+  },
+  "docs/ADR/ADR-010-silver-warehouse-dbt-scope.md": {
+    "mtime": 1784376496.2395499,
+    "ast_hash": "575fb6ad60214efadd3613274a36d90c",
+    "semantic_hash": "575fb6ad60214efadd3613274a36d90c"
+  },
+  "docs/ADR/OPEN_DECISIONS.md": {
+    "mtime": 1784382295.6864107,
+    "ast_hash": "5d24ee789f99259d935b02cda4e52592",
+    "semantic_hash": "5d24ee789f99259d935b02cda4e52592"
+  },
+  "docs/ARCHITECTURE.md": {
+    "mtime": 1784382756.7692926,
+    "ast_hash": "0d337018e53791f1fc82ea903e80e366",
+    "semantic_hash": "0d337018e53791f1fc82ea903e80e366"
+  },
+  "docs/DATA_MODEL.md": {
+    "mtime": 1781960372.6521268,
+    "ast_hash": "af7940289f6b9189b071a8c102e05241",
+    "semantic_hash": "af7940289f6b9189b071a8c102e05241"
+  },
+  "docs/OREXA_SPEC.md": {
+    "mtime": 1781958213.1600645,
+    "ast_hash": "48b8003187dc5749d14dfa62024704df",
+    "semantic_hash": "48b8003187dc5749d14dfa62024704df"
+  },
+  "docs/WORKSPACE_DESIGN.md": {
+    "mtime": 1784382813.2573204,
+    "ast_hash": "899ab37848bd4a4f235ada17d4e1fb8d",
+    "semantic_hash": "899ab37848bd4a4f235ada17d4e1fb8d"
+  },
+  "transform/ironwatch_gold/README.md": {
+    "mtime": 1784368602.448081,
+    "ast_hash": "c8c3d681ca6d32610bbcabb562348e6c",
+    "semantic_hash": "c8c3d681ca6d32610bbcabb562348e6c"
+  },
+  "transform/ironwatch_gold/dbt_project.yml": {
+    "mtime": 1784368602.4490695,
+    "ast_hash": "cef3aa5937ac55a3bc8ac03defe86d02",
+    "semantic_hash": "cef3aa5937ac55a3bc8ac03defe86d02"
+  },
+  "transform/ironwatch_gold/models/staging/sources.yml": {
+    "mtime": 1784379206.7427099,
+    "ast_hash": "144c0b91fd6c04c37460e29d30b02cdd",
+    "semantic_hash": "144c0b91fd6c04c37460e29d30b02cdd"
+  },
+  "transform/ironwatch_gold/profiles.yml": {
+    "mtime": 1784379343.9947395,
+    "ast_hash": "212a152f69f4104c8c55f671a4fe48ba",
+    "semantic_hash": "212a152f69f4104c8c55f671a4fe48ba"
+  }
+}

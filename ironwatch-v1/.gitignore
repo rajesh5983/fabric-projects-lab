@@ -28,3 +28,5 @@ synthetic_data/output/*.parquet
 .switchyard/
 
 .claude/settings.local.json
+
+.codex/hooks.json
