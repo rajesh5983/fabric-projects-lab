@@ -434,7 +434,11 @@ def main():
             "fault_code": row.fault_code,
             "fault_ts": row.fault_ts.isoformat(),
             "active_flag": bool(row.active_flag),
-            "cleared_ts": row.cleared_ts.isoformat() if row.cleared_ts is not None else None,
+            # `cleared_ts` is a nullable datetime64 column: an active row's None
+            # gets silently coerced to pandas NaT, and NaT.isoformat() returns
+            # the literal string "NaT" instead of raising - `is not None` alone
+            # doesn't catch that. pd.isna() covers both None and NaT.
+            "cleared_ts": None if pd.isna(row.cleared_ts) else row.cleared_ts.isoformat(),
         }
         for row in fault_events_df.itertuples()
     ]

@@ -171,16 +171,19 @@ expected surviving record count as a percentage of its Bronze source volume.
    sample if no telemetry row exists for that asset on that date.
 
 ### 2.3 `silver_fault_codes` — expected retention: **~96% of Bronze**
-As of v1.3, rules 1–3 below apply against `fault_events_raw` (§1.6), which
-does carry `asset_id`/`fault_ts`/`active_flag`/`cleared_ts` — not against
+As of v1.3, rules 1, 3, and 4 below apply against `fault_events_raw` (§1.6),
+which carries `asset_id`/`fault_ts`/`active_flag`/`cleared_ts` — not against
 `fault_codes_raw` (§1.3), which remains a static catalog with no per-asset
-columns. This DQ table itself (`stg_fault_aggregations`/
-`int_iw_fault_aggregations` per the dbt staging/intermediate naming
-convention) is not yet built — Bronze landing only, as of this pass. See
-`docs/ADR/OPEN_DECISIONS.md` OPEN-002 (Resolved).
+columns. `severity` (rule 2) lives only on `fault_codes_raw`, not
+`fault_events_raw`, so it requires a join on `fault_code` between the two
+sources rather than existing on either one alone. This DQ table itself
+(`stg_fault_aggregations`/`int_iw_fault_aggregations` per the dbt
+staging/intermediate naming convention) is not yet built — Bronze landing
+only, as of this pass. See `docs/ADR/OPEN_DECISIONS.md` OPEN-002 (Resolved).
 1. Drop records with null `asset_id` or `fault_code`.
-2. Standardize `severity` to `{LOW, MEDIUM, HIGH, CRITICAL}`; unrecognized
-   values default to `MEDIUM`.
+2. Join to `fault_codes_raw` on `fault_code` to resolve `severity`;
+   standardize to `{LOW, MEDIUM, HIGH, CRITICAL}` — unrecognized values
+   default to `MEDIUM`.
 3. Deduplicate on `(asset_id, fault_code, fault_ts)`.
 4. Derive `active_flag = TRUE` where `cleared_ts IS NULL`.
 5. Discard records whose `fault_ts` falls outside the asset's operational
