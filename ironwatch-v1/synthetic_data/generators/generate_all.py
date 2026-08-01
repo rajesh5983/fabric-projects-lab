@@ -224,6 +224,33 @@ FAULT_CODE_BY_ANOMALY = {
 # readings = 45 minutes sustained.
 MIN_ANOMALY_RUN_READINGS = 3
 
+# With SEED=42, every anomaly run happens to resolve before the 90-day window
+# ends, so cleared_ts is populated for every row and Gold's "currently active
+# faults" health-score term would always see zero penalty against this
+# dataset -- not a useful "which asset needs attention right now" snapshot.
+# Deterministically re-open the single most recent fault on the top-N assets
+# by total fault count (ties broken by asset_id) rather than leaving the
+# snapshot all-clear or randomly flipping rows. This only changes the
+# resolution state of an already-derived, telemetry-grounded event -- it does
+# not invent a new fault or move its asset/timestamp/fault_code.
+STILL_ACTIVE_TOP_N_ASSETS = 3
+
+
+def _apply_still_active_snapshot(df):
+    if df.empty:
+        return df
+    df = df.copy()
+    counts = df.groupby("asset_id").size().rename("fault_count").reset_index()
+    top_assets = counts.sort_values(
+        ["fault_count", "asset_id"], ascending=[False, True]
+    ).head(STILL_ACTIVE_TOP_N_ASSETS)["asset_id"]
+    for asset_id in top_assets:
+        asset_rows = df.index[df["asset_id"] == asset_id]
+        latest_idx = df.loc[asset_rows, "fault_ts"].idxmax()
+        df.loc[latest_idx, "active_flag"] = True
+        df.loc[latest_idx, "cleared_ts"] = None
+    return df
+
 
 def _anomaly_runs_to_fault_events(asset_id, timestamps, anomaly_mask, fault_code):
     """One row per contiguous run of `anomaly_mask` at least
@@ -268,6 +295,7 @@ def generate_fault_events(asset_ids, timestamps, anomaly_masks):
     df = pd.DataFrame.from_records(
         records, columns=["asset_id", "fault_code", "fault_ts", "active_flag", "cleared_ts"]
     )
+    df = _apply_still_active_snapshot(df)
     return df.sort_values(["asset_id", "fault_ts"]).reset_index(drop=True)
 
 
