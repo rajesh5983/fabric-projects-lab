@@ -52,10 +52,43 @@ over from before the item was actually resolved — corrected 2026-07-18.
 
 ---
 
-## OPEN-002: No per-asset fault-event stream exists in Bronze
+## OPEN-002: No per-asset fault-event stream exists in Bronze — RESOLVED
 
 **Raised:** 2026-08-01, during Silver build-out for `stg_fault_aggregations` /
 `int_iw_fault_aggregations`.
+**Resolved:** 2026-08-01 — Option A. Added `generate_fault_events()` to
+`synthetic_data/generators/generate_all.py`, deriving a per-asset
+fault-event stream from the existing `is_temp_anomaly`/`is_pressure_drop`/
+`is_rpm_spike` telemetry anomaly signals rather than inventing occurrences
+independent of telemetry. Only `OX-101`/`OX-205`/`OX-120` are ever emitted
+— the 3 codes with a telemetry anomaly to derive from; the other 12
+catalog codes have no signal and are never emitted. A run of ≥3
+consecutive anomalous 15-min readings (45 min sustained) is required
+before being promoted to a fault-event row, filtering single-reading
+sensor noise. `telemetry.parquet`'s own RNG draws and output are
+unchanged (masks are captured, not re-rolled) — verified byte-identical.
+
+Landed as a 6th Bronze source: `fault_events.json` → `fault_events_raw`
+via a new `pl_bronze_fault_events_load` Copy Activity pipeline, matching
+the existing 5 pipelines' pattern exactly (`tableActionOption: Overwrite`,
+same source-connection/sink structure — no audit-logging call, since none
+of the other 5 pipelines have one either). 83 rows landed; independently
+verified via direct Delta read (row count, schema, and the 3
+deterministically-still-active rows all confirmed).
+
+With SEED=42, every anomaly run happened to resolve before the 90-day
+window ended, which would have left 0 active faults in the snapshot —
+not useful for a "which asset needs attention now" story. Deterministically
+re-opened the single most recent fault on the top 3 assets by total fault
+count (ties broken by asset_id): `T320-007`, `G16-001`, `T220-011`. This
+only flips an already-derived event's resolution state, not its
+asset/timestamp/fault_code, and is reproducible from the fixed seed rather
+than randomly forced.
+
+`docs/DATA_MODEL.md` updated to v1.3 (§1.6 added, §1.3/§2.3/§7 updated to
+match). The Silver `stg_fault_aggregations`/`int_iw_fault_aggregations`
+models themselves are still not built — this resolves the Bronze-layer
+field gap only; Silver build-out is a separate follow-up.
 
 **Finding:** `fault_codes_raw` is a static 15-row code-definition catalog
 only (`fault_code`/`category`/`description`/`severity`), confirmed against
@@ -86,4 +119,6 @@ join/enrichment design. This was already flagged as a known gap in
 `docs/DATA_MODEL.md` §7 (Still open, item 1) — this entry formalizes it as
 an explicit decision point blocking the Silver fault-side build.
 
-**Status:** OPEN — no decision made yet.
+**Status:** Resolved — see "Resolved" note at the top of this entry.
+Bronze now has a real per-asset fault-event stream; the Silver models that
+consume it are a separate, still-pending follow-up.
