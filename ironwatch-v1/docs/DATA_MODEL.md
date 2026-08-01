@@ -4,9 +4,18 @@ Phase 4 decisions: Bronze source inventory, Silver DQ rules, the oil-sample
 temporal join, the Gold star schema, the health-score formula, and the
 semantic-model DAX measure stubs.
 
-Data model version: v1.2 | Status: FINAL (Sections 1, 3, 4, 5) / KNOWN GAP (§2.3, see §7)
+Data model version: v1.3 | Status: FINAL (Sections 1, 3, 4, 5)
 
 ## Changelog
+- **v1.3 (2026-08-01):** Resolves OPEN-002
+  ([docs/ADR/OPEN_DECISIONS.md](ADR/OPEN_DECISIONS.md)). Adds a 6th Bronze
+  source, `fault_events_raw` (§1.6), landed via `pl_bronze_fault_events_load`
+  — a real per-asset fault-event stream
+  (`asset_id`/`fault_code`/`fault_ts`/`active_flag`/`cleared_ts`) derived
+  from `generate_telemetry()`'s anomaly signals, not an independent OREXA
+  subsystem drop. §1.3 and §2.3 updated to point at it instead of
+  `fault_codes_raw`, which remains a static code-definition catalog. §7's
+  fault-event-stream gap is now resolved.
 - **v1.2 (2026-06-20):** Resolves OPEN-001 per
   [ADR-008](ADR/ADR-008-utilization-and-health-score-redesign.md). §3 (oil
   sample temporal join) redesigned to same-calendar-day matching instead of
@@ -31,6 +40,10 @@ Data model version: v1.2 | Status: FINAL (Sections 1, 3, 4, 5) / KNOWN GAP (§2.
 
 Five OREXA subsystem sources (see `docs/OREXA_SPEC.md`) are dropped as flat
 files (ADR-002) and landed as schema-validated, append-only Delta tables.
+A 6th source, `fault_events_raw` (§1.6), was added 2026-08-01 to resolve
+OPEN-002 — it is derived from PulseNet telemetry anomalies rather than an
+independent OREXA subsystem file, but is dropped and landed the same way
+(`fault_events.json` → `pl_bronze_fault_events_load`).
 
 ### 1.1 Telemetry (PulseNet)
 - **Format:** Parquet (batch drop, simulating an onboard sensor / IoT feed)
@@ -75,7 +88,8 @@ files (ADR-002) and landed as schema-validated, append-only Delta tables.
 | `severity` | STRING | `LOW` / `MEDIUM` / `HIGH` / `CRITICAL` |
 
 This remains a **code-definition catalog**, not a per-asset fault-event
-stream — see §7.
+stream. As of v1.3, the per-asset stream exists as a separate source —
+see §1.6.
 
 ### 1.4 Asset Registry
 - **Format:** CSV (registry export)
@@ -103,6 +117,25 @@ stream — see §7.
 | `service_type` | STRING | e.g. `PM_250HR`, `PM_500HR`, `PM_1000HR`, `UNPLANNED` |
 | `parts_used` | STRING | Comma-separated free text |
 | `downtime_hours` | DOUBLE | Hours the asset was out of service |
+
+### 1.6 Fault Events (derived from PulseNet)
+- **Format:** JSON (batch drop, generated alongside the other 5 sources)
+- **Simulated source:** not an independent OREXA subsystem — derived from
+  `generate_telemetry()`'s `is_temp_anomaly`/`is_pressure_drop`/`is_rpm_spike`
+  anomaly signals (see `synthetic_data/generators/generate_all.py`,
+  `generate_fault_events()`). Resolves OPEN-002
+  ([docs/ADR/OPEN_DECISIONS.md](ADR/OPEN_DECISIONS.md)).
+
+| Field | Type | Notes |
+|---|---|---|
+| `asset_id` | STRING | FK to the asset registry |
+| `fault_code` | STRING | FK to `fault_codes_raw`; only `OX-101`, `OX-205`, `OX-120` are ever emitted — the only 3 catalog codes with a telemetry anomaly to derive from |
+| `fault_ts` | TIMESTAMP | When the underlying anomaly run started (≥3 consecutive 15-min readings sustained) |
+| `active_flag` | BOOLEAN | `TRUE` while `cleared_ts` is null |
+| `cleared_ts` | TIMESTAMP | Nullable; null while active. 3 of 83 rows are deterministically still active in the current snapshot (see `STILL_ACTIVE_TOP_N_ASSETS` in the generator) |
+
+Landed via `pl_bronze_fault_events_load` — same Copy Activity pattern as
+the other 5 sources, `tableActionOption: Overwrite`.
 
 ---
 
@@ -138,11 +171,19 @@ expected surviving record count as a percentage of its Bronze source volume.
    sample if no telemetry row exists for that asset on that date.
 
 ### 2.3 `silver_fault_codes` — expected retention: **~96% of Bronze**
-⚠️ Rules 1–3 below assume per-asset fault *events*; §1.3 is a catalog with no
-`asset_id`/`fault_ts`/`active_flag` columns. See §7.
+As of v1.3, rules 1, 3, and 4 below apply against `fault_events_raw` (§1.6),
+which carries `asset_id`/`fault_ts`/`active_flag`/`cleared_ts` — not against
+`fault_codes_raw` (§1.3), which remains a static catalog with no per-asset
+columns. `severity` (rule 2) lives only on `fault_codes_raw`, not
+`fault_events_raw`, so it requires a join on `fault_code` between the two
+sources rather than existing on either one alone. This DQ table itself
+(`stg_fault_aggregations`/`int_iw_fault_aggregations` per the dbt
+staging/intermediate naming convention) is not yet built — Bronze landing
+only, as of this pass. See `docs/ADR/OPEN_DECISIONS.md` OPEN-002 (Resolved).
 1. Drop records with null `asset_id` or `fault_code`.
-2. Standardize `severity` to `{LOW, MEDIUM, HIGH, CRITICAL}`; unrecognized
-   values default to `MEDIUM`.
+2. Join to `fault_codes_raw` on `fault_code` to resolve `severity`;
+   standardize to `{LOW, MEDIUM, HIGH, CRITICAL}` — unrecognized values
+   default to `MEDIUM`.
 3. Deduplicate on `(asset_id, fault_code, fault_ts)`.
 4. Derive `active_flag = TRUE` where `cleared_ts IS NULL`.
 5. Discard records whose `fault_ts` falls outside the asset's operational
@@ -319,11 +360,14 @@ AVERAGE ( fact_equipment_health[days_since_service] )
   `hours_since_service ÷ service_interval_hours`~~ — now calendar
   days-since-service against a reference cadence; no field gap.
 
+### Resolved (v1.3, via `docs/ADR/OPEN_DECISIONS.md` OPEN-002)
+- ~~`fault_codes.json` is a static code-definition catalog, not a per-asset
+  fault-event stream~~ — a real per-asset stream now exists as a separate
+  Bronze source, `fault_events_raw` (§1.6), derived from telemetry anomaly
+  signals and landed via `pl_bronze_fault_events_load`. `fault_codes_raw`
+  itself is unchanged and remains a catalog. The Silver
+  `stg_fault_aggregations`/`int_iw_fault_aggregations` models referenced in
+  §2.3 are not yet built — this resolves the Bronze-layer field gap only.
+
 ### Still open
-1. **`fault_codes.json` is a static code-definition catalog**, not a
-   per-asset fault-event stream. §2.3's DQ rules and the health-score
-   formula's "currently active faults" term both assume per-asset fault
-   events with `asset_id`/`fault_ts`/`active_flag`/`cleared_ts`. This
-   mismatch predates the OREXA pivot (the v1.0 generator never produced
-   fault events either) and is unchanged by this pass — not addressed by
-   ADR-008, no decision has been made on it.
+_None at this time._

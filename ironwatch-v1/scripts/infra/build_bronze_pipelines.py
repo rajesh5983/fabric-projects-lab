@@ -24,6 +24,7 @@ SOURCES = [
     {"pipeline": "pl_bronze_fault_codes_load", "activity": "CopyFaultCodes", "file": "fault_codes.json", "format": "json", "table": "fault_codes_raw"},
     {"pipeline": "pl_bronze_service_history_load", "activity": "CopyServiceHistory", "file": "service_history.csv", "format": "csv", "table": "service_history_raw"},
     {"pipeline": "pl_bronze_oil_samples_load", "activity": "CopyOilSamples", "file": "oil_samples.csv", "format": "csv", "table": "oil_samples_raw"},
+    {"pipeline": "pl_bronze_fault_events_load", "activity": "CopyFaultEvents", "file": "fault_events.json", "format": "json", "table": "fault_events_raw"},
 ]
 
 
