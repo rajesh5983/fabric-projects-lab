@@ -131,6 +131,10 @@ def generate_telemetry(asset_ids, sites, days):
     timestamps = pd.date_range(start=start, periods=readings_per_unit, freq="15min")
 
     frames = []
+    # Per-asset anomaly masks, captured (not recomputed) for generate_fault_events()
+    # so the fault-event stream is derived from the exact same draws that produced
+    # telemetry.parquet — not an independent re-roll (OPEN-002).
+    anomaly_masks = {}
     for idx, asset_id in enumerate(asset_ids):
         n = readings_per_unit
         center_lat, center_lon = SITE_COORDS[sites[idx]]
@@ -177,9 +181,15 @@ def generate_telemetry(asset_ids, sites, days):
             "gps_lon": gps_lon.round(6),
         }))
 
+        anomaly_masks[asset_id] = {
+            "temp": is_temp_anomaly,
+            "pressure": is_pressure_drop,
+            "rpm": is_rpm_spike,
+        }
+
         report_progress("telemetry", idx, len(asset_ids))
 
-    return pd.concat(frames, ignore_index=True)
+    return pd.concat(frames, ignore_index=True), timestamps, anomaly_masks
 
 
 def generate_fault_codes():
@@ -193,6 +203,72 @@ def generate_fault_codes():
         }
         for i, (code, category, description) in enumerate(FAULT_CATALOG)
     ]
+
+
+# Resolves OPEN-002 (docs/ADR/OPEN_DECISIONS.md): maps each of generate_telemetry()'s
+# three anomaly signals to the OX- fault code it represents. Only these three codes
+# can ever appear in fault_events.json — fault events are derived exclusively from
+# real telemetry anomalies, not invented independently, so the other 12 catalog
+# codes (electrical/undercarriage/sensor categories) have no telemetry signal to
+# derive from and are intentionally never emitted here.
+FAULT_CODE_BY_ANOMALY = {
+    "temp": "OX-101",      # Engine overheat — direct match: coolant_temp_c anomaly IS an overheat.
+    "pressure": "OX-205",  # Hydraulic pressure loss — direct match: hydraulic_pressure_bar anomaly.
+    "rpm": "OX-120",       # Fuel system fault — inferred: no catalog code names "RPM spike"
+                           # directly; an engine_rpm spike is modeled as a symptom of irregular
+                           # fuel delivery, the closest engine-category fault in the catalog.
+}
+
+# A single anomalous 15-min reading is sensor noise, not a real fault — require a
+# sustained run before promoting it to a discrete fault-event row. 3 consecutive
+# readings = 45 minutes sustained.
+MIN_ANOMALY_RUN_READINGS = 3
+
+
+def _anomaly_runs_to_fault_events(asset_id, timestamps, anomaly_mask, fault_code):
+    """One row per contiguous run of `anomaly_mask` at least
+    MIN_ANOMALY_RUN_READINGS long. fault_ts is the run's first anomalous
+    reading; cleared_ts is the first reading after it returns to normal, or
+    None if the run is still open at the end of the series (active_flag=True)."""
+    rows = []
+    n = len(anomaly_mask)
+    i = 0
+    while i < n:
+        if not anomaly_mask[i]:
+            i += 1
+            continue
+        start = i
+        while i < n and anomaly_mask[i]:
+            i += 1
+        if i - start >= MIN_ANOMALY_RUN_READINGS:
+            cleared_ts = timestamps[i] if i < n else None
+            rows.append({
+                "asset_id": asset_id,
+                "fault_code": fault_code,
+                "fault_ts": timestamps[start],
+                "active_flag": cleared_ts is None,
+                "cleared_ts": cleared_ts,
+            })
+    return rows
+
+
+def generate_fault_events(asset_ids, timestamps, anomaly_masks):
+    """Per-asset fault-event stream derived from generate_telemetry()'s anomaly
+    masks — resolves OPEN-002 (docs/ADR/OPEN_DECISIONS.md). Every row traces
+    back to a real sustained telemetry anomaly for that asset; nothing here is
+    invented independently of telemetry."""
+    records = []
+    for asset_id in asset_ids:
+        masks = anomaly_masks[asset_id]
+        for anomaly_type, fault_code in FAULT_CODE_BY_ANOMALY.items():
+            records.extend(_anomaly_runs_to_fault_events(
+                asset_id, timestamps, masks[anomaly_type], fault_code
+            ))
+
+    df = pd.DataFrame.from_records(
+        records, columns=["asset_id", "fault_code", "fault_ts", "active_flag", "cleared_ts"]
+    )
+    return df.sort_values(["asset_id", "fault_ts"]).reset_index(drop=True)
 
 
 def _scheduled_service_marks(start_hours, end_hours):
@@ -309,23 +385,41 @@ def main():
     asset_df.to_csv(output_dir / "asset_master.csv", index=False)
     print(f"      -> {len(asset_df)} rows written")
 
-    print("[2/5] telemetry.parquet")
-    telemetry_df = generate_telemetry(asset_ids, sites, config["days"])
+    print("[2/6] telemetry.parquet")
+    telemetry_df, telemetry_timestamps, telemetry_anomalies = generate_telemetry(
+        asset_ids, sites, config["days"]
+    )
     telemetry_df.to_parquet(output_dir / "telemetry.parquet", index=False, engine="pyarrow")
     print(f"      -> {len(telemetry_df):,} rows written")
 
-    print("[3/5] fault_codes.json")
+    print("[3/6] fault_codes.json")
     fault_codes = generate_fault_codes()
     with open(output_dir / "fault_codes.json", "w", encoding="utf-8") as f:
         json.dump(fault_codes, f, indent=2)
     print(f"      -> {len(fault_codes)} records written")
 
-    print("[4/5] service_history.csv")
+    print("[4/6] fault_events.json")
+    fault_events_df = generate_fault_events(asset_ids, telemetry_timestamps, telemetry_anomalies)
+    fault_events_records = [
+        {
+            "asset_id": row.asset_id,
+            "fault_code": row.fault_code,
+            "fault_ts": row.fault_ts.isoformat(),
+            "active_flag": bool(row.active_flag),
+            "cleared_ts": row.cleared_ts.isoformat() if row.cleared_ts is not None else None,
+        }
+        for row in fault_events_df.itertuples()
+    ]
+    with open(output_dir / "fault_events.json", "w", encoding="utf-8") as f:
+        json.dump(fault_events_records, f, indent=2)
+    print(f"      -> {len(fault_events_records):,} rows written")
+
+    print("[5/6] service_history.csv")
     service_df = generate_service_history(asset_ids, base_hours, config["days"])
     service_df.to_csv(output_dir / "service_history.csv", index=False)
     print(f"      -> {len(service_df):,} rows written")
 
-    print("[5/5] oil_samples.csv")
+    print("[6/6] oil_samples.csv")
     oil_df = generate_oil_samples(asset_ids, base_hours, config["days"])
     oil_df.to_csv(output_dir / "oil_samples.csv", index=False)
     print(f"      -> {len(oil_df):,} rows written")
@@ -335,8 +429,9 @@ def main():
         f"Generated: telemetry.parquet ({len(telemetry_df):,} rows), "
         f"asset_master.csv ({len(asset_df)} rows),\n"
         f"           fault_codes.json ({len(fault_codes)} records), "
-        f"service_history.csv ({len(service_df):,} rows),\n"
-        f"           oil_samples.csv ({len(oil_df):,} rows)"
+        f"fault_events.json ({len(fault_events_records):,} rows),\n"
+        f"           service_history.csv ({len(service_df):,} rows), "
+        f"oil_samples.csv ({len(oil_df):,} rows)"
     )
     print(f"Output: {config['output_path']}")
     print(f"Seed: {SEED} | Reproducible: YES")
