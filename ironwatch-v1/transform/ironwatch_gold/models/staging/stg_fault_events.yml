@@ -24,6 +24,10 @@ models:
           - accepted_values:
               arguments:
                 values: ['OX-101', 'OX-120', 'OX-205']
+          - relationships:
+              arguments:
+                to: ref('stg_fault_codes')
+                field: fault_code
       - name: fault_ts
         description: When the underlying sustained anomaly run started.
         tests:

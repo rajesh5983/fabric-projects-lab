@@ -30,13 +30,24 @@ with fault_events_enriched as (
 
 most_recent_fault as (
 
+    -- Two different anomaly types can start a qualifying run at the exact
+    -- same 15-min reading for the same asset (independent draws over the
+    -- same timestamp series), which would tie on fault_ts. No sequence/
+    -- ingestion-order column exists on fault_events_raw to break that tie,
+    -- so fault_code (alphabetical) is used as an explicit, deterministic --
+    -- if arbitrary -- secondary key. Without it, ROW_NUMBER() has no
+    -- guaranteed stable order across ties and this view's "most recent
+    -- fault" columns could flip between runs.
     select
         asset_id,
         fault_code,
         fault_ts,
         category,
         severity,
-        row_number() over (partition by asset_id order by fault_ts desc) as rn
+        row_number() over (
+            partition by asset_id
+            order by fault_ts desc, fault_code asc
+        ) as rn
     from fault_events_enriched
 
 ),

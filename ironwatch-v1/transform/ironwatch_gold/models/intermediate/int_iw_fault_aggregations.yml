@@ -25,6 +25,7 @@ models:
         description: Natural key of the equipment asset (e.g. T220-001).
         tests:
           - not_null
+          - unique
           - relationships:
               arguments:
                 to: ref('stg_equipment')
