@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: int_iw_fault_aggregations
+    description: >
+      Per-asset fault-event enrichment and aggregation. Joins
+      stg_fault_events to stg_equipment (asset attributes) and to
+      stg_fault_codes (category/description/severity), then aggregates to
+      one row per asset: total_fault_count, active_fault_count,
+      distinct_fault_code_count, and the most recent fault's
+      code/category/severity/timestamp. Every stg_equipment asset appears
+      exactly once, including assets with zero faults (counts coalesced
+      to 0, most-recent-fault columns null).
+
+      hours_operated not-negative check: NOT applied. Re-confirmed
+      directly against ADR-008
+      (docs/ADR/ADR-008-utilization-and-health-score-redesign.md, Status:
+      Accepted, 2026-06-20) before building this model -- hours_operated
+      does not exist on any Bronze source (telemetry, asset registry, or
+      otherwise), and Option B (reintroducing it) was explicitly rejected
+      in favor of calendar-time-based logic. There is no field to check
+      against; this is a confirmed absence, not an oversight.
+    columns:
+      - name: asset_id
+        description: Natural key of the equipment asset (e.g. T220-001).
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_equipment')
+                field: asset_id
+      - name: total_fault_count
+        description: Total number of fault events ever recorded for this asset.
+      - name: active_fault_count
+        description: >
+          Count of currently-active (uncleared) faults for this asset.
+          Never negative and never exceeds total_fault_count -- see
+          tests/assert_fault_aggregations_active_count_valid.sql.

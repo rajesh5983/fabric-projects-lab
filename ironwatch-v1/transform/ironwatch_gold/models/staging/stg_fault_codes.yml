@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: stg_fault_codes
+    description: >
+      Light staging pass over the Bronze fault_codes_raw source (static
+      OX- fault-code reference catalog -- 15 rows, one per fault code, not
+      a per-asset event stream; see stg_fault_events for that). One-to-one
+      with Bronze -- column rename and type casts only, no joins.
+    columns:
+      - name: fault_code
+        description: OX- fault code, e.g. OX-101.
+        tests:
+          - not_null
+          - unique
