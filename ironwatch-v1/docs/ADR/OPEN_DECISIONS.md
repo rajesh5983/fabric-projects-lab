@@ -49,3 +49,41 @@ v1.0 §5 formula. Both are currently flagged as known gaps in
 (promoted to [ADR-008](ADR-008-utilization-and-health-score-redesign.md),
 2026-06-20). This trailing line previously still read "Unresolved", left
 over from before the item was actually resolved — corrected 2026-07-18.
+
+---
+
+## OPEN-002: No per-asset fault-event stream exists in Bronze
+
+**Raised:** 2026-08-01, during Silver build-out for `stg_fault_aggregations` /
+`int_iw_fault_aggregations`.
+
+**Finding:** `fault_codes_raw` is a static 15-row code-definition catalog
+only (`fault_code`/`category`/`description`/`severity`), confirmed against
+all 5 Bronze sources (`telemetry_raw`, `oil_samples_raw`, `fault_codes_raw`,
+`asset_master_raw`, `service_history_raw`) and the full synthetic data
+generator (`synthetic_data/generators/generate_all.py`). No table or
+generator function produces per-asset fault occurrences
+(`asset_id`/`fault_ts`/`active_flag`/`cleared_ts`). The only anomaly concept
+in the codebase is raw sensor-value drift on `telemetry_raw`
+(`is_temp_anomaly`/`is_pressure_drop`/`is_rpm_spike` flags in
+`generate_telemetry()`), which is not linked to `OX-` fault codes at all.
+
+**Impact:** `int_iw_fault_aggregations` as originally scoped (join fault
+events to equipment, apply an `hours_operated` not-negative check) cannot
+be built — there's nothing to join or aggregate on the fault side.
+
+**Options (not mutually exclusive with future iteration, but pick one to
+build against first):**
+
+| Option | Description | Trade-off |
+|---|---|---|
+| A. Extend the synthetic data generator | Add a real per-asset fault-event table (`asset_id`/`fault_ts`/`active_flag`/`cleared_ts`) to `generate_all.py` before this model can be built | Unblocks the model as originally scoped; requires a new Bronze source, a new Copy Activity pipeline, and generator/spec changes |
+| B. Re-scope `stg_fault_aggregations` | Build it as a dim-style staging pass over the code catalog only (rename/cast, no aggregation); defer the per-asset fault-event stream to a later build phase | No generator change needed; ships something now, but "aggregations" in the model name no longer matches what it does, and `int_iw_fault_aggregations` stays unbuilt until Option A (or equivalent) happens later |
+
+**Downstream impact if left unresolved:** `stg_fault_aggregations` and
+`int_iw_fault_aggregations` cannot be built per the originally scoped
+join/enrichment design. This was already flagged as a known gap in
+`docs/DATA_MODEL.md` §7 (Still open, item 1) — this entry formalizes it as
+an explicit decision point blocking the Silver fault-side build.
+
+**Status:** OPEN — no decision made yet.
