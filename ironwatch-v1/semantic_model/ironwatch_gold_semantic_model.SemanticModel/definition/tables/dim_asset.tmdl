@@ -1,0 +1,63 @@
+table dim_asset
+	lineageTag: c3c31d34-59b6-4a3e-9b50-08676c62cd56
+
+	column asset_key
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: asset_key
+		lineageTag: 017131f3-ca48-402b-8268-0d60f8b810b5
+
+	column asset_id
+		dataType: string
+		summarizeBy: none
+		sourceColumn: asset_id
+		lineageTag: bd9fd01b-5f0c-4a9a-9c06-eb218f5a4c65
+
+	column equipment_line
+		dataType: string
+		summarizeBy: none
+		sourceColumn: equipment_line
+		lineageTag: 10c73744-3343-4c3b-a164-ff4522ace39e
+
+	column model
+		dataType: string
+		summarizeBy: none
+		sourceColumn: model
+		lineageTag: a955e10c-55d0-4763-b056-1c5e4ef4a3f8
+
+	column site
+		dataType: string
+		summarizeBy: none
+		sourceColumn: site
+		lineageTag: b0b83eca-d21a-445a-ae43-cea9f07bae1c
+
+	column commission_date
+		dataType: dateTime
+		formatString: Long Date
+		summarizeBy: none
+		sourceColumn: commission_date
+		lineageTag: 2e47e7e2-74d6-416e-8c6b-2f7f415a747e
+
+	column status
+		dataType: string
+		summarizeBy: none
+		sourceColumn: status
+		lineageTag: 39430e2c-b59a-4811-9c7c-502f5f03890d
+
+	column _loaded_utc
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: _loaded_utc
+		lineageTag: 0f53a5d0-83e4-4a9b-9734-fb0ec70a9af7
+
+	partition dim_asset = entity
+		mode: directLake
+		source
+			entityName: dim_asset
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

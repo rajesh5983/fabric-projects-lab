@@ -1,0 +1,11 @@
+expression DatabaseQuery =
+		let
+			Source = Sql.Database("75qo7qg6n4suhbcaukfphu52qa-efylxyfd6mhuhjzziqwuxz5eb4.datawarehouse.fabric.microsoft.com", "ironwatch_gold")
+		in
+			Source
+	lineageTag: 886b5f1a-f684-414a-a533-9bec5d2a9771
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

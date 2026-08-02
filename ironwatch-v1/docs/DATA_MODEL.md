@@ -4,9 +4,22 @@ Phase 4 decisions: Bronze source inventory, Silver DQ rules, the oil-sample
 temporal join, the Gold star schema, the health-score formula, SLA
 metrics, and the semantic-model DAX measure stubs.
 
-Data model version: v1.5 | Status: FINAL (Sections 1, 2, 3, 4, 5, 6)
+Data model version: v1.6 | Status: FINAL (Sections 1, 2, 3, 4, 5, 6)
 
 ## Changelog
+- **v1.6 (2026-08-02):** Resolves OPEN-003 — adds `stg_oil_samples` (§2.7,
+  1:1 staging) and `int_iw_oil_sample_telemetry_join` (§2.7, the real
+  ADR-008 §3 same-calendar-day match to telemetry, previously only a
+  design sketch). `fact_health_score`'s formula (§5) is now the complete
+  3-term formula — OilVerdictPenalty applied, sourced from the matched
+  join output's most-recent-by-`sample_date` verdict per asset; an asset
+  with no matched sample gets penalty 0, not the max. Re-verification
+  (§5) shows the fault-penalty term still computes exactly right
+  (direct formula-arithmetic check), but the fleet-wide ranking picture
+  changed materially: none of the 3 known fault-active assets are near
+  the bottom anymore, since `Critical` oil verdicts (25-point penalty)
+  now dominate the low end of the distribution for several fault-free
+  assets — documented plainly, not smoothed over.
 - **v1.5 (2026-08-02):** First end-to-end Bronze→Silver→Gold build with
   real transformation logic — Gold's marts (`dim_asset`, `dim_date`,
   `fact_telemetry`, `fact_health_score`, `fact_sla_metrics`) are real dbt
@@ -284,6 +297,33 @@ model doesn't enforce either). Tested: `not_null` + `unique` on
 `work_order_id`, `not_null` on `asset_id`/`service_date`,
 `accepted_values` on `service_type`.
 
+### 2.7 `stg_oil_samples` / `int_iw_oil_sample_telemetry_join` — real, built dbt models (v1.6)
+
+Real, built dbt models
+(`transform/ironwatch_gold/models/staging/stg_oil_samples.sql`,
+`.../intermediate/int_iw_oil_sample_telemetry_join.sql`), resolving
+OPEN-003 (docs/ADR/OPEN_DECISIONS.md).
+
+**`stg_oil_samples`** — 1:1 staging pass over `oil_samples_raw` (§1.2).
+Column rename/type casts only. Tested: `not_null` + `unique` on
+`sample_id`, `not_null` on `asset_id`/`sample_date`, `accepted_values` on
+`lab_verdict`.
+
+**`int_iw_oil_sample_telemetry_join`** — the real ADR-008 §3
+same-calendar-day temporal join this section (§2.2 originally, before
+v1.4's rewrite) described but never built: matches each oil sample to
+the `stg_telemetry` reading closest to local midday (12:00 UTC — this
+dataset has no timezone concept) on the same calendar day, attaching
+sensor context (`coolant_temp_c`, `hydraulic_pressure_bar`, etc.) to the
+sample. An oil sample with no telemetry reading on its `sample_date` has
+no match and is dropped (inner join) — this reproduces the drop behavior
+originally sketched as DQ rule 2.2.5. Tested: `not_null` + `unique` on
+`sample_id`, `relationships` back to `stg_equipment` on `asset_id`.
+
+`fact_health_score`'s OilVerdictPenalty term sources its "most recent
+matched oil sample" from this model's output (most recent by
+`sample_date` per asset), not from raw `stg_oil_samples` — see §5.
+
 ---
 
 ## 3. Silver Oil Sample Temporal Join
@@ -324,7 +364,11 @@ v1.0-v1.4 aspirational design. The earlier diagram assumed
 per-asset-per-hour grain with separate surrogate-keyed `dim_fault_type`/
 `dim_oil_verdict` dimensions — not achievable from the Silver models
 built so far (no per-hour fault/service granularity exists anywhere
-upstream, and no `stg_oil_samples` model exists yet — see OPEN-003).
+upstream). As of v1.6, `stg_oil_samples`/`int_iw_oil_sample_telemetry_join`
+do exist (OPEN-003 is resolved), but fault/oil data is still consumed
+directly from the intermediate models' asset-grain columns rather than
+through separate surrogate-keyed dimensions — see the note below the
+diagram.
 
 ```
         dim_asset                        dim_date
@@ -350,10 +394,11 @@ upstream, and no `stg_oil_samples` model exists yet — see OPEN-003).
   │              fact_health_score                  │   grain: one row per
   │ asset_key (FK) / date_key (FK) / asset_id        │   asset (current-state
   │ active_fault_count / most_recent_fault_severity  │   snapshot, not per-hour)
-  │ fault_penalty / last_service_date                │
-  │ days_since_service / pct_through_service_window  │
-  │ service_window_penalty / health_score            │
-  │ health_band / _loaded_utc                        │
+  │ fault_penalty / last_oil_sample_date             │
+  │ most_recent_oil_verdict / oil_verdict_penalty    │
+  │ last_service_date / days_since_service            │
+  │ pct_through_service_window / service_window_penalty│
+  │ health_score / health_band / _loaded_utc          │
   └─────────────────────────────────────────────────┘
 
   ┌─────────────────────────────────────────────────┐
@@ -377,9 +422,11 @@ per-day breakdown to key against) — both instead carry their own
 snapshot-date context inline (`fact_health_score.date_key` reflects the
 formula's `AS_OF_DATE`, see §5). Fault data is consumed directly from
 `int_iw_fault_aggregations` (asset-grain columns: `active_fault_count`,
-`most_recent_fault_severity`, etc.) rather than through a separate
-surrogate-keyed `dim_fault_type` — no per-event fault dimension was
-built this pass. There is no `dim_oil_verdict` either — see OPEN-003.
+`most_recent_fault_severity`, etc.) and oil-verdict data directly from
+`int_iw_oil_sample_telemetry_join` (`most_recent_oil_verdict`, etc.),
+rather than through separate surrogate-keyed `dim_fault_type`/
+`dim_oil_verdict` dimensions — no per-event fault or oil dimension was
+built.
 
 ---
 
@@ -391,18 +438,20 @@ the v1.0 service-interval term, which depended on
 `hours_since_service ÷ service_interval_hours`; neither field has a source
 in the OREXA Bronze inventory (§1).
 
-**As built in `fact_health_score` (v1.5), this is a documented 2-of-3-term
-subset** — OilVerdictPenalty is not applied. See
-[OPEN-003](ADR/OPEN_DECISIONS.md) for why: no `stg_oil_samples` model
-exists yet, and per ADR-008 §3 it needs a same-calendar-day temporal
-join, a separate, bigger build than a 1:1 staging passthrough.
+**As built in `fact_health_score` (v1.6), this is the complete 3-term
+formula** — OilVerdictPenalty is now applied, resolving
+[OPEN-003](ADR/OPEN_DECISIONS.md). `stg_oil_samples` and
+`int_iw_oil_sample_telemetry_join` (the ADR-008 §3 same-calendar-day
+match to telemetry) were built to unlock this term.
 
 ```
 HealthScore = 100
   − (active_fault_count × FaultPenalty(most_recent_fault_severity))
+  − OilVerdictPenalty(most_recent_oil_verdict)
   − (pct_through_service_window × 20)
 
 FaultPenalty:                LOW = 2   MEDIUM = 5   HIGH = 10   CRITICAL = 20
+OilVerdictPenalty:           Normal = 0   Watch = 10   Critical = 25
 pct_through_service_window:  min(days_since_service / 30.0, 1.0)
                              (1.0 -- max penalty -- if the asset has no
                              service_history row at all)
@@ -426,6 +475,13 @@ whenever `active_fault_count ≤ 1` — true for every asset in the current
 synthetic snapshot (OPEN-002: only 3 assets carry a single
 deterministically-reopened active fault each; all others have 0).
 
+**OilVerdictPenalty note:** sourced from
+`int_iw_oil_sample_telemetry_join` (the ADR-008 §3 matched output, not
+raw `stg_oil_samples`) — most recent by `sample_date` per asset. An
+asset with no matched oil sample at all gets `oil_verdict_penalty = 0`
+(a data-availability gap, not an inherent risk signal — unlike
+service-window's "no record = max penalty" convention).
+
 **AS_OF_DATE note (deliberate departure from ADR-008's literal wording):**
 this is a frozen 90-day synthetic dataset (telemetry ends 2026-06-06),
 not a live feed. Using literal `CURRENT_DATE` for `days_since_service`
@@ -437,8 +493,7 @@ model is rerun, despite the underlying data never changing.
 across assets based on actual `service_date` differences. Confirmed as
 the intended approach before building.
 
-### Worked Example (illustrative — shows the full 3-term formula's shape;
-not what `fact_health_score` currently computes, per the 2-term note above)
+### Worked Example
 Asset with **2 active faults (1 HIGH, 1 MEDIUM)**, a **Watch** oil verdict,
 and **80% through its reference service window** (e.g. 24 days since
 service against a 30-day reference cadence):
@@ -457,28 +512,49 @@ band. (Same numeric shape as the v1.0 example — only the service term's
 units changed, from operating hours to calendar days.)
 
 ### Real Verification (2026-08-02, against the actual built model)
-Matching each fault-active asset against a fault-free asset with
-*identical* `days_since_service` (controlling for the independent
-service-window term) isolates the FaultPenalty term exactly:
 
-| Asset | active_fault_count | Severity | days_since_service | health_score | Matched fault-free comparison | Delta |
+**2-term verification (FaultPenalty + service-window, before
+OilVerdictPenalty was added):** matching each fault-active asset against
+a fault-free asset with *identical* `days_since_service` isolated the
+FaultPenalty term exactly (deltas of exactly −5.0, −5.0, −2.0). At that
+point, only `T320-007` was unambiguously near the bottom of the raw
+fleet-wide ranking (2nd-worst of 50); `G16-001`/`T220-011` landed
+mid-pack because both had been serviced recently, offsetting their fault
+penalty.
+
+**3-term re-verification (after OilVerdictPenalty was added):** a direct
+formula-arithmetic check — the most rigorous verification, since it
+doesn't depend on finding a real-world twin — confirms all three
+fault-active assets' scores reconcile exactly:
+
+| Asset | Fault penalty | Oil verdict | Oil penalty | Service penalty | Computed | Actual `health_score` |
 |---|---|---|---|---|---|---|
-| `G16-001` | 1 | MEDIUM | 2 | 93.667 | `T320-009`/`K45-008`/`K45-009` (dss=2) → 98.667 | exactly −5.0 |
-| `T320-007` | 1 | MEDIUM | 10 | 88.333 | `K60-001`/`K60-003` (dss=10) → 93.333 | exactly −5.0 |
-| `T220-011` | 1 | LOW | 6 | 94.000 | `T220-001`/`K45-002`/`G14-001` (dss=6) → 96.000 | exactly −2.0 |
+| `G16-001` | −5 | Normal | −0 | −1.333 | 100−5−0−1.333 | **93.667** ✓ |
+| `T220-011` | −2 | Watch | −10 | −4.000 | 100−2−10−4.000 | **84.000** ✓ |
+| `T320-007` | −5 | Normal | −0 | −6.667 | 100−5−0−6.667 | **88.333** ✓ |
 
-The FaultPenalty term is computed correctly, point-for-point. However,
-a **raw fleet-wide ranking** of all 50 assets by `health_score` does
-*not* cleanly separate all 3 fault-active assets from the pack: only
-`T320-007` (88.333) is unambiguously near the bottom (2nd-worst of all
-50 — only `T220-003`, fault-free but 23 days since service, scores
-lower at 84.667). `G16-001` and `T220-011` land mid-pack (~32nd and
-~28th of 50) because both happen to have been serviced recently, which
-offsets their fault penalty. This is correct behavior for an honest
-additive multi-term formula (a recently-serviced asset with a minor
-fault can reasonably outscore a well-overdue fault-free one) — not a
-defect — but it means the fault signal alone doesn't dominate the score
-in every case, by design.
+An empirical triple-matched pair (identical `days_since_service` *and*
+identical oil verdict) exists for one of the three: `G16-001` (dss=2,
+Normal, fault_penalty=5) = 93.667 vs. `K45-008` (dss=2, Normal, no
+fault) = 98.667 → exactly −5.0. No exact triple match exists for the
+other two in this 50-asset dataset (three independent variables makes an
+exact match on two of them simultaneously less likely) — the direct
+arithmetic check above already confirms those two correctly.
+
+**Fleet-wide ranking materially changed with the oil term added — worth
+stating plainly:** none of the 3 fault-active assets are near the bottom
+of the ranking anymore. `G16-001` → 21st of 50, `T320-007` → 36th of 50,
+`T220-011` → ~42nd of 50. The reason: `Critical` oil verdicts carry a
+25-point penalty — larger than any single fault penalty (max 20) — and
+now dominate the low end of the distribution. The 3 actual **worst**-
+scoring assets in the fleet are all fault-free with a `Critical` oil
+verdict: `K60-003` (68.3), `T220-001` (71.0), `T320-005` (75.0). This is
+correct multi-term formula behavior (a bad oil sample is a real,
+independent risk signal, and this dataset happens to have several
+assets with severe oil readings and no faults) — not a defect — but it
+means the fault signal, while computed exactly right, is now the
+*weakest* of the three penalty terms for visibly separating assets in a
+raw ranking.
 
 ---
 
@@ -566,10 +642,11 @@ AVERAGE ( fact_health_score[days_since_service] )
   passing) and an independent data query confirming the fault-penalty
   term computes correctly.
 
+### Resolved (v1.6, via `docs/ADR/OPEN_DECISIONS.md` OPEN-003)
+- ~~`fact_health_score`'s OilVerdictPenalty term was not applied~~ —
+  `stg_oil_samples` and `int_iw_oil_sample_telemetry_join` (the real
+  ADR-008 §3 temporal join) are now built; the formula is the complete
+  3-term version.
+
 ### Still open
-- **OPEN-003** ([docs/ADR/OPEN_DECISIONS.md](ADR/OPEN_DECISIONS.md)):
-  `fact_health_score`'s OilVerdictPenalty term is not applied — no
-  `stg_oil_samples` model exists yet, and per ADR-008 it needs a
-  same-calendar-day temporal join, a separate, bigger build than simple
-  staging. The formula is a documented 2-of-3-term subset until this is
-  resolved.
+_None at this time._

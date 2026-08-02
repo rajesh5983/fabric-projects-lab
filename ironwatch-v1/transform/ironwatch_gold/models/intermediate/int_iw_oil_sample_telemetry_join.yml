@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: int_iw_oil_sample_telemetry_join
+    description: >
+      Oil-sample <-> telemetry same-calendar-day temporal join, per
+      ADR-008 §3 -- resolves the oil-side half of OPEN-003. Attaches
+      telemetry operating context (coolant_temp_c, hydraulic_pressure_bar,
+      etc.) to each oil sample, matched to the telemetry reading closest
+      to local midday (12:00 UTC -- this dataset has no timezone concept)
+      on the same calendar day. An oil sample with no telemetry reading
+      on its sample_date has no match and is dropped (inner join),
+      matching Silver DQ rule 2.2.5's documented drop behavior.
+    columns:
+      - name: sample_id
+        description: Natural key of the oil sample (UUID).
+        tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: Natural key of the sampled equipment asset.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_equipment')
+                field: asset_id
+      - name: sample_date
+        description: Date the sample was drawn.
+        tests:
+          - not_null
+      - name: lab_verdict
+        description: Lab-assessed oil condition verdict.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Normal', 'Watch', 'Critical']
+      - name: matched_telemetry_timestamp
+        description: >
+          The stg_telemetry reading closest to local midday on
+          sample_date, for the same asset_id.
+        tests:
+          - not_null

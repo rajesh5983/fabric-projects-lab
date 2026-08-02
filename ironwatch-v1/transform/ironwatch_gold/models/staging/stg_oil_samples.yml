@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: stg_oil_samples
+    description: >
+      Light staging pass over the Bronze oil_samples_raw source (FluidLab
+      oil-condition monitoring). One-to-one with Bronze -- column rename
+      and type casts only, no joins or business logic. Built to resolve
+      OPEN-003 (docs/ADR/OPEN_DECISIONS.md) -- see
+      int_iw_oil_verdict_temporal_join for the ADR-008 same-calendar-day
+      match to telemetry/fault context.
+    columns:
+      - name: sample_id
+        description: Natural key of the oil sample (UUID).
+        tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: Natural key of the sampled equipment asset (e.g. T220-001).
+        tests:
+          - not_null
+      - name: sample_date
+        description: Date the sample was drawn.
+        tests:
+          - not_null
+      - name: lab_verdict
+        description: Lab-assessed oil condition verdict.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Normal', 'Watch', 'Critical']

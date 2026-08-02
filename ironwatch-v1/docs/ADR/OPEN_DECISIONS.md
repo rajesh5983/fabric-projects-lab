@@ -125,10 +125,24 @@ consume it are a separate, still-pending follow-up.
 
 ---
 
-## OPEN-003: OilVerdictPenalty not applied in fact_health_score — OPEN
+## OPEN-003: OilVerdictPenalty not applied in fact_health_score — RESOLVED
 
 **Raised:** 2026-08-02, during the Gold layer build-out (dim_asset,
 dim_date, fact_telemetry, fact_health_score, fact_sla_metrics).
+**Resolved:** 2026-08-02 — Option A. Added `stg_oil_samples` (1:1 staging
+passthrough over `oil_samples_raw`) and
+`int_iw_oil_sample_telemetry_join` (the ADR-008 §3 same-calendar-day
+match to `stg_telemetry`, matching each oil sample to the telemetry
+reading closest to local midday on the same calendar day; samples with
+no telemetry match on that date are dropped, per Silver DQ rule 2.2.5).
+`fact_health_score` now computes the full 3-term formula: OilVerdictPenalty
+is the most recent matched sample's verdict per asset (Normal=0/Watch=10/
+Critical=25); an asset with no matched oil sample gets penalty 0 (a
+data-availability gap, not an inherent risk signal). Verified: `dbt
+test` passes (including the existing health-score-range test extended to
+cover the new term), and the matched-pair analysis from the original
+build (isolating FaultPenalty by comparing assets with identical
+days_since_service) still holds with the new term added.
 
 **Problem:** DATA_MODEL.md §5's health-score formula (per ADR-008) has
 three terms: FaultPenalty, OilVerdictPenalty, and a service-window

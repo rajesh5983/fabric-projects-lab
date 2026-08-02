@@ -1,0 +1,139 @@
+table fact_health_score
+	lineageTag: baa2b65f-a7c8-412e-af1f-314a6aae59e0
+
+	measure 'Health Score' = AVERAGE ( fact_health_score[health_score] )
+		formatString: 0.0
+		lineageTag: 3722417e-b64f-41ca-925f-55b9b5924ed2
+
+	measure 'Fleet at Risk' = ```
+			COUNTROWS (
+			    FILTER (
+			        VALUES ( dim_asset[asset_id] ),
+			        [Health Score] < 60
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: 4af8a3b0-3b4e-48d6-8fe8-4c92afef8dcb
+
+	measure 'Avg Days Since Service' = AVERAGE ( fact_health_score[days_since_service] )
+		formatString: 0.0
+		lineageTag: eda291a4-2a9e-4c64-992d-60e4f2e8ea08
+
+	column asset_key
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: asset_key
+		lineageTag: c7b00113-1801-4f8a-a2cf-a1dd6cbb26e5
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: date_key
+		lineageTag: 2864d3c4-3cdd-42b1-94e3-a6a09417cc6e
+
+	column asset_id
+		dataType: string
+		summarizeBy: none
+		sourceColumn: asset_id
+		lineageTag: 7f7822ca-9b4e-47ac-8001-1c116c9445cb
+
+	column active_fault_count
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: active_fault_count
+		lineageTag: ee2cb666-1012-487c-92a2-4cfb70d18849
+
+	column most_recent_fault_severity
+		dataType: string
+		summarizeBy: none
+		sourceColumn: most_recent_fault_severity
+		lineageTag: 05c2dcaf-f2a6-46e2-962b-e741df9f882a
+
+	column fault_penalty
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: fault_penalty
+		lineageTag: 67736c19-f6bf-4d68-8467-32e681cdcf1f
+
+	column last_oil_sample_date
+		dataType: dateTime
+		formatString: Long Date
+		summarizeBy: none
+		sourceColumn: last_oil_sample_date
+		lineageTag: b79d1a91-3b0d-4541-99c8-934755158e48
+
+	column most_recent_oil_verdict
+		dataType: string
+		summarizeBy: none
+		sourceColumn: most_recent_oil_verdict
+		lineageTag: 912f2ad3-44ed-45e9-bebe-4cc24a762a05
+
+	column oil_verdict_penalty
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: oil_verdict_penalty
+		lineageTag: 764fed2b-9237-4b9e-aa25-4ab982269218
+
+	column last_service_date
+		dataType: dateTime
+		formatString: Long Date
+		summarizeBy: none
+		sourceColumn: last_service_date
+		lineageTag: 9da20bf5-daef-48d9-bcbc-8a0592f13b64
+
+	column days_since_service
+		dataType: int64
+		formatString: 0
+		summarizeBy: average
+		sourceColumn: days_since_service
+		lineageTag: af3ae216-c197-4e98-8daa-c9777ae19bb0
+
+	column pct_through_service_window
+		dataType: double
+		formatString: 0.0%
+		summarizeBy: average
+		sourceColumn: pct_through_service_window
+		lineageTag: b7b28d38-b50f-4008-99ab-c7f777e16f14
+
+	column service_window_penalty
+		dataType: double
+		formatString: 0.00
+		summarizeBy: average
+		sourceColumn: service_window_penalty
+		lineageTag: 1ae846f5-49fb-48e0-a240-dd14d51574b3
+
+	column health_score
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: health_score
+		lineageTag: d02aa015-a74f-44a2-bedb-3acd41d7efbb
+
+	column health_band
+		dataType: string
+		summarizeBy: none
+		sourceColumn: health_band
+		lineageTag: fd5029b0-4c0e-4780-be44-af62245ef0e7
+
+	column _loaded_utc
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: _loaded_utc
+		lineageTag: f2410ab3-a1ea-4531-b4b0-1bc67b4c82c6
+
+	partition fact_health_score = entity
+		mode: directLake
+		source
+			entityName: fact_health_score
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

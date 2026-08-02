@@ -1,0 +1,20 @@
+relationship 01f07f70-d646-4334-97ff-4652d989b8fc
+	fromColumn: fact_telemetry.asset_key
+	toColumn: dim_asset.asset_key
+
+relationship a5cf2ad5-6051-4343-aa73-0a8ad83753a6
+	fromColumn: fact_telemetry.date_key
+	toColumn: dim_date.date_key
+
+relationship b77012b2-a2a4-43a4-b040-4aecfe2fee73
+	fromCardinality: one
+	toCardinality: one
+	fromColumn: fact_health_score.asset_key
+	toColumn: dim_asset.asset_key
+
+relationship 3701c117-66c5-437b-b70d-bd372c221b2e
+	fromCardinality: one
+	toCardinality: one
+	fromColumn: fact_sla_metrics.asset_key
+	toColumn: dim_asset.asset_key
+

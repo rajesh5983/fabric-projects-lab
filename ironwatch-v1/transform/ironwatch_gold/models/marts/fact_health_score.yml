@@ -8,21 +8,24 @@ models:
       grain in DATA_MODEL.md §4 -- not achievable from the Silver models
       built so far).
 
-      CURRENT FORMULA (2 of 3 documented terms):
+      CURRENT FORMULA (all 3 documented terms -- resolves OPEN-003):
         HealthScore = 100
           - (active_fault_count * FaultPenalty(most_recent_fault_severity))
+          - OilVerdictPenalty(most_recent_oil_verdict)
           - (pct_through_service_window * 20)
         FaultPenalty: LOW=2 MEDIUM=5 HIGH=10 CRITICAL=20
+        OilVerdictPenalty: Normal=0 Watch=10 Critical=25
         pct_through_service_window = min(days_since_service / 30.0, 1.0)
         Bands: >=80 Healthy | 60-79 Watch | 40-59 Warning | <40 Critical
         health_score is clamped to [0, 100] by construction.
 
-      OilVerdictPenalty (the 3rd term in DATA_MODEL.md §5) is NOT applied
-      this pass -- see OPEN-003 (docs/ADR/OPEN_DECISIONS.md): no
-      stg_oil_samples model exists yet, and per ADR-008 it needs a
-      same-calendar-day temporal join, a separate, bigger build. This
-      model's formula is a deliberate, documented 2-of-3-term subset, not
-      the full DATA_MODEL.md §5 formula.
+      OilVerdictPenalty is sourced from
+      int_iw_oil_sample_telemetry_join (the ADR-008 §3 same-calendar-day
+      match to telemetry, not the raw stg_oil_samples staging table) --
+      most recent by sample_date per asset. An asset with no matched oil
+      sample gets oil_verdict_penalty = 0 (a data-availability gap, not
+      an inherent risk signal, so not penalized) -- unlike
+      service-window's "no record = max penalty" convention.
 
       AS_OF_DATE (the reference point for days_since_service) is anchored
       to MAX(stg_telemetry.telemetry_timestamp) rather than literal
@@ -46,6 +49,12 @@ models:
         tests:
           - not_null
           - unique
+      - name: oil_verdict_penalty
+        description: >
+          0/10/25 per Normal/Watch/Critical, or 0 when the asset has no
+          matched oil sample (see model description).
+        tests:
+          - not_null
       - name: health_score
         description: >
           0-100, clamped by construction (see model SQL). Higher is
