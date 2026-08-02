@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: dim_asset
+    description: >
+      Asset dimension (DATA_MODEL.md §4). One row per asset, sourced 1:1
+      from stg_equipment. asset_key is a deterministic surrogate key
+      (first 8 bytes of an MD5 hash of asset_id, converted to bigint) so
+      it's stable across rebuilds of this table-materialized model.
+    columns:
+      - name: asset_key
+        description: Surrogate key, deterministically derived from asset_id.
+        tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: Natural key of the equipment asset (e.g. T220-001).
+        tests:
+          - not_null
+          - unique
+      - name: equipment_line
+        description: OREXA equipment line.
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Titan', 'Kestrel', 'Ironback']
+      - name: site
+        description: Mine site the asset is assigned to.
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Coppervale Mine', 'Ironclad Ridge', 'Stormwood Basin']
+      - name: commission_date
+        description: Date the asset was commissioned into service.

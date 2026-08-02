@@ -32,7 +32,7 @@ end-to-end without re-architecture.
 | Ingestion | Python Generators (`synthetic_data/generators/`) | Produce synthetic OREXA Heavy Industries telemetry, oil sample, fault code, asset master, and service history files (PulseNet/FluidLab/FleetCare, per `docs/OREXA_SPEC.md`) that stand in for real machine data feeds |
 | Bronze | `ironwatch_bronze` (**Lakehouse**) | Raw, schema-validated landing zone; append-only Delta tables mirroring the source file structure (ADR-002) |
 | Silver | `ironwatch_silver` (**Warehouse**, re-provisioned 2026-07-18 per [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md)) | Cleansed, deduplicated, type-aligned tables exposed via SQL endpoint; built by `dbt-fabric` models — `sources.yml` migrated to read Bronze directly, `dbt debug --target silver` passes, but the Silver model files themselves (`stg_telemetry` etc.) are not yet written |
-| Gold | `ironwatch_gold` (**Warehouse**) | Aggregated facts & dimensions, health-score and SLA computations exposed via SQL endpoint (ADR-001); every table carries a `_loaded_utc` watermark |
+| Gold | `ironwatch_gold` (**Warehouse**) | Aggregated facts & dimensions, health-score and SLA computations exposed via SQL endpoint (ADR-001); every table carries a `_loaded_utc` watermark. Real transformation logic as of 2026-08-02 (`dim_asset`, `dim_date`, `fact_telemetry`, `fact_health_score`, `fact_sla_metrics`) — see [DATA_MODEL.md](DATA_MODEL.md) §4 |
 | Semantic | Power BI Semantic Model (`semantic_model/`) | DAX measures (e.g. HealthScore, MTBF, SLA Compliance) defined over the Gold Warehouse via DirectLake — no calculated columns |
 | Presentation | Power BI Report | Operational equipment-health dashboard consumed by analytics and operations stakeholders |
 
@@ -60,11 +60,17 @@ end-to-end without re-architecture.
    this specific Silver model file doesn't exist yet, so this step doesn't
    run for real data until it's written.
 4. **Gold aggregation** — `dbt-fabric` mart models (`fact_telemetry`,
-   `fact_health_score` under `transform/ironwatch_gold/models/marts/`,
-   ADR-009 — no notebooks) aggregate the Silver record into hourly facts
-   and roll it into the equipment HealthScore for `T220-001`, landing in
-   `ironwatch_gold` (Warehouse), each stamped with `_loaded_utc`. (Marts
-   are currently placeholder stubs, not real transformation logic — see §4.)
+   `fact_health_score`, `fact_sla_metrics`, `dim_asset`, `dim_date` under
+   `transform/ironwatch_gold/models/marts/`, ADR-009 — no notebooks) join
+   the Silver-equivalent staging models to asset/date surrogate keys and
+   roll fault/service data into the equipment HealthScore for
+   `T220-001`, landing in `ironwatch_gold` (Warehouse), each stamped with
+   `_loaded_utc`. As of 2026-08-02, all five marts are real transformation
+   logic, verified via `dbt run`/`dbt test` (all passing) — see §4 and
+   [DATA_MODEL.md](DATA_MODEL.md) §4-§6 for the actual grain/formula as
+   built (`fact_health_score`/`fact_sla_metrics` are one row per asset,
+   not per-asset-per-hour; the health-score formula is a documented
+   2-of-3-term subset — see `docs/ADR/OPEN_DECISIONS.md` OPEN-003).
 5. **Semantic modeling** — The Power BI semantic model connects to
    `ironwatch_gold` via DirectLake and evaluates DAX measures (e.g.
    `HealthScore`, `MTBF`) directly over the Gold tables — no import refresh
@@ -82,7 +88,7 @@ end-to-end without re-architecture.
 | **Fabric Data Agent (MCP)** | The Gold Warehouse's well-defined fact/dimension schema and DAX semantic layer give a Fabric Data Agent a stable, documented surface to expose as an MCP server for natural-language querying. |
 | **Ontology MCP** | Asset master and fault-code dimensions are modeled with stable identifiers and explicit relationships, so a future Ontology MCP server can map them onto a formal equipment ontology without reshaping the Gold schema. |
 | **Snowflake Iceberg** | Gold tables sit on open Delta/SQL foundations, leaving a clear path to publish them as Iceberg tables for cross-platform consumption (e.g. Snowflake) without redesigning the medallion pipeline. |
-| **dbt Core** | ~~Silver and Gold transformations are organized as discrete, testable notebook steps per layer — a structure that maps cleanly onto dbt models and tests if the transformation layer is migrated to dbt Core.~~ **Decided for v1, infrastructure ready, model logic still pending** ([ADR-009](ADR/ADR-009-dbt-gold-transformation-layer.md), [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md)): Gold's `dbt-fabric` project is scaffolded (`transform/ironwatch_gold/`) but its marts are still placeholder stubs, not real transformation logic. Silver was re-provisioned as a Warehouse and `sources.yml` migrated to a Bronze source 2026-07-18 — `dbt debug --target silver` passes — but no Silver dbt models are written yet either. This extension point is no longer speculative and the plumbing works end-to-end, but neither layer has real transformation logic in place yet. |
+| **dbt Core** | ~~Silver and Gold transformations are organized as discrete, testable notebook steps per layer — a structure that maps cleanly onto dbt models and tests if the transformation layer is migrated to dbt Core.~~ **Decided for v1, real transformation logic end-to-end as of 2026-08-02** ([ADR-009](ADR/ADR-009-dbt-gold-transformation-layer.md), [ADR-010](ADR/ADR-010-silver-warehouse-dbt-scope.md)): the single `dbt-fabric` project (`transform/ironwatch_gold/`) now has real staging (`stg_equipment`, `stg_telemetry`, `stg_fault_events`, `stg_fault_codes`, `stg_service_history`), intermediate (`int_iw_fault_aggregations`), and mart (`dim_asset`, `dim_date`, `fact_telemetry`, `fact_health_score`, `fact_sla_metrics`) models — the first complete Bronze→Silver→Gold path with real data, not placeholder stubs. `dbt run`/`dbt test` both pass (11 models, 54 tests). Known gap: `fact_health_score`'s OilVerdictPenalty term is not yet applied — see `docs/ADR/OPEN_DECISIONS.md` OPEN-003. |
 
 ## 5. Azure Infrastructure
 
@@ -195,6 +201,15 @@ IronCore framework in July 2026:
 ---
 
 ## Changelog
+- **v1.4 (2026-08-02):** First end-to-end Bronze→Silver→Gold build with
+  real transformation logic — Gold's marts (`dim_asset`, `dim_date`,
+  `fact_telemetry`, `fact_health_score`, `fact_sla_metrics`) are real dbt
+  models now, verified via `dbt run`/`dbt test` (11 models, 54 tests, all
+  passing). §2 layer table, §3 data-flow narrative (step 4), and §4 dbt
+  Core extension point updated to present tense. See
+  [DATA_MODEL.md](DATA_MODEL.md) v1.5 for the actual grain/formula
+  details and `docs/ADR/OPEN_DECISIONS.md` OPEN-003 for the one
+  documented remaining gap (OilVerdictPenalty not yet applied).
 - **v1.3 (2026-07-18):** Documentation audit pass — fixed the last two
   stale notebook references in §3 (Bronze ingestion, Gold aggregation;
   both predate this session, ADR-007/ADR-009 already superseded them).
@@ -218,4 +233,4 @@ IronCore framework in July 2026:
 
 ---
 
-Architecture version: v1.3 | Status: APPROVED FOR BUILD
+Architecture version: v1.4 | Status: APPROVED FOR BUILD

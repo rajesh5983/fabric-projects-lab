@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: fact_health_score
+    description: >
+      Health score fact (DATA_MODEL.md §5 / ADR-008). One row per asset
+      (current-state snapshot, not the aspirational per-asset-per-hour
+      grain in DATA_MODEL.md §4 -- not achievable from the Silver models
+      built so far).
+
+      CURRENT FORMULA (2 of 3 documented terms):
+        HealthScore = 100
+          - (active_fault_count * FaultPenalty(most_recent_fault_severity))
+          - (pct_through_service_window * 20)
+        FaultPenalty: LOW=2 MEDIUM=5 HIGH=10 CRITICAL=20
+        pct_through_service_window = min(days_since_service / 30.0, 1.0)
+        Bands: >=80 Healthy | 60-79 Watch | 40-59 Warning | <40 Critical
+        health_score is clamped to [0, 100] by construction.
+
+      OilVerdictPenalty (the 3rd term in DATA_MODEL.md §5) is NOT applied
+      this pass -- see OPEN-003 (docs/ADR/OPEN_DECISIONS.md): no
+      stg_oil_samples model exists yet, and per ADR-008 it needs a
+      same-calendar-day temporal join, a separate, bigger build. This
+      model's formula is a deliberate, documented 2-of-3-term subset, not
+      the full DATA_MODEL.md §5 formula.
+
+      AS_OF_DATE (the reference point for days_since_service) is anchored
+      to MAX(stg_telemetry.telemetry_timestamp) rather than literal
+      CURRENT_DATE -- this is a frozen 90-day synthetic dataset, and
+      literal CURRENT_DATE would pin every asset at the service-window
+      penalty's -20 max today, worsening further with every real day that
+      passes despite the underlying data never changing. A deliberate,
+      confirmed departure from ADR-008's literal wording.
+    columns:
+      - name: asset_key
+        description: FK to dim_asset.asset_key.
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('dim_asset')
+                field: asset_key
+      - name: asset_id
+        description: Natural key, carried through for convenience/debugging.
+        tests:
+          - not_null
+          - unique
+      - name: health_score
+        description: >
+          0-100, clamped by construction (see model SQL). Higher is
+          healthier.
+        tests:
+          - not_null
+      - name: health_band
+        description: Derived from health_score -- see model description for bands.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Healthy', 'Watch', 'Warning', 'Critical']
