@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: stg_service_history
+    description: >
+      Light staging pass over the Bronze service_history_raw source
+      (FleetCare maintenance history). One-to-one with Bronze -- column
+      rename and type casts only, no joins or business logic. Built to
+      supply fact_health_score's days_since_service term (ADR-008) --
+      see docs/ADR/OPEN_DECISIONS.md OPEN-003 for the oil-verdict term
+      this pass does not cover.
+    columns:
+      - name: work_order_id
+        description: Natural key of the service record (UUID).
+        tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: Natural key of the serviced equipment asset (e.g. T220-001).
+        tests:
+          - not_null
+      - name: service_date
+        description: >
+          Date the service was performed. Drives fact_health_score's
+          days_since_service term (CURRENT_DATE minus the most recent
+          service_date per asset, per ADR-008/DATA_MODEL.md §5).
+        tests:
+          - not_null
+      - name: service_type
+        description: Controlled service-type vocabulary.
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['PM_250HR', 'PM_500HR', 'PM_1000HR', 'UNPLANNED']

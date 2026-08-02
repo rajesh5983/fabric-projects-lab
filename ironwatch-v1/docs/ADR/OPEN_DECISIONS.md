@@ -122,3 +122,49 @@ an explicit decision point blocking the Silver fault-side build.
 **Status:** Resolved — see "Resolved" note at the top of this entry.
 Bronze now has a real per-asset fault-event stream; the Silver models that
 consume it are a separate, still-pending follow-up.
+
+---
+
+## OPEN-003: OilVerdictPenalty not applied in fact_health_score — OPEN
+
+**Raised:** 2026-08-02, during the Gold layer build-out (dim_asset,
+dim_date, fact_telemetry, fact_health_score, fact_sla_metrics).
+
+**Problem:** DATA_MODEL.md §5's health-score formula (per ADR-008) has
+three terms: FaultPenalty, OilVerdictPenalty, and a service-window
+penalty. `fact_health_score` as built this pass only computes
+FaultPenalty and the service-window penalty — OilVerdictPenalty is not
+applied.
+
+**Why:** No `stg_oil_samples` Silver model exists yet (only
+`stg_equipment`, `stg_telemetry`, `stg_fault_events`, `stg_fault_codes`,
+`int_iw_fault_aggregations`, and the newly-added `stg_service_history`
+are built). Per ADR-008 §3, the oil-sample side additionally requires a
+same-calendar-day temporal join to telemetry (matching each oil sample to
+a telemetry reading on the same date) — this is materially more work
+than a 1:1 staging passthrough (like `stg_service_history`) and was
+scoped out of this pass as a separate, bigger build.
+
+**Impact:** `fact_health_score.health_score` is currently a 2-of-3-term
+formula (FaultPenalty + service-window penalty only). This is documented
+explicitly in `fact_health_score.yml`'s model description so the model's
+own docs don't silently claim the full 3-term formula. Scores are
+therefore somewhat more lenient than the fully-specified formula would
+produce — no asset is penalized for a poor oil-sample verdict.
+
+**Options (not mutually exclusive with future iteration, but pick one to
+build against first):**
+
+| Option | Description | Trade-off |
+|---|---|---|
+| A. Build stg_oil_samples + the ADR-008 temporal join | Add the Silver staging model and the same-calendar-day match to telemetry, then wire OilVerdictPenalty into fact_health_score | Completes the documented 3-term formula; requires the temporal-join logic ADR-008 §3 describes, a non-trivial addition beyond simple staging |
+| B. Leave the 2-term formula as the working definition | Treat FaultPenalty + service-window penalty as the model's real, documented scope for now; revisit if/when oil-sample data becomes a priority | No further build needed now; health scores remain less complete than DATA_MODEL.md §5's full specification until Option A happens |
+
+**Downstream impact if left unresolved:** `fact_health_score` continues
+to compute health scores without any oil-condition signal. Not a
+blocker — the model is internally consistent and its docs are honest
+about the gap — but it means DATA_MODEL.md §5 as written is not yet
+fully implemented.
+
+**Status:** Open — no target date set. Revisit alongside any future
+Silver build-out session that adds oil-sample handling.

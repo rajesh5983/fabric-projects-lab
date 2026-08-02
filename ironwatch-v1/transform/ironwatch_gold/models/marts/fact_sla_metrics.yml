@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: fact_sla_metrics
+    description: >
+      SLA metrics fact. No contract existed anywhere in DATA_MODEL.md
+      prior to this pass (confirmed by direct search) -- this is a fresh,
+      minimal, real-data-backed definition, one row per asset:
+
+        uptime_pct = 100 * (1 - SUM(downtime_hours) / window_hours),
+          window_hours = the full stg_telemetry min..max timestamp span
+          (same window for every asset).
+        avg_fault_resolution_hours = AVG(DATEDIFF(hour, fault_ts,
+          cleared_ts)) over cleared stg_fault_events rows only; NULL for
+          an asset with no cleared faults yet.
+        open_fault_count = int_iw_fault_aggregations.active_fault_count.
+    columns:
+      - name: asset_key
+        description: FK to dim_asset.asset_key.
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('dim_asset')
+                field: asset_key
+      - name: asset_id
+        description: Natural key, carried through for convenience/debugging.
+        tests:
+          - not_null
+          - unique
+      - name: uptime_pct
+        description: 0-100. Derived from real service_history downtime_hours.
+        tests:
+          - not_null
+      - name: open_fault_count
+        description: Currently-active fault count, from int_iw_fault_aggregations.
+        tests:
+          - not_null

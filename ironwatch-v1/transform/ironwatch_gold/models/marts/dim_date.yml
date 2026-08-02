@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: >
+      Standard date dimension (DATA_MODEL.md §4), one row per calendar
+      day. Range is derived dynamically from stg_telemetry's actual
+      min/max telemetry_timestamp rather than a hardcoded literal range.
+    columns:
+      - name: date_key
+        description: Surrogate key in YYYYMMDD integer form.
+        tests:
+          - not_null
+          - unique
+      - name: full_date
+        description: The calendar date this row represents.
+        tests:
+          - not_null
+          - unique
