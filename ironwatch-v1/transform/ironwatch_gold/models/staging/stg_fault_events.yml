@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: stg_fault_events
+    description: >
+      Light staging pass over the Bronze fault_events_raw source (per-asset
+      fault-event stream derived from telemetry anomalies -- see
+      docs/ADR/OPEN_DECISIONS.md OPEN-002). One-to-one with Bronze --
+      column rename and type casts only, no joins or aggregation.
+    columns:
+      - name: asset_id
+        description: Natural key of the equipment asset (e.g. T220-001).
+        tests:
+          - not_null
+      - name: fault_code
+        description: >
+          OX- fault code. Only OX-101 (Engine overheat), OX-120 (Fuel
+          system fault), and OX-205 (Hydraulic pressure loss) are ever
+          emitted by the generator -- these are the only 3 codes with a
+          telemetry anomaly signal to derive from; the other 12 catalog
+          codes have no signal and are never emitted.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['OX-101', 'OX-120', 'OX-205']
+          - relationships:
+              arguments:
+                to: ref('stg_fault_codes')
+                field: fault_code
+      - name: fault_ts
+        description: When the underlying sustained anomaly run started.
+        tests:
+          - not_null
