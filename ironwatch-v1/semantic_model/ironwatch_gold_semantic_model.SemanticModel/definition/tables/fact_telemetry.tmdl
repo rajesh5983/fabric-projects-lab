@@ -1,0 +1,95 @@
+table fact_telemetry
+	lineageTag: 351c9dea-3885-47c2-b341-ba1c4abb6cc3
+
+	column asset_key
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: asset_key
+		lineageTag: 0bc322d8-6539-4e9a-8abf-04a1053e9e36
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: date_key
+		lineageTag: 98152409-687f-4f7b-b239-d959780e79c0
+
+	column asset_id
+		dataType: string
+		summarizeBy: none
+		sourceColumn: asset_id
+		lineageTag: 8c2f456f-7911-4e83-97aa-b9073530fc1c
+
+	column telemetry_timestamp
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: telemetry_timestamp
+		lineageTag: 05998999-fcb6-4dc1-af60-90e5587f802c
+
+	column engine_rpm
+		dataType: int64
+		formatString: 0
+		summarizeBy: average
+		sourceColumn: engine_rpm
+		lineageTag: 65d16a8e-8f8c-4d91-8dc0-a6ca1b3774a3
+
+	column coolant_temp_c
+		dataType: double
+		formatString: 0.00
+		summarizeBy: average
+		sourceColumn: coolant_temp_c
+		lineageTag: af1aa655-ac75-4a54-af09-838288bc6e4c
+
+	column hydraulic_pressure_bar
+		dataType: double
+		formatString: 0.00
+		summarizeBy: average
+		sourceColumn: hydraulic_pressure_bar
+		lineageTag: 3193d843-8c4e-44ec-95d8-296145e73ca9
+
+	column vibration_mms
+		dataType: double
+		formatString: 0.00
+		summarizeBy: average
+		sourceColumn: vibration_mms
+		lineageTag: 2ddf6dc4-669a-4239-a1aa-38275572cdbc
+
+	column fuel_rate_lph
+		dataType: double
+		formatString: 0.00
+		summarizeBy: average
+		sourceColumn: fuel_rate_lph
+		lineageTag: 704aaeae-5007-4591-88ce-5a2f3d16699f
+
+	column gps_lat
+		dataType: double
+		formatString: 0.000000
+		summarizeBy: none
+		sourceColumn: gps_lat
+		lineageTag: e5ca0432-0c7d-4bda-94df-5a11be18c9a7
+
+	column gps_lon
+		dataType: double
+		formatString: 0.000000
+		summarizeBy: none
+		sourceColumn: gps_lon
+		lineageTag: 883a3cf1-425a-4c3a-8b6f-c6d2361b9287
+
+	column _loaded_utc
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: _loaded_utc
+		lineageTag: 2ab9a6b3-71d5-4598-aa8b-9b6e936cd5db
+
+	partition fact_telemetry = entity
+		mode: directLake
+		source
+			entityName: fact_telemetry
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

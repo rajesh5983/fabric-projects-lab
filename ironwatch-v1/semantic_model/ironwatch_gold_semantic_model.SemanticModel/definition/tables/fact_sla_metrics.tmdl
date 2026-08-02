@@ -1,0 +1,61 @@
+table fact_sla_metrics
+	lineageTag: aec8fb06-eab0-4da4-85ee-c26e6f2e6cec
+
+	measure 'Avg Uptime %' = AVERAGE ( fact_sla_metrics[uptime_pct] )
+		formatString: 0.0"%"
+		lineageTag: f52e5214-0abe-4eb4-ac93-d22083529162
+
+	measure 'Avg Fault Resolution Hours' = AVERAGE ( fact_sla_metrics[avg_fault_resolution_hours] )
+		formatString: 0.0
+		lineageTag: 01ec1ccb-4ff3-41a8-991b-0a927f9ff2c9
+
+	column asset_key
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: asset_key
+		lineageTag: e727e401-1765-434c-afe8-bfcf283b08af
+
+	column asset_id
+		dataType: string
+		summarizeBy: none
+		sourceColumn: asset_id
+		lineageTag: 106ec5c0-883a-47d2-a5e5-e372b4da6754
+
+	column uptime_pct
+		dataType: double
+		formatString: 0.00
+		summarizeBy: average
+		sourceColumn: uptime_pct
+		lineageTag: 8e1db6b3-edf0-40e5-95be-2bf67856c2d6
+
+	column avg_fault_resolution_hours
+		dataType: double
+		formatString: 0.00
+		summarizeBy: average
+		sourceColumn: avg_fault_resolution_hours
+		lineageTag: cb35e127-e773-4a1f-ac86-8f97682d144f
+
+	column open_fault_count
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: open_fault_count
+		lineageTag: 55fae11a-df2c-46cc-a9cf-71a3365a8426
+
+	column _loaded_utc
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: _loaded_utc
+		lineageTag: 9dd99f62-1a87-416c-84da-8f11962fd5af
+
+	partition fact_sla_metrics = entity
+		mode: directLake
+		source
+			entityName: fact_sla_metrics
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

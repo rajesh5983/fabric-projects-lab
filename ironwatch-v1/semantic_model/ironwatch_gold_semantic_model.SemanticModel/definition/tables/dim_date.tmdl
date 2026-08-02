@@ -1,0 +1,73 @@
+table dim_date
+	lineageTag: bd37fdbb-f7b8-46c3-9fc3-6dcf5315ea5b
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: date_key
+		lineageTag: 2b425051-5b30-4c1b-aa6a-46d2f6430a2b
+
+	column full_date
+		dataType: dateTime
+		formatString: Long Date
+		summarizeBy: none
+		sourceColumn: full_date
+		lineageTag: 29350a80-d202-4c79-9191-4e64e789b11b
+
+	column year
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: year
+		lineageTag: 4a7d9369-bcbe-4b86-86d1-c08c2619649f
+
+	column month
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: month
+		lineageTag: 31435b64-9ae5-4fde-90de-dd47497e7528
+
+	column month_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: month_name
+		lineageTag: e3e68f6f-1736-4510-bfb2-6dd53efb7821
+
+	column quarter
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: quarter
+		lineageTag: 3c544f44-76bb-4e42-afdf-1352c409bfa6
+
+	column day_of_month
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: day_of_month
+		lineageTag: 0e35a646-2da1-480d-ab37-cc9f62cd4796
+
+	column day_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: day_name
+		lineageTag: 6e65ecfc-35e3-47fe-8195-74901da38490
+
+	column is_weekend
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: is_weekend
+		lineageTag: a0239147-ae0a-499f-b851-9290e07bf035
+
+	partition dim_date = entity
+		mode: directLake
+		source
+			entityName: dim_date
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+
