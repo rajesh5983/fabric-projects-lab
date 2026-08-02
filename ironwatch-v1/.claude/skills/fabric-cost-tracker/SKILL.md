@@ -6,7 +6,8 @@ description: "Check actual billed Azure cost on the fabricf2sandbox Fabric capac
 # /fabric-cost-tracker
 
 Read-only cost + usage audit for `fabricf2sandbox` (resource group
-`rg-fabric-sandbox`, subscription `e82368b1-cb9b-4d92-826c-5b1e5e215d6d`).
+`rg-fabric-sandbox`, subscription from `$AZURE_SUBSCRIPTION_ID` — see
+`.env.template`).
 Pulls actual billed cost from Azure Cost Management, cross-references it
 against capacity state-change history when that's available, and flags a
 likely-forgotten Active period (e.g. paused too late, or never paused
@@ -89,7 +90,7 @@ This skill's design:
 
 Defaults (override only if the user names a different resource):
 ```
-SUBSCRIPTION_ID=e82368b1-cb9b-4d92-826c-5b1e5e215d6d
+SUBSCRIPTION_ID="${AZURE_SUBSCRIPTION_ID:?AZURE_SUBSCRIPTION_ID is not set — see .env.template}"
 RESOURCE_GROUP=rg-fabric-sandbox
 CAPACITY_NAME=fabricf2sandbox
 RESOURCE_ID=/subscriptions/${SUBSCRIPTION_ID}/resourcegroups/${RESOURCE_GROUP}/providers/microsoft.fabric/capacities/${CAPACITY_NAME}
