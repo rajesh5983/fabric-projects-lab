@@ -11,6 +11,9 @@ sources:
       dbt owns the writes to, so the five Silver tables that used to be
       declared here as an external `silver` source are dbt models
       instead — see models/silver/ (build-session task, not yet built).
+      A 6th table, fault_events_raw, was added 2026-08-01 to resolve
+      OPEN-002 — landed via pl_bronze_fault_events_load, same as the
+      other five.
     database: ironwatch_bronze
     schema: dbo
     tables:
@@ -19,3 +22,4 @@ sources:
       - name: fault_codes_raw
       - name: asset_master_raw
       - name: service_history_raw
+      - name: fault_events_raw

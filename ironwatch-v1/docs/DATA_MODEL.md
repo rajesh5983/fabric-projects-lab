@@ -4,9 +4,17 @@ Phase 4 decisions: Bronze source inventory, Silver DQ rules, the oil-sample
 temporal join, the Gold star schema, the health-score formula, and the
 semantic-model DAX measure stubs.
 
-Data model version: v1.3 | Status: FINAL (Sections 1, 3, 4, 5)
+Data model version: v1.4 | Status: FINAL (Sections 1, 2, 3, 4, 5)
 
 ## Changelog
+- **v1.4 (2026-08-01):** Builds the Silver fault-side models that v1.3's
+  Bronze-only OPEN-002 resolution deferred: `stg_fault_events` and
+  `stg_fault_codes` (staging, 1:1 passthrough) and
+  `int_iw_fault_aggregations` (intermediate — enrichment + per-asset
+  aggregation). §2.3 rewritten to describe the models as actually built,
+  replacing the earlier DQ-rule wishlist. `hours_operated` not-negative
+  check re-confirmed directly against ADR-008 before building — still
+  genuinely absent, not applied (see §2.3).
 - **v1.3 (2026-08-01):** Resolves OPEN-002
   ([docs/ADR/OPEN_DECISIONS.md](ADR/OPEN_DECISIONS.md)). Adds a 6th Bronze
   source, `fault_events_raw` (§1.6), landed via `pl_bronze_fault_events_load`
@@ -139,11 +147,12 @@ the other 5 sources, `tableActionOption: Overwrite`.
 
 ---
 
-## 2. Silver DQ Rules (`ironwatch_silver` Lakehouse)
+## 2. Silver DQ Rules (`ironwatch_silver` Warehouse)
 
 Rules below are renamed (`equipment_id`→`asset_id`) and, as of v1.2, fully
-reconciled with §1/§3/§5 — except §2.3, which still assumes a fault-event
-stream that `fault_codes.json` doesn't produce (see §7).
+reconciled with §1/§3/§5. As of v1.4, §2.3 describes real, built dbt
+models rather than a design reference — see below for what was and
+wasn't implemented against the original rule list.
 
 Each table below lists its data-quality rules in application order, plus the
 expected surviving record count as a percentage of its Bronze source volume.
@@ -170,24 +179,50 @@ expected surviving record count as a percentage of its Bronze source volume.
    [ADR-008](ADR/ADR-008-utilization-and-health-score-redesign.md); drop the
    sample if no telemetry row exists for that asset on that date.
 
-### 2.3 `silver_fault_codes` — expected retention: **~96% of Bronze**
-As of v1.3, rules 1, 3, and 4 below apply against `fault_events_raw` (§1.6),
-which carries `asset_id`/`fault_ts`/`active_flag`/`cleared_ts` — not against
-`fault_codes_raw` (§1.3), which remains a static catalog with no per-asset
-columns. `severity` (rule 2) lives only on `fault_codes_raw`, not
-`fault_events_raw`, so it requires a join on `fault_code` between the two
-sources rather than existing on either one alone. This DQ table itself
-(`stg_fault_aggregations`/`int_iw_fault_aggregations` per the dbt
-staging/intermediate naming convention) is not yet built — Bronze landing
-only, as of this pass. See `docs/ADR/OPEN_DECISIONS.md` OPEN-002 (Resolved).
-1. Drop records with null `asset_id` or `fault_code`.
-2. Join to `fault_codes_raw` on `fault_code` to resolve `severity`;
-   standardize to `{LOW, MEDIUM, HIGH, CRITICAL}` — unrecognized values
-   default to `MEDIUM`.
-3. Deduplicate on `(asset_id, fault_code, fault_ts)`.
-4. Derive `active_flag = TRUE` where `cleared_ts IS NULL`.
-5. Discard records whose `fault_ts` falls outside the asset's operational
-   window per the asset registry.
+### 2.3 Fault-side models — `stg_fault_events`, `stg_fault_codes`, `int_iw_fault_aggregations`
+
+As of v1.4, this is a description of real, built dbt models
+(`transform/ironwatch_gold/models/staging/` and `.../intermediate/`), not
+a design reference like §2.1/§2.2/§2.4/§2.5. See
+`docs/ADR/OPEN_DECISIONS.md` OPEN-002 (Resolved) for the Bronze-side
+history.
+
+**`stg_fault_events`** — 1:1 staging pass over `fault_events_raw` (§1.6).
+Column rename/type casts only, matching the `stg_telemetry`/`stg_equipment`
+convention. Tested: `not_null` on `asset_id`/`fault_code`/`fault_ts`,
+`accepted_values` on `fault_code` restricted to `{OX-101, OX-120, OX-205}`
+— the only 3 codes the generator ever emits.
+
+**`stg_fault_codes`** — 1:1 staging pass over `fault_codes_raw` (§1.3, the
+static catalog). Tested: `not_null` + `unique` on `fault_code`.
+
+**`int_iw_fault_aggregations`** — enrichment and per-asset aggregation.
+Joins `stg_fault_events` to `stg_equipment` (asset attributes) and to
+`stg_fault_codes` (`category`/`description`/`severity`, via a join on
+`fault_code` — `severity` lives only on the catalog, not on the event
+stream). Aggregates to one row per asset: `total_fault_count`,
+`active_fault_count`, `distinct_fault_code_count`, and the most recent
+fault's `code`/`category`/`severity`/`timestamp`. Every `stg_equipment`
+asset appears exactly once, including assets with zero faults (counts
+coalesced to 0). Tested: `not_null` + `relationships` back to
+`stg_equipment` on `asset_id`, plus a singular test asserting
+`active_fault_count` is never negative and never exceeds
+`total_fault_count`.
+
+`hours_operated` not-negative check: **not applied**, re-confirmed
+directly against [ADR-008](ADR/ADR-008-utilization-and-health-score-redesign.md)
+before building (Status: Accepted) — the field does not exist on any
+Bronze source and Option B (reintroducing it) was explicitly rejected.
+This is a confirmed absence, not an oversight.
+
+**Deviations from the original DQ-rule sketch this section used to
+describe** (kept here for traceability, not implemented in this pass):
+no explicit deduplication on `(asset_id, fault_code, fault_ts)` (the
+generator does not produce duplicates in practice, but the model doesn't
+enforce it), and no discard of records whose `fault_ts` falls outside the
+asset's operational window (no such window is currently modeled anywhere
+in Bronze). Neither blocks the current build; both are candidates for a
+future pass if real-world data ever needs them.
 
 ### 2.4 `silver_asset_registry` — expected retention: **~99% of Bronze**
 1. Quarantine rows with a null `asset_id` (natural key).
