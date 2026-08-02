@@ -1,0 +1,5 @@
+{
+  "terminal.integrated.env.windows": {
+    "GH_CONFIG_DIR": "${env:USERPROFILE}\\.config\\gh-ironwatch"
+  }
+}
